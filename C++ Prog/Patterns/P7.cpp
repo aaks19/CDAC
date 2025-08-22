@@ -1,0 +1,46 @@
+/*         Pattern2
+
+                 *
+                * *    
+               * * *
+              * * * *
+             * * * * *
+            * * * * * *
+
+
+
+*/
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void print(int n){
+    for(int i=1;i<=n;i++){
+        //space 
+        for(int j = 1; j <= n-i-1; j++)
+        {
+            cout << " ";
+        }
+        //star
+        for(int j = 1; j <= i; j++)
+        {
+            cout << "* ";
+        }
+        //space
+        for(int j = 1; j <= n-i-1; j++)
+        {
+            cout << " ";
+        }
+
+        cout << endl;
+    }
+}
+
+int main(){
+    int n;
+    cout << "Enter the value of n: ";
+    cin >> n;
+
+    print(n);  //pattern 2
+}
