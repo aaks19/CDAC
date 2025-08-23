@@ -16,11 +16,15 @@ int main(){
     int sec_largest = arr[0];
     int max = arr[0];
 
-    for(int i=0;i<n;i++){
+    for(int i=1;i<n;i++){
         if(arr[i]>max){
-            max=arr[i];
+            max = arr[i];
         }
-        if(arr[i]>sec_largest && arr[i]<max){
+    }
+    cout<<"largest element is : "<<max<<endl;
+    
+    for(int i=0;i<n;i++){
+        if(sec_largest<arr[i] && arr[i]<max){
             sec_largest = arr[i];
         }
     }
