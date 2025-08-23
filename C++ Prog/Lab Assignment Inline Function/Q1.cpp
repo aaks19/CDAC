@@ -42,17 +42,17 @@ int main(){
         case 1:
             cout<<"Enter side of square : ";
             cin>>side;
-            cout<<"Area of square is : "<<square_area(side);
+            cout<<"Area of square is : "<<square_area(side)<<endl;
             break;
         case 2:
             cout<<"Enter length and breadth of rectangle : ";
             cin>>length>>breadth;
-            cout<<"Area of rectangle is : "<<rectangle_area(length,breadth);
+            cout<<"Area of rectangle is : "<<rectangle_area(length,breadth)<<endl;
             break;
         case 3:
             cout<<"Enter radius of circle : ";
             cin>>radius;
-            cout<<"Area of circle is : "<<circle_area(radius);
+            cout<<"Area of circle is : "<<circle_area(radius)<<endl;
             break;
         case 4:
             cout<<"Exit";
