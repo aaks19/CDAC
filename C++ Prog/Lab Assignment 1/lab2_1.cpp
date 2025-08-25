@@ -2,7 +2,7 @@
 // sum of the given numbers.
 
 #include <iostream>
-using namespace std;
+using namespace std;   
 
 int main() {
     int num, sum = 0;
