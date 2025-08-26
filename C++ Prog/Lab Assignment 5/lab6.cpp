@@ -39,77 +39,69 @@ I/P : all worker details
 
 */
 
-/*
-#include <iostream>
+
+
+#include<iostream>
 using namespace std;
 
-class Employee {
-private:
-    int id;
-    string name;
-    int deptid;
+class Employee{
+    private:
+            int id;
+            string name;
+            int deptid;
+    protected:
+            double salary;
 
-protected:
-    double basicSalary;
+    public:
+            Employee(){
+                id = 0;
+                name = "xyz";
+                deptid = 0;
+            }
 
-public:
-    Employee() {
-        id = 0;
-        name = "Default";
-        deptid = 0;
-        basicSalary = 0;
-    }
-    Employee(int id, string name, int deptid, double basicSalary) {
-        this->id = id;
-        this->name = name;
-        this->deptid = deptid;
-        this->basicSalary = basicSalary;
-    }
+            Employee(int id, string name, int deptid, double salary){
+                this->id = id;
+                this->name = name;
+                this->deptid = deptid;
+                this->salary = salary;
+            }
 
-    virtual double computeNetSalary() {   // ✅ make virtual
-        cout << "\t\tEmployee Salary: " << basicSalary << endl;
-        return basicSalary;
-    }
+            double computeSalary(){
+                cout<<"Employee Salary = "<<salary<<endl;
+            }
 
-    virtual void display() {
-        cout << "Employee Details" << endl;
-        cout << "ID = " << id << endl;
-        cout << "Name = " << name << endl;
-        cout << "DeptID = " << deptid << endl;
-        cout << "Basic Salary = " << basicSalary << endl;
-    }
-
-    // virtual destructor (good practice with inheritance)
-    virtual ~Employee() {}
+            void display(){
+                cout<<"\t\t------------Employee Details---------------"<<endl;
+                cout<<"ID = "<<id<<endl;
+                cout<<"Name = "<<name<<endl;
+                cout<<"Department ID = "<<deptid<<endl;
+                cout<<"Salary = "<<salary<<endl;
+            }
 };
 
-class Manager : public Employee {
-private:
-    double perfBonus;
+class Manager : public Employee{
+    private: 
+            double perfbonus;
+    public:
+            Manager():Employee(){
+                perfbonus = 0000;
+            }
+            Manager(int id, string name,double salary,int deptid,double perfbonus):Employee(id,  name,  deptid, salary){
+                this->perfbonus = perfbonus;
+            }
 
-public:
-    Manager() : Employee() {
-        perfBonus = 0;
-    }
+            double computeSalary(){
+                double manager_salary = salary + perfbonus;
+                cout<<"Manager's Salary = "<<manager_salary;
+                return manager_salary;
+            }
 
-    Manager(int id, string name, int deptid, double basicSal, double perfBonus)
-        : Employee(id, name, deptid, basicSal) {
-        this->perfBonus = perfBonus;
-    }
-
-    double computeNetSalary() override {   // ✅ override
-        double ManagerSalary = basicSalary + perfBonus;
-        cout << "\t\tManager Salary: " << ManagerSalary << endl;
-        return ManagerSalary;
-    }
-
-    void display() override {
-        Employee::display();
-        cout << "Performance Bonus = " << perfBonus << endl;
-    }
+            void display(){
+                Employee::display();
+                cout << "Performance Bonus = " << perfbonus << endl;
+            }
 };
-
-class Worker : public Employee {   // ✅ public inheritance
+class Worker : public Employee { 
 private:
     int hoursWorked;
     double hourlyRate;
@@ -120,23 +112,22 @@ public:
         hourlyRate = 0;
     }
 
-    Worker(int id, string name, int deptid, double basicSal, int hoursWorked, double hourlyRate)
-        : Employee(id, name, deptid, basicSal) {
+    Worker(int id, string name, int deptid, double basicSal, int hoursWorked, double hourlyRate):Employee(id, name, deptid, basicSal) {
         this->hoursWorked = hoursWorked;
         this->hourlyRate = hourlyRate;
     }
 
-    double computeNetSalary() override {   // ✅ override
-        double WorkerSalary = basicSalary + (hoursWorked * hourlyRate);
+    double computeNetSalary() { 
+        double WorkerSalary = salary + (hoursWorked * hourlyRate);
         cout << "\t\tWorker Salary: " << WorkerSalary << endl;
         return WorkerSalary;
     }
 
-    double getHourlyRate() {   // ✅ worker-specific method
+    double getHourlyRate() { 
         return hourlyRate;
     }
 
-    void display() override {
+    void display(){
         Employee::display();
         cout << "Hours Worked = " << hoursWorked << endl;
         cout << "Hourly Rate = " << hourlyRate << endl;
@@ -145,27 +136,24 @@ public:
 
 
 int main(){
-    Employee emp1(101,"Vaishali","it",45000);
+    Employee emp1(101,"Akshat",100,85000);
     emp1.display();
-    emp1.computeNetSalary();
+    emp1.computeSalary();
 
     cout<<"\n\n\t\t------------Manager----------"<<endl;
 
-    Manager mgr(201,"Rahul",60000,"IT",30000);
-    mgr.computeNetSalary();//parent class
+    Manager mgr(201,"Rahul",120,90000,30000);
+    mgr.computeSalary();//parent class
     // mgr.assignTask();
     mgr.display();//Employee
 
-    cout<<"\n\n\t\t------------SalesPerson----------"<<endl;
-    Worker wk(303,"Manoj",40000,5000,5000,5000);
+    cout<<"\n\n\t\t------------Workers----------"<<endl;
+    Worker wk(303,"Manoj",102,20000,12,100);
     wk.computeNetSalary();
     wk.display();
     // sp.sendReport();
 
 }
-
-*/
-
 
 
 
@@ -191,7 +179,6 @@ public void deposit(double amt)
 2.3: Create object of account class and test withdraw and deposit methods.
 ---------------------------------------------------------------------------------
 
-*/
 
 #include<iostream>
 using namespace std;
@@ -259,3 +246,5 @@ int main() {
 
     return 0;
 }
+
+*/

@@ -94,27 +94,33 @@ class ComplexNumber{
             }
 
             void display(){
-                cout<<"Real = "<<real<<endl;
-                cout<<"Imaginary = "<<imaginary<<endl;
+                cout<<"Real:"<<real<<" Imagnery:"<<imaginary<<"i"<<endl;
             }
 
-            //getter
 
-            int get_real(int new_real){
-                return real;
+            ComplexNumber operator +(const ComplexNumber& obj){
+                int i1 = this->imaginary + obj.imaginary;
+                int r2 = this->real + obj.real;
+                ComplexNumber result(r2,i1);
+                return result;
             }
-            int get_imaginary(int new_imaginary){
-                return imaginary;
-            }
+            // //getter
 
-            //setter
+            // int get_real(int new_real){
+            //     return real;
+            // }
+            // int get_imaginary(int new_imaginary){
+            //     return imaginary;
+            // }
 
-            void set_real(int new_real){
-                this->real = new_real;
-            }
-            void set_imaginary(int new_imaginary){
-                this->imaginary = new_imaginary;
-            }
+            // //setter
+
+            // void set_real(int new_real){
+            //     this->real = new_real;
+            // }
+            // void set_imaginary(int new_imaginary){
+            //     this->imaginary = new_imaginary;
+            // }
 
 };
 
@@ -127,18 +133,28 @@ int main(){
     cout<<"\t\t-------------Parameterized value----------"<<endl;
     cn1.display();
 
-    cout<<"Enter new value of real = "<<endl;
-    int new_real;
-    cin>>new_real;
+    // cout<<"Enter new value of real = "<<endl;
+    // int new_real;
+    // cin>>new_real;
 
-    cout<<"Enter new value of imaginary = "<<endl;
-    int new_imaginary;
-    cin>>new_imaginary;
+    // cout<<"Enter new value of imaginary = "<<endl;
+    // int new_imaginary;
+    // cin>>new_imaginary;
 
-    cn1.set_real(new_real);
-    cn1.set_imaginary(new_imaginary);
+    ComplexNumber complex1(10, 20);
+    ComplexNumber complex2(30, 80);
 
-    cout<<"\n\t\t--------updated value-------------"<<endl;
-    cn1.display();
+    ComplexNumber complex3 = complex1 + complex2;
+    complex1.display();
+    complex2.display();
+    complex3.display();
+
+
+
+    // cn1.set_real(new_real);
+    // cn1.set_imaginary(new_imaginary);
+
+    // cout<<"\n\t\t--------updated value-------------"<<endl;
+    // cn1.display();
     
 }
