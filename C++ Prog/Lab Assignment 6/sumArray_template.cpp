@@ -1,4 +1,4 @@
-//Function Template � Array Sum
+//Function Template  Array Sum
 // Write a function template sumArray() that accepts an array of any type and returns the sum of its elements.
 
 
