@@ -44,116 +44,116 @@ I/P : all worker details
 #include<iostream>
 using namespace std;
 
-class Employee{
-    private:
-            int id;
-            string name;
-            int deptid;
-    protected:
-            double salary;
+// class Employee{
+//     private:
+//             int id;
+//             string name;
+//             int deptid;
+//     protected:
+//             double salary;
 
-    public:
-            Employee(){
-                id = 0;
-                name = "xyz";
-                deptid = 0;
-            }
+//     public:
+//             Employee(){
+//                 id = 0;
+//                 name = "xyz";
+//                 deptid = 0;
+//             }
 
-            Employee(int id, string name, int deptid, double salary){
-                this->id = id;
-                this->name = name;
-                this->deptid = deptid;
-                this->salary = salary;
-            }
+//             Employee(int id, string name, int deptid, double salary){
+//                 this->id = id;
+//                 this->name = name;
+//                 this->deptid = deptid;
+//                 this->salary = salary;
+//             }
 
-            double computeSalary(){
-                cout<<"Employee Salary = "<<salary<<endl;
-            }
+//             double computeSalary(){
+//                 cout<<"Employee Salary = "<<salary<<endl;
+//             }
 
-            void display(){
-                cout<<"\t\t------------Employee Details---------------"<<endl;
-                cout<<"ID = "<<id<<endl;
-                cout<<"Name = "<<name<<endl;
-                cout<<"Department ID = "<<deptid<<endl;
-                cout<<"Salary = "<<salary<<endl;
-            }
-};
+//             void display(){
+//                 cout<<"\t\t------------Employee Details---------------"<<endl;
+//                 cout<<"ID = "<<id<<endl;
+//                 cout<<"Name = "<<name<<endl;
+//                 cout<<"Department ID = "<<deptid<<endl;
+//                 cout<<"Salary = "<<salary<<endl;
+//             }
+// };
 
-class Manager : public Employee{
-    private: 
-            double perfbonus;
-    public:
-            Manager():Employee(){
-                perfbonus = 0000;
-            }
-            Manager(int id, string name,double salary,int deptid,double perfbonus):Employee(id,  name,  deptid, salary){
-                this->perfbonus = perfbonus;
-            }
+// class Manager : public Employee{
+//     private: 
+//             double perfbonus;
+//     public:
+//             Manager():Employee(){
+//                 perfbonus = 0000;
+//             }
+//             Manager(int id, string name,double salary,int deptid,double perfbonus):Employee(id,  name,  deptid, salary){
+//                 this->perfbonus = perfbonus;
+//             }
 
-            double computeSalary(){
-                double manager_salary = salary + perfbonus;
-                cout<<"Manager's Salary = "<<manager_salary;
-                return manager_salary;
-            }
+//             double computeSalary(){
+//                 double manager_salary = salary + perfbonus;
+//                 cout<<"Manager's Salary = "<<manager_salary;
+//                 return manager_salary;
+//             }
 
-            void display(){
-                Employee::display();
-                cout << "Performance Bonus = " << perfbonus << endl;
-            }
-};
-class Worker : public Employee { 
-private:
-    int hoursWorked;
-    double hourlyRate;
+//             void display(){
+//                 Employee::display();
+//                 cout << "Performance Bonus = " << perfbonus << endl;
+//             }
+// };
+// class Worker : public Employee { 
+// private:
+//     int hoursWorked;
+//     double hourlyRate;
 
-public:
-    Worker() : Employee() {
-        hoursWorked = 0;
-        hourlyRate = 0;
-    }
+// public:
+//     Worker() : Employee() {
+//         hoursWorked = 0;
+//         hourlyRate = 0;
+//     }
 
-    Worker(int id, string name, int deptid, double basicSal, int hoursWorked, double hourlyRate):Employee(id, name, deptid, basicSal) {
-        this->hoursWorked = hoursWorked;
-        this->hourlyRate = hourlyRate;
-    }
+//     Worker(int id, string name, int deptid, double basicSal, int hoursWorked, double hourlyRate):Employee(id, name, deptid, basicSal) {
+//         this->hoursWorked = hoursWorked;
+//         this->hourlyRate = hourlyRate;
+//     }
 
-    double computeNetSalary() { 
-        double WorkerSalary = salary + (hoursWorked * hourlyRate);
-        cout << "\t\tWorker Salary: " << WorkerSalary << endl;
-        return WorkerSalary;
-    }
+//     double computeNetSalary() { 
+//         double WorkerSalary = salary + (hoursWorked * hourlyRate);
+//         cout << "\t\tWorker Salary: " << WorkerSalary << endl;
+//         return WorkerSalary;
+//     }
 
-    double getHourlyRate() { 
-        return hourlyRate;
-    }
+//     double getHourlyRate() { 
+//         return hourlyRate;
+//     }
 
-    void display(){
-        Employee::display();
-        cout << "Hours Worked = " << hoursWorked << endl;
-        cout << "Hourly Rate = " << hourlyRate << endl;
-    }
-};
+//     void display(){
+//         Employee::display();
+//         cout << "Hours Worked = " << hoursWorked << endl;
+//         cout << "Hourly Rate = " << hourlyRate << endl;
+//     }
+// };
 
 
-int main(){
-    Employee emp1(101,"Akshat",100,85000);
-    emp1.display();
-    emp1.computeSalary();
+// int main(){
+//     Employee emp1(101,"Akshat",100,85000);
+//     emp1.display();
+//     emp1.computeSalary();
 
-    cout<<"\n\n\t\t------------Manager----------"<<endl;
+//     cout<<"\n\n\t\t------------Manager----------"<<endl;
 
-    Manager mgr(201,"Rahul",120,90000,30000);
-    mgr.computeSalary();//parent class
-    // mgr.assignTask();
-    mgr.display();//Employee
+//     Manager mgr(201,"Rahul",120,90000,30000);
+//     mgr.computeSalary();//parent class
+//     // mgr.assignTask();
+//     mgr.display();//Employee
 
-    cout<<"\n\n\t\t------------Workers----------"<<endl;
-    Worker wk(303,"Manoj",102,20000,12,100);
-    wk.computeNetSalary();
-    wk.display();
-    // sp.sendReport();
+//     cout<<"\n\n\t\t------------Workers----------"<<endl;
+//     Worker wk(303,"Manoj",102,20000,12,100);
+//     wk.computeNetSalary();
+//     wk.display();
+//     // sp.sendReport();
 
-}
+// }
 
 
 
@@ -166,7 +166,6 @@ int main(){
 
 
 /*
-
 2:Create cpp application for bank account handling.
 2.1. Create a class BankAccount -- acct no(int),customer name(string),balance(double)
 Add  constr. (2 constrs : first to accept all details )
@@ -178,7 +177,7 @@ public void deposit(double amt)
 
 2.3: Create object of account class and test withdraw and deposit methods.
 ---------------------------------------------------------------------------------
-
+*/
 
 #include<iostream>
 using namespace std;
@@ -247,4 +246,3 @@ int main() {
     return 0;
 }
 
-*/
