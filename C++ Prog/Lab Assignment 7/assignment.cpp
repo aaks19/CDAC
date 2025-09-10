@@ -21,118 +21,103 @@
 //             email = "unknown";
 //             pwd = 0000;
 //         }
-//         User(int id, string name, string email, int pwd){
-//             this->id = id;
-//             this->name = name;
-//             this->email = email;
-//             this->pwd = pwd;
-//         }
+//         User(int id, string name, string email, int pwd) {
+//         this->id = id;
+//         this->name = name;
+//         this->email = email;
+//         this->pwd = pwd;
+//     }
 
-//         void display(){
-//             cout<<"User id = "<<id<<endl;
-//             cout<<"name = "<<name<<endl;
-//             cout<<"email = "<<email<<endl;
-//             cout<<"password = "<<pwd<<endl;
-//             cout<<"\n\n\n\n"<<endl;
-//         }
+//     void display() {
+//         cout << "User id = " << id << endl;
+//         cout << "Name = " << name << endl;
+//         cout << "Email = " << email << endl;
+//         cout << "Password = " << pwd << endl;
+//         cout << "-----------------------------" << endl;
+//     }
 
-//         int getid(int id){
-//             return this->id;
-//         }
-//         string getname(string name){
-//             return this->name;
-//         }
-//         string getemail(string email){
-//             return this->email;
-//         }
-//         int getpwd(int pwd){
-//             return this->pwd;
-//         }
+//     // getters
+//     int getid() { return id; }
+//     string getname() { return name; }
+//     string getemail() { return email; }
+//     int getpwd() { return pwd; }
 
-//         void setpwd(int pwd){
-//             this->pwd = pwd;
-//         }
-
-
+//     // setter
+//     void setpwd(int pwd) { this->pwd = pwd; }
 // };
 
-// int main(){
-
+// int main() {
 //     vector<User> usr;
-//     int id,pwd;
-//     string name,email;
+//     int id, pwd;
+//     string name, email;
 
-//     User *newUsr;
-
-    
 //     int ch;
-    
-//     do
-//     {   
-//         cout<<"\t\t\tEnter choice:\n1.Add user\n2.Display all user\n3.Search User\n4.Change pwd.\n5.Delete all.\n6.Exit\n\n";
-//         cin>>ch;
-//         switch (ch)
-//         {
+//     do {
+//         cout << "\nEnter choice:\n"
+//              << "1. Add user\n2. Display all users\n3. Search User\n"
+//              << "4. Change password\n5. Delete all\n6. Exit\n";
+//         cin >> ch;
+
+//         switch (ch) {
 //         case 1:
-//             cout<<"Enter id = "<<endl;
-//             cin>>id;
-//             cout<<"Enter name = "<<endl;
-//             cin>>name;
-//             cout<<"Enter email = "<<endl;
-//             cin>>email;
-//             cout<<"Enter pwd = "<<endl;
-//             cin>>pwd;
-//             newUsr = new User(id,name,email,pwd);
-//             usr.push_back(*newUsr);
-//             cout<<"Added\n\n"<<endl;
+//             cout << "Enter id: ";
+//             cin >> id;
+//             cout << "Enter name: ";
+//             cin >> name;
+//             cout << "Enter email: ";
+//             cin >> email;
+//             cout << "Enter password: ";
+//             cin >> pwd;
+//             usr.push_back(User(id, name, email, pwd));
+//             cout << "User added successfully.\n";
 //             break;
+
 //         case 2:
-//             for(User u:usr){
+//             for (User &u : usr) {
 //                 u.display();
 //             }
 //             break;
-        
+
 //         case 3:
-//             cout<<"Enter name to search = "<<endl;
-//             cin>>name;
-//             for(User u:usr){
-//                 if(u.getname(name) == name){
+//             cout << "Enter name to search: ";
+//             cin >> name;
+//             for (User &u : usr) {
+//                 if (u.getname() == name) {
 //                     u.display();
 //                 }
 //             }
 //             break;
-        
+
 //         case 4:
-//             cout<<"Enter id to change pwd = "<<endl;
-//             cin>>id;
-//             for(User u:usr){
-//                 if(u.getid(id) == id){
-//                     cout<<"Enter new pwd = "<<endl;
-//                     cin>>pwd;
+//             cout << "Enter id to change password: ";
+//             cin >> id;
+//             for (User &u : usr) {
+//                 if (u.getid() == id) {
+//                     cout << "Enter new password: ";
+//                     cin >> pwd;
 //                     u.setpwd(pwd);
-//                     cout<<"Password changed\n\n"<<endl;
+//                     cout << "Password changed successfully.\n";
 //                 }
 //             }
 //             break;
-        
+
 //         case 5:
 //             usr.clear();
-//             cout<<"All users deleted\n\n"<<endl;
+//             cout << "All users deleted.\n";
 //             break;
-        
+
 //         case 6:
-//             cout<<"Exit"<<endl;
-//             break;  
-        
+//             cout << "Exiting program...\n";
+//             break;
+
 //         default:
+//             cout << "Invalid choice! Try again.\n";
 //             break;
 //         }
-//     } while (ch!=6);
-
+//     } while (ch != 6);
 
 //     return 0;
 // }
-
 
 
 
@@ -435,201 +420,176 @@
 
 */
 
-#include<iostream>
-#include<fstream>
+
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstring>
 using namespace std;
 
-class Product{
-    private: 
-            int prdid;
-            string name;
-            int qty;
-            double price;
+class Product {
+private:
+    int prdid;
+    char name[30];
+    int qty;
+    double price;
 
-    public:
-            Product(){
-                prdid = 0;
-                name = "xyz";
-                qty = 0;
-                price = 0.0;
-            }
+public:
+    Product() {
+        prdid = 0;
+        qty = 0;
+        price = 0.0;
+        strcpy(name, "NA");
+    }
 
-            Product(int prdid, string name, int qty, double price){
-                this->prdid = prdid;
-                this->name = name;
-                this-> qty = qty;
-                this -> price = price;
-            }
+    void input() {
+        cout << "Enter Product ID: ";
+        cin >> prdid;
+        cout << "Enter Product Name: ";
+        cin >> name;
+        cout << "Enter Quantity: ";
+        cin >> qty;
+        cout << "Enter Price: ";
+        cin >> price;
+    }
 
-            void display(){
-                cout<<"product details: "<<endl;
-                cout<<"product id: "<<prdid<<endl;
-                cout<<"product name: "<<name<<endl;
-                cout<<"product quantity: "<<qty<<endl;
-                cout<<"product price: "<<price<<endl;
-            }
-            int getid(){
-                return prdid;
-            }
+    void display() const {
+        cout << "----------------------------------\n";
+        cout << "Product ID: " << prdid << endl;
+        cout << "Product Name: " << name << endl;
+        cout << "Quantity: " << qty << endl;
+        cout << "Price: " << price << endl;
+    }
+
+    int getId() const { return prdid; }
 };
 
-
-//writing in file
-
-void writeFile(){
-    cout<<"Writing data in file"<<endl;
-    string filename = "product_detail.dat";
-    ofstream out_file(filename, ios::app);
-
-    cout<<"product details: "<<endl;
-    cout<<"------------------------------------------------------------------"<<endl;
-    cout<<"product id: "<<endl;
-    int prdid;
-    cin>>prdid;
-    out_file<<prdid<<endl;
-
-    cout<<"product name: "<<endl;
-    string name;
-    cin>> name;
-    out_file<<name<<endl;
-
-    cout<<"product quantity: "<<endl;
-    int qty;
-    cin>> qty;
-    out_file<<qty<<endl;
-
-    cout<<"product price: "<<endl;
-    double price;
-    cin>> price;
-    out_file<<price<<endl;
-
-    out_file.close();
-
-}
-
-
-//reading file
-
-void readFile(){
-    cout<<"Product Details"<<endl;
-    string filename = "product_detail.dat";
-
-    ifstream in_file(filename);
-    string line;
-
-    if(in_file.fail()){
-        cout<<"Error occured";
-    }else{
-        cout<<"Reading file"<<endl;
-        while(getline(in_file, line)){
-            cout<<line<<endl;
-        }
-    }
-
-
-    in_file.close();
-}
-
-
-//Searching
-
-void search(int prdid){
-    ifstream fin;
-    Product p ;
-    fin.open("product_detail.dat",ios::binary);
-
-    while(fin.read((char*)&p, sizeof(Product))){
-        if(p.getid() == prdid){
-            p.display();
-        }
-    }
-
-    fin.close();
-}
-
-
-
-
-//update detail
-
-void update(int prdid){
-    fstream fin;
+// Add Product
+void addProduct() {
     Product p;
-    fin.open("product_detail.dat",ios::binary | ios::in | ios::out);
-    long no = -1L*static_cast<long>(sizeof(Product));
+    p.input();
+    ofstream fout("product.dat", ios::binary | ios::app);
+    fout.write((char*)&p, sizeof(Product));
+    fout.close();
+    cout << "Product added successfully!\n";
+}
 
-    while(fin.read((char*)&p, sizeof(Product))){
-        if(p.getid()==prdid){
-            cout<<"old value"<<endl;
-            p.display();
-            cout<<"-----------------------------------------------"<<endl;
-
-            cout<<"Enter new product details: product_id, name, quantity, price"<<endl;
-            int prdid;
-            string name;
-            int qty;
-            double price;
-            cin>>prdid>>name>>qty>>price;
-            Product p1(prdid, name, qty, price);
-            fin.seekg(no, ios::cur);
-
-            fin.write((char*)&p1, sizeof(Product));
-            cout<<"Updated successfully  "<<no<<endl;
-
-            
-        }
+// Display Products
+void displayProducts() {
+    ifstream fin("product.dat", ios::binary);
+    if (!fin) {
+        cout << "No records found!\n";
+        return;
     }
-
+    Product p;
+    while (fin.read((char*)&p, sizeof(Product))) {
+        p.display();
+    }
     fin.close();
 }
 
-
-
-int main(){
-    int ch,prdid;
-    cout<<"\t1.1:Add Prd\n2:Display Prds\n3:Search Prd\n4:Update/Modify prd"<<endl;
-
-    do
-    {
-        cout<<"Enter choice:"<<endl;
-        cin>>ch;
-
-        switch (ch)
-        {
-        case 1:
-            writeFile();
-            break;
-        case 2:
-            readFile();
-            break;
-        case 3:
-            cout<<"enter id to search:  ";
-            cin>>prdid;
-            search(prdid);
-            break;
-        case 4:
-            cout<<"update the details"<<endl;
-            cin>>prdid;
-			update(prdid);
-			break;
-        case 5:{
-                int cnt = 0;
-                fstream file("product_detail.dat", ios::out | ios::in | ios::binary);
-                file.seekg(0, ios::end);
-                long no = file.tellg();
-                cnt = no / sizeof(Product);
-                cout<<"---count--->"<<cnt<<endl;
-                break;
-      		    
-            }
-        case 6:
-            cout<<"Exit"<<endl;
-
-        default:
+// Search Product by ID
+void searchProduct(int id) {
+    ifstream fin("product.dat", ios::binary);
+    Product p;
+    bool found = false;
+    while (fin.read((char*)&p, sizeof(Product))) {
+        if (p.getId() == id) {
+            p.display();
+            found = true;
             break;
         }
-    } while (ch!=6);
-    
+    }
+    fin.close();
+    if (!found) cout << "Product not found!\n";
+}
+
+// Update Product by ID
+void updateProduct(int id) {
+    fstream fio("product.dat", ios::binary | ios::in | ios::out);
+    Product p;
+    bool found = false;
+    while (fio.read((char*)&p, sizeof(Product))) {
+        if (p.getId() == id) {
+            cout << "Old details:\n";
+            p.display();
+
+            cout << "\nEnter new details:\n";
+            p.input();
+
+            long pos = -1 * (long)sizeof(Product);
+            fio.seekp(pos, ios::cur);
+            fio.write((char*)&p, sizeof(Product));
+            cout << "Product updated successfully!\n";
+            found = true;
+            break;
+        }
+    }
+    fio.close();
+    if (!found) cout << "Product not found!\n";
+}
+
+// Delete Product by ID
+void deleteProduct(int id) {
+    ifstream fin("product.dat", ios::binary);
+    ofstream fout("temp.dat", ios::binary);
+
+    Product p;
+    bool found = false;
+    while (fin.read((char*)&p, sizeof(Product))) {
+        if (p.getId() != id) {
+            fout.write((char*)&p, sizeof(Product));
+        } else {
+            found = true;
+        }
+    }
+    fin.close();
+    fout.close();
+
+    remove("product.dat");
+    rename("temp.dat", "product.dat");
+
+    if (found) cout << "Product deleted successfully!\n";
+    else cout << "Product not found!\n";
+}
+
+int main() {
+    int choice, id;
+
+    do {
+        cout << "\n===== Shop CRUD Application =====\n";
+        cout << "1. Add Product\n";
+        cout << "2. Display Products\n";
+        cout << "3. Search Product\n";
+        cout << "4. Update Product\n";
+        cout << "5. Delete Product\n";
+        cout << "6. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: addProduct(); break;
+            case 2: displayProducts(); break;
+            case 3:
+                cout << "Enter product ID to search: ";
+                cin >> id;
+                searchProduct(id);
+                break;
+            case 4:
+                cout << "Enter product ID to update: ";
+                cin >> id;
+                updateProduct(id);
+                break;
+            case 5:
+                cout << "Enter product ID to delete: ";
+                cin >> id;
+                deleteProduct(id);
+                break;
+            case 6: cout << "Exiting...\n"; break;
+            default: cout << "Invalid choice!\n";
+        }
+    } while (choice != 6);
 
     return 0;
 }
