@@ -4,53 +4,53 @@ Create two object s and initialize them using no argument and parameterised cons
 respectively.Print date using display function.               
 */
 
-#include<iostream>
-using namespace std;
+// #include<iostream>
+// using namespace std;
 
-class Date{
-    protected:
-        int date,month,year;
+// class Date{
+//     protected:
+//         int date,month,year;
 
-    public:
-        Date(){
-            date=1;
-            month=1;
-            year=2000;
-        }
-        Date(int date,int month, int year){
-            this->date = date;
-            this->month = month;
-            this->year = year;
-        }
-        int display(){
-            cout<<"Date: "<<date<<"/"<<month<<"/"<<year<<endl;
-            return 0;
-        }
+//     public:
+//         Date(){
+//             date=1;
+//             month=1;
+//             year=2000;
+//         }
+//         Date(int date,int month, int year){
+//             this->date = date;
+//             this->month = month;
+//             this->year = year;
+//         }
+//         int display(){
+//             cout<<"Date: "<<date<<"/"<<month<<"/"<<year<<endl;
+//             return 0;
+//         }
 
 
-        //getter
-        int getDate(){
-            return date;
-        }
-        int getMonth(){
-            return month;
-        }
-        int getYear(){
-            return year;
-        }
+//         //getter
+//         int getDate(){
+//             return date;
+//         }
+//         int getMonth(){
+//             return month;
+//         }
+//         int getYear(){
+//             return year;
+//         }
 
-        //setter
-        void setDate(int newDate){
-            this->date = newDate;
-        }
-        void setMonth(int newMonth){
-            this->month = newMonth;
-        }
-        void setYear(int newYear){
-            this->year = newYear;
-        }
+//         //setter
+//         void setDate(int newDate){
+//             this->date = newDate;
+//         }
+//         void setMonth(int newMonth){
+//             this->month = newMonth;
+//         }
+//         void setYear(int newYear){
+//             this->year = newYear;
+//         }
 
-};
+// };
 
 // int main(){
 //     Date obj_d;
@@ -93,7 +93,8 @@ Write default and parameterised constructor in Employee Class.
 Write accept() function to accept information and display() to display emp information.
 */
 
-
+// #include<iostream>
+// using namespace std;
 
 // class Employee : public Date {
 // private:

@@ -1,4 +1,4 @@
-//Function Template – Maximum
+//Function Template ï¿½ Maximum
 // Write a function template findMax() that returns the maximum of two values.
 
 #include<iostream>
@@ -19,7 +19,8 @@ int main(){
 	//int a,b;
 	char a,b;
 	cout<<"enter two numbers for finding max: "<<endl;
-	cin>>a>>b;
+	cin>>a;
+	cin>>b;
 	
 	findMax(a,b);
 }

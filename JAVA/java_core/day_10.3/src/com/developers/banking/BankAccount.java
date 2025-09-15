@@ -20,6 +20,7 @@ public class BankAccount {
 	private String phoneNum;
 	
 	
+	
 	public BankAccount(int accountNumber, double balance, String name, String phoneNum) {
 		//super();
 		this.accountNumber = accountNumber;
