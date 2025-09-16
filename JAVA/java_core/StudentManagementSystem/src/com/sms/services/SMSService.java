@@ -16,4 +16,9 @@ public interface SMSService {
 	
 	//search student by email
 	void searchStudentByEmail(String email) throws StudentManagementException;
+	
+	//sort by course
+	void listStudentByCourse(String courses) throws StudentManagementException;
 }
+
+

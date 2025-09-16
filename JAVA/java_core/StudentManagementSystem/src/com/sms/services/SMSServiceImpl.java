@@ -1,6 +1,8 @@
 package com.sms.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ListIterator;
 
@@ -54,5 +56,14 @@ public class SMSServiceImpl implements SMSService {
 			}
 			System.out.println("Student not found...");
 		}
+	}
+	
+	//sort By course;
+	@Override
+	public void listStudentByCourse(String courses) throws StudentManagementException {
+		Collections.sort(students, new Comparator<Student>() {
+			@Override
+			public int compare()
+		});
 	}
 }
