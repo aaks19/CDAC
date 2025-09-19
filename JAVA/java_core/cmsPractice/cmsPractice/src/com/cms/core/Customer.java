@@ -100,18 +100,4 @@ public class Customer {
 		this.firstName = firstName;
 	}
 
-	@Override
-	public boolean equals(Object obj)
-	{
-		System.out.println("equal method call");
-		
-		//run time error solve instanceof use
-		if(obj instanceof Customer) {
-		//downcasting for compile time error solve
-		return this.email.equals(((Customer)obj).email);
-		}
-		//else retrun false
-		return false;
-	}
-
 }

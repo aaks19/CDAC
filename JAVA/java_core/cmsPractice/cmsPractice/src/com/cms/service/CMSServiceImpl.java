@@ -2,7 +2,9 @@ package com.cms.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cms.core.Customer;
 import com.cms.core.ServicePlan;
@@ -11,18 +13,18 @@ import com.cms.custom_exception.CMSHandlingException;
 public class CMSServiceImpl implements CMSService {
 
 	// DataStructure use: ArrayList
-	private List<Customer> guest;
+	private Map<String, Customer> customerMap;
 
 	// constructor
 	public CMSServiceImpl() {
 		// ArrayList
 		// list = any type of list interface
-		this.guest = new ArrayList<>(1000);
-
+		customerMap = new HashMap<>(1000);
+		List<Customer> customerList = new ArrayList<>();
 		// Add Elements in ArrayList
-		guest.add(new Customer("Raj", "Sharma", "amit@gmail.com", "amit@123", 1000, LocalDate.of(1990, 5, 12),
+		customerList.add(new Customer("Raj", "Sharma", "amit@gmail.com", "amit@123", 1000, LocalDate.of(1990, 5, 12),
 				ServicePlan.BASIC));
-		guest.add(new Customer("Priya", "Verma", "priya@gmail.com", "priya@123", 2000, LocalDate.of(1995, 8, 23),
+		customerList.add(new Customer("Priya", "Verma", "priya@gmail.com", "priya@123", 2000, LocalDate.of(1995, 8, 23),
 				ServicePlan.PRO));
 	}
 
@@ -32,10 +34,10 @@ public class CMSServiceImpl implements CMSService {
 			LocalDate dob, ServicePlan plan) throws CMSHandlingException {
 		// validate all inputs
 		Customer cust = CMSValidation.validateAllInputs(firstName, lastName, email, password, registerAmount, dob, plan,
-				guest);
+				customerMap);
 		// validate succ comes this line
 		// add elements into arryList
-		guest.add(cust);
+		customerMap.put(cust.getEmail(), cust);
 		// return message
 		return "Registration is Successfull........";
 	}
@@ -43,7 +45,7 @@ public class CMSServiceImpl implements CMSService {
 //	2) Display all customers
 	@Override
 	public void display() {
-		for (Customer c : guest) {
+		for (Customer c : customerMap.values()) {
 			System.out.println(c);
 		}
 	}
@@ -51,24 +53,33 @@ public class CMSServiceImpl implements CMSService {
 //	3) Sign-in
 	@Override
 	public Customer signin(String email, String password) throws CMSHandlingException {
-		Customer c = new Customer(email);
-		// get index of the email from customers arraylist
-
-		int index = guest.indexOf(c);
-
-		// here index = -1 represents that the email is not present in the guest list
-		if (index == -1) {
-			throw new CMSHandlingException("Invalid email");
+//		Customer c = new Customer(email);
+//		// get index of the email from customers arraylist
+//
+//		int index = customerMap.ge;
+//
+//		// here index = -1 represents that the email is not present in the customerMap list
+//		if (index == -1) {
+//			throw new CMSHandlingException("Invalid email");
+//		}
+//
+//		// the email is present ...now we have to check the password is equal to the
+//		// password that is saved in the arraylist
+//		Customer completeDetails = customerMap.get(index);
+//		if (completeDetails.getPassword().equals(password)) {
+//			return completeDetails;
+//		} else {
+//			throw new CMSHandlingException("password not matches with email");
+//		}
+		
+		Customer c = customerMap.get(email);
+		if(c==null) {
+			throw new CMSHandlingException("Invalid Email...");
 		}
-
-		// the email is present ...now we have to check the password is equal to the
-		// password that is saved in the arraylist
-		Customer completeDetails = guest.get(index);
-		if (completeDetails.getPassword().equals(password)) {
-			return completeDetails;
-		} else {
-			throw new CMSHandlingException("password not matches with email");
+		if(!c.getPassword().equals(password)) {
+			throw new CMSHandlingException("Invalid password...");
 		}
+		return c;
 	}
 	
 	
@@ -87,7 +98,7 @@ public class CMSServiceImpl implements CMSService {
 //		Delete the customer by the email
 //		wrap email in Customer c
 		Customer c = new Customer(email);
-		if(guest.remove(c)){
+		if(customerMap.remove(c) != null){
 			return "Un-subscribed successful";
 		}
 		throw new CMSHandlingException("Email not exist");

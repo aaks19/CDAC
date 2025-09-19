@@ -61,9 +61,6 @@ public class SMSServiceImpl implements SMSService {
 	//sort By course;
 	@Override
 	public void listStudentByCourse(String courses) throws StudentManagementException {
-		Collections.sort(students, new Comparator<Student>() {
-			@Override
-			public int compare()
-		});
+		
 	}
 }
