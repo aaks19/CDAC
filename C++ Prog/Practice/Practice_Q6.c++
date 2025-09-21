@@ -142,13 +142,6 @@ int main(){
             for(auto detail : orders){
                 detail->display();
 
-                // if(typeid(*detail) == typeid(Regular_Laundry)){
-                //     Regular_Laundry *lr = dynamic_cast<Regular_Laundry*>(detail);
-                //     lr->calculate_RegularPrice();
-                // }else if(typeid(*detail) == typeid(Dry_Cleaning)){
-                //     Dry_Cleaning *lr = dynamic_cast<Dry_Cleaning*>(detail);
-                //     lr->calculate_DryCleanPrice();
-                // }
                 cout<<"----------------------------------------"<<endl;
             }
             break;
