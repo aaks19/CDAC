@@ -39,6 +39,18 @@ class Student{
                 percentCalc();
             }
 
+            void acceptDetails(){
+                cout<<"enter Roll no. :"<<endl;
+                cin>>rollno;
+                cout<<"Enter name:"<<endl;
+                cin>>name;
+                cout<<"Enter marks of 3 subject:"<<endl;
+                for(int i=0;i<3;i++){
+                    cin>>marks[i];
+                }
+                percentCalc();
+            }
+
             void percentCalc(){
                 double sum = 0;
                 for(int i=0; i<3; i++){
@@ -58,17 +70,37 @@ class Student{
 };
 
 int main(){
+    fstream file;
     int n;
     cout<<"Enter number of students - "<<endl;
     cin>>n;
-    Student *s = new Student[n];
 
-    for(int i=0; i<n; i++){
-        int rollno;
-        string name;
-        double marks[3];
-        cout<<"enter";
+    //accept details
+    file.open("student.dat",ios::binary | ios::out);
+    for(int i=0;i<n;i++){
+        Student s;
+        s.acceptDetails();
+        file.write((char*)&s, sizeof(s));
     }
+    file.close();
+
+    //append student details
+    cout<<"Add Students"<<endl;
+    file.open("student.dat", ios::binary | ios::app);
+    Student newStudent;
+    newStudent.acceptDetails();
+    file.write((char*)&newStudent, sizeof(newStudent));
+    file.close();
+
+    //read records
+    cout<<"All Student Details:"<<endl;
+    file.open("student.dat",ios::binary|ios::in);
+    Student detail;
+    while(file.read((char*)&detail, sizeof(detail))){
+        detail.display();
+    }
+    file.close();
+
 }
 
 

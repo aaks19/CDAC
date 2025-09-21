@@ -25,7 +25,7 @@ using namespace std;
 
 class Department{
     private: int dept_id;
-                string dept_name;
+            string dept_name;
 
     public:
             Department(){
@@ -146,3 +146,5 @@ int main(){
     
 
 }
+
+
