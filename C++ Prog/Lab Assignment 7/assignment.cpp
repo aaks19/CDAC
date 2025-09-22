@@ -223,93 +223,93 @@
 //    4:Remove all
 
 
-// #include<iostream>
-// #include<map>
-// using namespace std;
+#include<iostream>
+#include<map>
+using namespace std;
 
-// class Account{
-//     private: 
-//                 int actid;
-//                 string name;
-//                 double balance;
+class Account{
+    private: 
+                int actid;
+                string name;
+                double balance;
 
-//     public:
-//             Account(){
-//                 actid = 0;
-//                 name = "xyz";
-//                 balance = 0.0;
-//             }
+    public:
+            Account(){
+                actid = 0;
+                name = "xyz";
+                balance = 0.0;
+            }
 
-//             Account(int id, string name, double balance):
-//             actid(id),name(name),balance(balance){}
+            Account(int id, string name, double balance):
+            actid(id),name(name),balance(balance){}
 
-//             void display(){
-//                 cout<<"Account id: "<<actid<<endl;
-//                 cout<<"Name: "<<name<<endl;
-//                 cout<<"Balance: "<<balance<<endl;
-//             }
-// };
+            void display(){
+                cout<<"Account id: "<<actid<<endl;
+                cout<<"Name: "<<name<<endl;
+                cout<<"Balance: "<<balance<<endl;
+            }
+};
 
-// int main(){
-//     map<int, Account> accMap;
-//     int ch;
-//     cout<<"Enter choice: "<<endl;
-//     cout << "\n===== Menu =====" << endl;
-//     cout << "1. Add Account" << endl;
-//     cout << "2. Display All Accounts" << endl;
-//     cout << "3. Search Account by ID" << endl;
-//     cout << "4. Remove All Accounts" << endl;
-//     cout << "5. Exit" << endl;
+int main(){
+    map<int, Account> accMap;
+    int ch;
+    cout<<"Enter choice: "<<endl;
+    cout << "\n===== Menu =====" << endl;
+    cout << "1. Add Account" << endl;
+    cout << "2. Display All Accounts" << endl;
+    cout << "3. Search Account by ID" << endl;
+    cout << "4. Remove All Accounts" << endl;
+    cout << "5. Exit" << endl;
 
-//     do
-//     {
-//       cin>>ch;
-//         if (ch==1)
-//         {
-//             int id;
-//             string name;
-//             double balance;
+    do
+    {
+      cin>>ch;
+        if (ch==1)
+        {
+            int id;
+            string name;
+            double balance;
 
-//             cout<<"Enter id: "<<endl;
-//             cin>>id;
-//             cout<<"Enter name: "<<endl;
-//             cin>>name;
-//             cout<<"Enter balance: "<<endl;
-//             cin>>balance;
+            cout<<"Enter id: "<<endl;
+            cin>>id;
+            cout<<"Enter name: "<<endl;
+            cin>>name;
+            cout<<"Enter balance: "<<endl;
+            cin>>balance;
 
-//             accMap.insert({id, Account(id, name, balance)});
-//         }else if(ch == 2){
-//             if (accMap.empty()) {
-//                     cout << "No accounts available." << endl;
-//             }else {
-//                 for (auto &p : accMap) {
-//                     p.second.display();
-//                 }
-//             }
-//         }else if(ch == 3){
-//             int searchid;
-//             cout<<"Enter id to search";
-//             cin>>searchid;
-//             auto it = accMap.find(searchid);
-//             if(it != accMap.end()){
-//                 it->second.display();
-//             }else{
-//                 cout<<"not found"<<endl;
-//             }
-//         }else if (ch == 4) {
-//             accMap.clear();
-//             cout << "All accounts removed successfully." << endl;
+            accMap.insert({id, Account(id, name, balance)});
+        }else if(ch == 2){
+            if (accMap.empty()) {
+                    cout << "No accounts available." << endl;
+            }else {
+                for (auto &p : accMap) {
+                    p.second.display();
+                }
+            }
+        }else if(ch == 3){
+            int searchid;
+            cout<<"Enter id to search";
+            cin>>searchid;
+            auto it = accMap.find(searchid);
+            if(it != accMap.end()){
+                it->second.display();
+            }else{
+                cout<<"not found"<<endl;
+            }
+        }else if (ch == 4) {
+            accMap.clear();
+            cout << "All accounts removed successfully." << endl;
 
-//         } else if (ch == 5) {
-//             cout << "Exiting..." << endl;
+        } else if (ch == 5) {
+            cout << "Exiting..." << endl;
 
-//         } else {
-//             cout << "Invalid choice. Try again!" << endl;
-//         }
-//     } while (ch!=5);
+        } else {
+            cout << "Invalid choice. Try again!" << endl;
+        }
+    } while (ch!=5);
     
-//     return 0;
-// }
+    return 0;
+}
 
 
 
@@ -322,87 +322,87 @@
 //    2:Read file:display line by line
 //    3:copy data from one file into another file
 
-// #include<iostream>
-// #include<fstream>
-// using namespace std;
+#include<iostream>
+#include<fstream>
+using namespace std;
 
-// void writeFile(){
-//     cout<<"Writing in file"<<endl;
-//     string filename = "myFile.txt";
-//     ofstream outfile(filename, ios::app);
-//     cout<<"enter name of user:"<<endl;
-//     string name;
-//     cin>>name;
-//     outfile<<name<<endl;
+void writeFile(){
+    cout<<"Writing in file"<<endl;
+    string filename = "myFile.txt";
+    ofstream outfile(filename, ios::app);
+    cout<<"enter name of user:"<<endl;
+    string name;
+    cin>>name;
+    outfile<<name<<endl;
 
-//     outfile.close();
-// }
+    outfile.close();
+}
 
 
-// void readFile(){
-//     cout<<"read data from file"<<endl;
-//     string filename = "myFile.txt";
+void readFile(){
+    cout<<"read data from file"<<endl;
+    string filename = "myFile.txt";
 
-//     ifstream inputfile(filename);
-//     string line;
-//     if(inputfile.fail()){
-//         cout<<"file not found!"<<endl;
-//     }else{
-//         cout<<"read from file"<<endl;
+    ifstream inputfile(filename);
+    string line;
+    if(inputfile.fail()){
+        cout<<"file not found!"<<endl;
+    }else{
+        cout<<"read from file"<<endl;
         
-//         while(getline(inputfile, line)){
-//             cout<<line<<endl;
-//         }
-//     }
+        while(getline(inputfile, line)){
+            cout<<line<<endl;
+        }
+    }
 
-//     inputfile.close();
-// }
-
-
-// void copyFile(){
-//     cout << "Copying data from one file into another" << endl;
-//     string sourceFile = "myFile.txt";
-//     string destFile = "copyFile.txt";
-
-//     ifstream src(sourceFile);
-//     ofstream dest(destFile);
-
-//     if(src && dest){
-//         string line;
-//         while(getline(src, line)){
-//             dest << line << "\n";
-//         }
-//         cout << "Copy Finished" << endl;
-//     } else {
-//         cout << "Error: Cannot open source or destination file!" << endl;
-//     }
-//     src.close();
-//     dest.close();
-// }
+    inputfile.close();
+}
 
 
-// int main(){
-//     int ch;
-//     do {
-//         cout << "\n===== Menu =====" << endl;
-//         cout << "1. Write File" << endl;
-//         cout << "2. Read File" << endl;
-//         cout << "3. Copy File" << endl;
-//         cout << "0. Exit" << endl;
-//         cout << "Enter choice: ";
-//         cin >> ch;
+void copyFile(){
+    cout << "Copying data from one file into another" << endl;
+    string sourceFile = "myFile.txt";
+    string destFile = "copyFile.txt";
 
-//         switch (ch){
-//             case 1: writeFile(); break;
-//             case 2: readFile(); break;
-//             case 3: copyFile(); break;
-//             case 0: cout << "Exiting..." << endl; break;
-//             default: cout << "Invalid choice!" << endl;
-//         }
-//     } while(ch != 0);
+    ifstream src(sourceFile);
+    ofstream dest(destFile);
 
-//     return 0;
-// }
+    if(src && dest){
+        string line;
+        while(getline(src, line)){
+            dest << line << "\n";
+        }
+        cout << "Copy Finished" << endl;
+    } else {
+        cout << "Error: Cannot open source or destination file!" << endl;
+    }
+    src.close();
+    dest.close();
+}
+
+
+int main(){
+    int ch;
+    do {
+        cout << "\n===== Menu =====" << endl;
+        cout << "1. Write File" << endl;
+        cout << "2. Read File" << endl;
+        cout << "3. Copy File" << endl;
+        cout << "0. Exit" << endl;
+        cout << "Enter choice: ";
+        cin >> ch;
+
+        switch (ch){
+            case 1: writeFile(); break;
+            case 2: readFile(); break;
+            case 3: copyFile(); break;
+            case 0: cout << "Exiting..." << endl; break;
+            default: cout << "Invalid choice!" << endl;
+        }
+    } while(ch != 0);
+
+    return 0;
+}
 
 
 
