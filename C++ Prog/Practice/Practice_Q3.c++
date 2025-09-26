@@ -102,7 +102,3 @@ int main(){
     file.close();
 
 }
-
-
-
-

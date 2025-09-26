@@ -3,6 +3,9 @@
         "iostream": "cpp",
         "ostream": "cpp",
         "format": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "regex": "cpp"
     }
 }
