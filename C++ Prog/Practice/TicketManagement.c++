@@ -8,7 +8,9 @@ class TickedManagementException : public exception{
     private:
             string message;
     public: 
-            TickedManagementException(const string& msg):message(msg){}
+            TickedManagementException(const string& msg){
+                     this->message=msg;
+            }
             const char* what(){
                 return message.c_str();
             }

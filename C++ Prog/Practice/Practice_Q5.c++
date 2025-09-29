@@ -30,3 +30,39 @@ int main(){
     cout << "u: " << freq[4] << endl;
 
 }
+
+
+
+
+
+
+// using map
+#include <iostream>
+#include <map>
+using namespace std;
+
+int countVowel(const char *s, map<char, int> &freq) {
+    int count = 0;
+    while (*s != '\0') {
+        char ch = tolower(*s);  // Convert to lowercase for simplicity
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            count++;
+            freq[ch]++;
+        }
+        s++;
+    }
+    return count;
+}
+
+int main() {
+    char str[100];
+    cout << "Enter character: " << endl;
+    cin >> str;
+    map<char, int> freq;  // key: vowel, value: count
+    int vowels = countVowel(str, freq);
+
+    cout << "Vowels = " << vowels << endl;
+    for (char v : {'a', 'e', 'i', 'o', 'u'}) {
+        cout << v << ": " << freq[v] << endl;
+    }
+}
