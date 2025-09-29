@@ -9,7 +9,7 @@ class LaundryException : public exception{
             string message;
 
     public:
-            LaundryException(const string& msg):message(msg){}
+            LaundryException(const string& msg){this->message=msg;}
             const char* what(){
                 return message.c_str();
             }
