@@ -24,7 +24,7 @@ public class tester {
 
 						service.addStudent("Neha", "2022-03-15", "9123456789", "234567890123", "Electrical Engineering", 2);
 
-						service.addStudent("Amit", "2024-02-05", "9988776655", "345678901234", "Mechanical Engineering", 4);
+						service.addStudent("Amit", "2024-02-05", "9988776655", "123456789012", "Mechanical Engineering", 4);
 
 						service.addStudent("Priya", "2021-11-20", "9090909090", "456789012345", "Information Technology", 1);
 

@@ -26,8 +26,11 @@ public class LMSValidation {
 	
 	//duplicate aadhaar number
 	public static void duplicateAadhaar(String aadhaarNumber, List<Members> memberList) throws LMSException{
-		if(memberList.contains(aadhaarNumber)) {
-			throw new LMSException("duplicate aadhaar number");
+		boolean exist = memberList.stream()
+								  .anyMatch(s->s.getAadhaarCard().equals(aadhaarNumber));
+		
+		if(exist) {
+			throw new LMSException("Duplicate aadhaar number");
 		}
 	}
 	
