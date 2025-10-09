@@ -331,9 +331,122 @@ delimiter ;
 
 
 
+---------------------------------------------------------
+
+drop procedure displayval;
+delimiter //
+create procedure displayval(in pdeptno int, out maxsal double(9,2), out minsal double(9,2), out avgsal double(9,2))
+begin
+select min(sal), max(sal), avg(sal) into minsal, maxsal, avgsal 
+from emp 
+where deptno = pdeptno;
+
+end//
+delimiter ;
 
 
+-------------------------------------------------
+
+drop procedure if exists updatesal;
+
+delimiter //
+create procedure updatesal()
+begin
+declare vempno int;
+declare vhiredate date;
+declare vsal double(9,2);
+declare vnewsal double(9,2) default 0;
+declare exp int ;
+declare vset int default 0;
+
+declare updatesalcur cursor for select empno,sal,hiredate from emp;
+declare continue handler for NOT FOUND set vset = 1;
+
+open updatesalcur;
+label1:loop
+
+fetch updatesalcur into vempno, vsal, vhiredate;
+
+if vset = 1 then
+leave label1;
+end if;
+
+set exp = timestampdiff(year, vhiredate, curdate());
+
+if exp<=35 then
+set vnewsal = vsal;
+
+elseif exp>35 and exp<=38 then 
+set vnewsal = vsal+(vasl*0.20);
+
+elseif exp>38 then
+set vnewsal = vsal + (vsal*0.25);
+
+else
+set vnewsal = vsal;
+
+end if;
+
+update emp
+set sal = vnewsal where empno = vempno;
+
+end loop;
+close updatesalcur;
+end//
+
+delimiter ;
 
 
+----------------------------function----------------------
+drop function if exists calcexp;
+delimiter //
+create function calcexp(hdate date)
+returns int
+deterministic
+begin
+declare vexp int;
+set vexp = timestampdiff(year,hdate,curdate());
+return vexp;
+
+end//
+delimiter ;
 
 
+-------------------procedure------------------
+
+drop procedure if exists updateallowance;
+delimiter //
+create procedure updateallowance()
+begin
+declare vempno int;
+declare vename varchar(20);
+declare vhiredate date;
+declare vexp int;
+declare vallowance double(9,2);
+
+declare vset int default 0;
+
+declare allowancecur cursor for select empno,ename,hiredate from emp;
+declare continue handler for NOT FOUND set vset = 1;
+
+open allowancecur;
+label1:loop
+fetch allowancecur into vempno,vename,vhiredate;
+
+if vset= 1 then
+leave label1;
+end if;
+
+set vexp = calcexp(vhiredate);
+set vallowance = vexp * 3000;
+
+insert into emp_allowance(empno,ename,hiredate,experience,allowance) 
+values(vempno,vename,vhiredate,vexp,vallowance);
+
+end loop;
+
+close allowancecur;
+
+end//
+
+delimiter ;
