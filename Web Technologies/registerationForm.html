@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .error {
+        color: red;
+      }
+    </style>
+    <script>
+      function validateRadioBtn(nm, errid) {
+        var arr = document.getElementsByName(nm);
+
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].checked) {
+            document.getElementById(errid).innerHTML = " ";
+            return true;
+          }
+        }
+        document.getElementById(errid).innerHTML = "please select " + nm;
+        return false;
+      }
+
+      function validateCheckBox(nm, errid, cnt) {
+        var arr = document.getElementsByName(nm);
+        var count = 0;
+        var str = "";
+        for (let v of arr) {
+          if (v.checked) {
+            count++;
+            str += v.value + ", ";
+          }
+        }
+        console.log("selected : " + str);
+        if (count >= cnt) {
+          document.getElementById(errid).innerHTML = "";
+          return true;
+        }
+        document.getElementById(errid).innerHTML =
+          "Please select minimum " + cnt + " " + nm;
+        return false;
+      }
+
+      function validateDropdown(id, errid) {
+        var city = document.getElementById(id).value;
+        if (city === "test") {
+          document.getElementById("errcity").innerHTML = "Please select city";
+          return false;
+        }
+        document.getElementById("errcity").innerHTML = "";
+        return true;
+      }
+
+      function validateFile(id, errid) {
+        var file_arr = document.getElementById(id).files;
+        if (file_arr.length === 0) {
+          document.getElementById(errid).innerHTML = "please Select file";
+          return false;
+        }
+        document.getElementById(errid).innerHTML = "";
+        return true;
+      }
+
+      function validatedata() {
+        var flag1 = validateRadioBtn("gender", "errgender");
+        // console.log(flag1);
+
+        var flag2 = validateCheckBox("skill", "errskill", 3);
+        // console.log(flag2);
+
+        var flag3 = validateRadioBtn("degree", "errdegree");
+        // console.log(flag3);
+
+        var flag4 = validateDropdown("city", "errcity");
+        // console.log(flag4);
+
+        var flag5 = validateFile("profile", "errprofile");
+        // console.log(flag5);
+
+        return flag1 && flag2 && flag3 && flag4 && flag5;
+      }
+    </script>
+  </head>
+  <body>
+    <table>
+      <form
+        action="registerdata"
+        method="post"
+        onsubmit="return validatedata()"
+      >
+        <tr>
+          <td><label for="">Name : </label></td>
+          <td>
+            <input
+              type="text"
+              name="nm"
+              id="name"
+              placeholder="Enter name"
+              required
+              minlength="3"
+              autofocus
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td><label for="age">Age : </label></td>
+          <td>
+            <input
+              type="number"
+              name="age"
+              id="age"
+              placeholder="Enter age"
+              required
+              min="18"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td><label for="addr">Address</label></td>
+          <td><textarea cols="20" rows="5"></textarea></td>
+        </tr>
+        <tr>
+          <td>
+            <label for="bdate">Date of Birth: </label>
+          </td>
+          <td>
+            <input type="date" name="dob" id="dob" required />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Select Gender:</td>
+          <td>
+            <input type="radio" name="gender" id="male" value="male" />
+            <label for="male">Male</label><br />
+            <input type="radio" name="gender" id="female" value="female" />
+            <label for="female">Female</label>
+          </td>
+          <td class="error" id="errgender"></td>
+        </tr>
+
+        <tr>
+          <td><label>Degree:</label></td>
+          <td>
+            <input type="radio" name="degree" id="btech" value="btech" />
+            <label for="btech">B.Tech</label>
+
+            <input type="radio" name="degree" id="mtech" value="mtech" />
+            <label for="mtech">M.Tech</label>
+
+            <input type="radio" name="degree" id="phd" value="phd" />
+            <label for="phd">PHD</label>
+
+            <input type="radio" name="degree" id="mba" value="mba" />
+            <label for="mba">MBA</label>
+          </td>
+          <td class="error" id="errdegree"></td>
+        </tr>
+
+        <tr>
+          <td><label>Skills:</label></td>
+          <td>
+            <input type="checkbox" name="skill" id="java" />
+            <label for="jave">Java</label>
+
+            <input type="checkbox" name="skill" id="c++" />
+            <label for="c++">C++</label>
+
+            <input type="checkbox" name="skill" id="c" />
+            <label for="c">C</label>
+
+            <input type="checkbox" name="skill" id="python" />
+            <label for="python">Python</label>
+
+            <input type="checkbox" name="skill" id="sql" />
+            <label for="sql">SQL</label>
+
+            <input type="checkbox" name="skill" id="react" />
+            <label for="react">React</label>
+
+            <input type="checkbox" name="skill" id="ruby" />
+            <label for="ruby">Ruby</label>
+
+            <input type="checkbox" name="skill" id="flutter" />
+            <label for="flutter">Flutter</label>
+          </td>
+          <td class="error" id="errskill"></td>
+        </tr>
+        <tr>
+          <td>
+            <label>City:</label>
+          </td>
+          <td>
+            <select name="city" id="city">
+              <option value="test">------Select one------</option>
+              <option value="Pune">Pune</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Banglore">Banglore</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Kerala">Kerala</option>
+              <option value="Hampi">Hampi</option>
+              <option value="Goa">Goa</option>
+            </select>
+          </td>
+          <td class="error" id="errcity"></td>
+        </tr>
+
+        <tr>
+          <td>
+            <label>Profile:</label>
+          </td>
+          <td><input type="file" name="profile" id="profile" /></td>
+          <td class="error" id="errprofile"></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>
+            <button type="submit" name="btn" id="register">Register</button>
+            <button type="reset" name="btn" id="clear">Clear Form</button>
+          </td>
+        </tr>
+      </form>
+    </table>
+  </body>
+</html>

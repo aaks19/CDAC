@@ -1,0 +1,210 @@
+Today’s Objectives
+
+1.Revise through Code
+Establish below mappings
+Department 1<------* Employee
+
+Employee 1------>1  Address
+
+Employee *<------*  Project
+
+
+
+Dev steps
+1. BaseEntity -@MappedSuperclass
+common fields - id , cr tm , update tm
+
+2. Department - extends BaseEntity
+- name , location....
+
+3. @EqualsAndHashcode(....)
+Employee - extends BaseEntity
+name,salary ......
+
+//Emp *----->1 Dept
+@ManyToOne
+@JoinColumn(name="dept_id",nullable=false)
+ private Department myDepartment;
+
+//Emp 1---->1 Address
+@OneToOne
+@JoinColumn(name="adr_id")
+private Address myAddress;
+
+4. Address extends BaseEntity
+- line1, line2,city,state.....
+
+5. Project extends BaseEntity
+- startDate, endDate , techno , client......
++
+//Project *----->* Emp
+@ManyToMany
+@JoinTable(name="project_emps",joinColumns=@JoinColumn(name="project_id")
+,inverseJOinColumns=@JoinColumn(name="emp_id))
+private Set<Employee> employees=new HashSet<>();
+
+
+1.1 How will you avoid duplicate appointments ?
+- unique constraint
+
+Solve objectives
+1. Register Patient | Doctor
+ i/p - complete Patient details
+o/p - message
+
+1.1 Any problem ?
+Exception - org.hibernate.TransientPropertyValueException
+Cause - While saving patient details , hibernate came across , transient entity (i.e userDetails)
+Solution - EXPLICITLY save user details first (i.e session.persist(patient.getUser()) & then patient details.
+DB Action - parent rec inserted -> uses user's PK as FK & creates child rec.
+
+
+1.2 Instead of EXPLICITLY saving user -> patient details, 
+how to tell hibernate to perform this automatically ?
+Use cascading 
+What is it ?
+It is the ability to propagate any changes from the source entity -> associated target entity (Eg Patient -> User)
+ - To simplify DAO layer & to reduce boiler plate code.
+
+How ?
+ use attribute of @OneToOne 
+cascade=CascadeType[]
+Default value - no cascading
+CascadeType - Enum in JPA
+with constants - ALL, PERSIST,MERGE,DELETE,REFRESH,DETACH
+So to cascade ALL ops from Patient -> User
+Eg. In Patient class
+@OneToOne(cascade=CascadeType.ALL)
+@JoinColumn....
+private User userDetails;
+
+ 
+2.	Login Patient | Doctor
+ - common login functionality with i/ps - email , password 
+ - check the role & as per the role fetch complete details (doctor | patient dashboard)
+o/p - patient details | doctor details
+
+Dev Steps 
+1. UserDao - sign in
+JPQL 
+2. success
+- chk role -> patient ->
+PatientDao - get patientDetails(userId)
+
+
+Regarding org.hibernate.LazyInitializationException
+Problem -
+While printing Patient details (sop(patient)) from the Tester -
+ Hibernate throws - LazyInitExc
+
+Cause -  
+
+JPA(Hibernate) uses default data fetching policies
+one-one - EAGER
+one-many- LAZY
+many-one - EAGER
+many-many - LAZY
+
+Meaning - Patient *----->* DiagTest
+(many-many)
+While fetching Patient details from DB , hibernate DOES NOT fetch DiagTest details (i.e a select query won't be fired on tests table)
+=> diagTest - are un fetched from DB -> it is represented by proxy
+
+Hibernate creates the proxy - using ByteBuddy helper JAR
+
+Any time , you are trying to access a proxy(unfetched data from DB) outside of the session (i.e after session closing -> tx.commit) - hibernate throws the exc.
+
+Triggers
+- onetomany
+-manytomany
+- session.load 
+
+Solutions
+1. If you don't need DiagTests data
+- simply exclude it from toString
+
+In case you need data
+1. Simply change the fetch type from LAZY -> EAGER
+Eg .
+@ManyToMany(fetch=FetchType.EAGER)
+.....
+Use case - in case the size of many is small.
+Otherwise not recommended ! - since it will degrade the performace with incresed db traffic.
+
+Disadvantage is now onwards
+- you will get DiagTests details along with patient.
+- Entity layer solution .
+
+Better Alternative 
+2. Change fetch type -> LAZY
+@ManyToMany
+private Set<DiagTest> tests=new HashSet<>();
+
+In DAO add 2 different methods
+- get only patient details(w/o tests)
+Eg. patient=session.createQuery(jpql, Patient.class)
+					.setParameter("uid",userId)
+					.getSingleResult();
+
+In another method - get patient + tests details
+Eg. patient=session.createQuery(jpql, Patient.class)
+					.setParameter("uid",userId)
+					.getSingleResult();
+Access the size of the collection(hint to hibernate) , before commit(i.e closing the session)
+patient.getDiagnosticTests().size();//hint 
+tx.commit();
+
+
+3.  View Upcoming appointments for patient | doctor
+i/p - patient id 
+o/p - list
+
+4. Book Appointment
+i/p - doctor id , patient id , appointment TS
+o/p - message
+
+4.1 Check if doctor is available 
+More practical approach
+Assume - appointment time slot=30 min
+Then generate the logic
+
+4.2 If available , book appointment.
+
+5. Cancel Appointment (lab work)
+i/p - appointment id , patient id (only for extra validation)
+o/p - message
+      
+
+2.	JPA Components (value types) – Embeddables
+Patient HAS-A AdhaarCard
+
+
+3.	Enter Spring
+-	What is it ?
+-	Why ?
+-	Dependency Injection(D.I)  n Inversion Of Control (IoC)
+-	Spring Core Container n Spring beans
+-	Different modes of D.I
+
+
+
+In Full Stack application - 
+React App(Front end ) will send Sample JSON -> to backend for patient registration
+
+
+{
+  "user": {
+    "firstName": "Neha",
+    "lastName": "Kulkarni",
+    "email": "neha.kulkarni@medcare.com",
+    "password": "securePass@123",
+    "phone": "9876541230",
+    "dob": "1998-03-15",
+    "role": "ROLE_PATIENT",
+    "regAmount": 750
+  },
+  "bloodGroup": "A_POSITIVE",
+  "gender": "FEMALE",
+  "familyHistory": "Mother diabetic; grandfather had hypertension."
+}
+

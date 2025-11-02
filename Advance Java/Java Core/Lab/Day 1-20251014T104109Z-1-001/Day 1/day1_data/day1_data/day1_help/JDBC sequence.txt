@@ -1,0 +1,105 @@
+1. What is JDBC ?
+Java Database Connectivity
+It's an API (java.sql | javax.sql) for connecting to DB n perform CRUD operations.
+2. Why JDBC ?
+It allows developers to build Java applications which are
+- platform independent + DB independent(partial)
+(WORA)
+2.1 What makes JDBC DB independent ?
+1. JDBC driver
+2. JDBC API - mainly consists of interfaces(specifications- WHAT)
+eg - Connection , Statement, PreparedStatement , ResultSet.....
+Implementation(HOW) of JDBC API - is left to Vendors (DB vendor or 3rd party vendors)
+eg - Connection i/f(interface) <---- MySqlConnectionImpl ,OracleConnImpl , PostgressConnImpl -provided by DB vendors
+3. JDBC Drivers - connector/ transalator between Java Application and DB
+3.1 Types of JDBC Drivers 
+4. Generic development Steps in JDBC n implementation.
+4.0 In earlier versions , it was mandatory to load JDBC driver first.
+Class.forName("com.mysql.cj.jdbc.Driver");
+At the class loading time , in the static init block , this JDBC Driver , gets registered.
+Not required in current version of JDBC 4.x
+4.1 Connect to DB
+API (method) of java.sql.DriverManager
+public static Connection getConnection(String url,String userName,String password) throws SQLException
+
+4.2 Fetch doctors from DB n display the same.
+(Test Statement)
+
+JDBC Dev steps
+0.Create a new workspace  for web java
+Create new core java project & add JDBC connector(mysql connector) in the build path.
+
+1. Get DB Connection
+API - java.sql.DriverManager
+- class to manage JDBC drivers.
+Method
+public static Connection getConnection(String dbURL,String userName,String password) throws SQLException
+dbURL - JDBC URL
+jdbc:sub protocol: DB server details
+eg - jdbc:mysql://localhost:3306/iacsd_25
+
+
+
+
+
+
+2. Create Statement to execute SQL , from the Connection i/f
+Use Connection i/f method
+public Statement createStatement() throws SQLException
+3. Execute select query
+Method of Statement i/f
+public ResultSet executeQuery(String selectQuery) throws SQLException
+3.2 Execute DDL/DML query
+Method of Statement i/f
+public int executeUpdate(String DDLOrDML) throws SQLException
+Returns no of rows updated|inserted|deleted
+Returns 0 : in case of DDL
+
+4. Process ResultSet object in case of select query
+ResultSet i/f – represents selected rows n columns.
+Internally maintains a curosor. Cursor is initially positioned before the 1st row.
+4.1 Methods of ResultSet
+public boolean next() throws SQLException
+Advances the cursor to the next row. Rets true if next row exists , otherwise false.
+4.2 To read column data
+public String getString(int columnIndex) throws SQLException
+public int getInt(int columnIndex) throws SQLException
+public double getDouble(int columnIndex) throws SQLException
+public java.sql.Date getDate(int columnIndex) throws SQLException
+….
+5. Close DB resources
+6. Test PreparedStatement
+Solve - Fetch name , speciality of all  doctors born after specified date.
+sql - 
+6.1 Get connection
+6.2 Create PreparedStatement , to hold parameterized sql
+API of Connection
+public PreparedStatement prepareStatement(String sql) throws SQLException
+6.3 Set the values of IN param/s
+API of PreparedStatement 
+public void setType(int paramIndex,Type value) throws SQLException
+eg - setString , setDate
+6.4 Execute select query
+public ResultSet executeQuery() throws SQLException
+6.5 Processing of resultset
+6.6 clean up db resources
+ 
+7. Identify need of Layers 
+In case of , larger n more complex applications , it's impossible to manage with mixed up functionalities.
+(eg - request processing + Business logic + resp generation+ page navigation....)
+Enter well known layers
+7.1 Tester (UI)
+ 7.2 - DAO (Data Access object layer) - for DB access - CRUD operations
+1. DAO interface - recommended for specs
+(eg : DoctorDao - i/f)
+2. DAO implementation class
+7.3 DBUtils
+-openConnection ....
+7.4 ORM (Object relational mapping)
+DB Table --> POJO (Plain Old Java Object) class
+Table columns --> POJO properties (fields)
+Tables rows --> POJOs
+7.5 RDBMS (tables,rows,cols,PK,FK......)
+- DBUtils - POJO - DB
+8. Solve CRUD requirement with Layered architecture.
+

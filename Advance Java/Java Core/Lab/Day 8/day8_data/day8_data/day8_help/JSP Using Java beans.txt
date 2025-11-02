@@ -1,0 +1,120 @@
+JSP Using Java beans(JB)
+Why  Java Beans 
+ ---1. allows prog to seperate  B.L in Javabeans(Req processing logic, Page navigation & resp generation will be still part of JSP)
+
+Javabeans can store conversational state of clnt(Javabeans 's properties will reflect clnt state) + supplies Business logic methods.
+
+2. simple sharing of JBS across multiple web pages---gives rise to re-usability.
+
+3. Automatic translation between  req. params & JB props(string--->primitive data types automatically done by WC)
+
+What is JB?
+1. pkged public Java class 
+It's actually an attribute automatically created by WC.(trigger : jsp:useBean)
+& WC will automatically store it under the specified scope
+2. Must have def constr.(MUST in JSP using JB scenario)
+3. Properties of JBs --- private, non-static , non-transient Data members  --- equivalent to request params sent by clnt.(Prop names MUST match with req params for easy usage)
+In proper words --- Java bean properties reflect the conversational state of the clnt.
+4. per property  -- if RW
+naming conventions of JB
+supply getter & setter.
+Rules for setter (Java Bean Naming convention) : strict
+public void setPropertyName(Type val)
+Type -- prop type.
+eg -- private double regAmount;
+public void setRegAmount(double val)
+{...}
+Rules for getter
+public Type getPropertyName()
+Type -- prop type.
+eg -- public double getRegAmount(){...}
+
+5. Business Logic --- methods
+public methods --- no other restrictions
+----------------------------
+Using Java Beans from JSP Via standard actions
+
+1. <jsp:useBean id="BeanRef name" class="F.Q. Bean class name" scope="page|request|session|application/>
+
+default = page scope.
+
+
+pre-requisite --- JB class exists under <WEB-INF>/classes.
+ JB = server side obj (attribute), attr name --- bean id,attr val -- bean inst.,can be added to any scope using scope atribute.
+
+eg : 
+eg --- beans.Userbean
+props --- email,pass
+setters/getters
+B.L mehod -- for validation
+
+Usage ---
+<jsp:useBean id="user" class="beans.UserBean" scope="session"/>
+
+
+W.C invokes JB life-cycle
+1. WC chks if specified Bean inst alrdy exists in specified scope
+java api --- request.getAttribute("user")
+---null=>JB doesn't exist
+---loc/load/inst JB class
+UserBean u1=new UserBean();
+--add JB inst to the specified scope
+java api -- request.setAttribute("user",u1);
+--- not-null  -- WC continues....
+
+2. JSP using JB action
+2.1 <jsp:setProperty name="Bean ref Name" property="propName" value="propVal---static/dyn" />
+Usage--
+<jsp:setProperty name="user" property="email"
+value="a@b"/>
+WC invokes --- session.getAttribute("user").setEmail("a@b");
+
+<jsp:setProperty name="user" property="email"
+value="<%= request.getParameter("f1") %>"/>
+
+OR via EL
+<jsp:setProperty name="user" property="email"
+value="${param.f1}"/>
+
+WC invokes ---
+session.getAttribute("user").setEmail(request.getParameter("f1"));
+
+2.2 
+<jsp:setProperty name="Bean ref Name" property="propName" param="rq. param name"/>
+
+
+Usage eg --
+<jsp:setProperty name="user" property="email" param="f1"/>
+
+
+WC invokes ---
+((Userbean)request.getAttribute("user")).setEmail(request.getParameter("f1"));
+
+
+
+2.3
+<jsp:setProperty name="Bean ref Name" property="*"/>
+
+usage
+
+<jsp:setProperty name="user" property="*"/>
+
+
+eg -- If rq. param names are email & password(i.e matching with JB prop names) then ---matching setters(2) will get called 
+
+3. <jsp:getProperty name="Bean ref name" property="propName"/>
+Usage -- 
+<jsp:getProperty name="user" property="email"/>
+WC ---
+session.getAttribute("user").getEmail()--- toString --- sent to clnt browser.
+
+Better equivalent  -- EL syntax
+${sessionScope.user.email} ---
+session.getAttribute("user").getEmail()--- toString --- sent to clnt browser.
+
+${requestScope.user.validUser.email}
+request.getAttribute("user").getValidUser().getEmail()
+
+${pageContext.exception.message}
+
+

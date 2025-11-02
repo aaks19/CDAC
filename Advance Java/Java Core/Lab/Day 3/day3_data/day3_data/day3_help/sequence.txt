@@ -1,0 +1,212 @@
+Web programming in Java
+
+What is Java or Jakarta EE (Enterprise Edition) ?
+Java EE Developed by Sun Microsystems, later managed by Oracle.
+The latest Oracle-supported version was Java EE 8.
+Packages – javax.*
+
+Jakarta EE is the successor of Java EE, now managed by the Eclipse Foundation.
+Packages – jakarta.*
+Versions - Jakarta EE 9, 10, 11…
+
+It is a set of specifications that extends the Java SE (Standard Edition) for additional enterprise features.
+eg -Distributed computing , web services,persistence, connection pooling,security...
+
+It's designed to provide a platform for building and deploying large-scale, multi-tiered, scalable, and secure network applications.
+
+Which are these specifications (or contract  or APIs) ?
+Specifications of primary essential services required for any enterprise application.
+
+What is an enterprise application ?
+•	An enterprise application (EA) is a large software system platform designed to operate in a corporate environment.
+•	Typically, it is a server side, remotely deployed, transactional, multi threaded ,complex and scalable application.
+•	Examples – Ecommerce, Content management ,Business intelligence, Human resource management etc.
+Key APIs
+•	Web: Servlets, JSP
+•	Persistence: JPA
+•	Messaging: JMS
+•	Transactions: JTA
+•	Web Services: JAX-RS (REST), JAX-WS (SOAP)
+
+Web Server vs. Application Server
+A Web Server is designed mainly to handle HTTP requests/responses.
+•	Serves static content (HTML, CSS, JS, images).
+•	Handles dynamic requests using Servlets/JSP Manages
+•	Manages HTTP request/response lifecycle, session management, URL mapping,page navigation etc.
+•	Example
+	Apache Tomcat (provides a Servlet container to execute Servlets, JSPs.)
+
+An Application Server provides everything a Web Server does, plus enterprise features to build large-scale applications.
+In addition to web functionalities, it provides enterprise services.
+•	Example services – JPA , JMS , JTA , Web Services , full-fledged connection pooling , security , load balancing etc.
+•	Examples of application server
+•	WildFly / JBoss from Red Hat
+•	GlassFish as reference implementation from Oracle
+•	WebSphere (IBM)
+•	WebLogic (BEA Systems / Oracle)
+
+Why Java EE?
+•	Multi-client support
+•	Server independence (specifications vs implementation)
+•	Standardized enterprise services
+•	Scalable, robust, secure infrastructure
+•	Interoperability with other systems
+
+What is a dynamic web application?
+It is a server side application , deployed on web server , meant for servicing  web clients,using application layer protocol  HTTP /HTTPS.
+
+Typical Layers involved in HTTP request-response flow
+
+
+•	Refer to request-response-flow.png
+Analyze the URL sent by the web browser
+URL : http://www.mybank.com:8080/banking
+
+http : application layer protocol(or also known as scheme)
+www.mybank.com : DNS qualified host name (maps to IP address, to resolve the host)
+8080 : TCP port no (to identify the portto reach the web server)
+/banking : path or URI (uniform resource identifier)
+In Java , when you are creating a web application
+URI, typically starts with context path (path of the web application) , by default set as web project name.
+
+
+Jakarta EE compliant web application folder structure created by IDE
+•	Refer to a diagram - web application folder structure.png"
+
+
+Web Container (Servlet Container / WC)
+•	A Web Container (aka Servlet Container) is the engine within a web server that provides the runtime environment for dynamic web components such as Servlets, JSPs, and Filters.
+•	It sits inside a web server (like Tomcat or Jetty).
+•	It’s responsible for managing the execution, lifecycle, and interaction of web components with the client (via HTTP).
+
+Main Jobs of Web Container
+1.	Request & Response Handling
+Creates HttpServletRequest and HttpServletResponse objects for every client request.
+Maps requests to the appropriate servlet/filter/JSP.
+2.	Lifecycle Management
+Loads classes, instantiates servlets/JSPs/filters.
+Calls lifecycle methods:
+o	init() → initialization
+o	service() → request handling
+o	destroy() → cleanup
+3.	Container Services
+Provides ready-made support for:
+o	Naming & directory services (JNDI)
+o	Security (authentication, authorization)
+o	Connection pooling & resource management
+4.	Concurrency Handling
+o	Manages multiple client requests concurrently
+(multi-threaded request handling).
+5.	Session Management & State Tracking
+o	Maintains client state across multiple requests using:
+	Cookies
+	URL rewriting
+	HTTP Session objects
+6.	Page Navigation
+o	Provides mechanisms for request dispatching and navigation:
+	RequestDispatcher.forward()
+	RequestDispatcher.include()
+7.	JSP & Filter Handling
+o	Translates JSP into servlets, compiles, and executes them.
+o	Applies filter chains before/after requests.
+
+What is web.xml ?
+•	It is a Deployment descriptor.
+•	Exists one per web application.
+•	Created by,developer (with help of IDE)
+•	It’s location is under WEB-INF folder (meant for private contents)
+•	It’s read by WC , when you run the server side application what does it consist of ?
+•	It consists of Deployment instructions
+- Eg. welcome page, servlet deployment tags, session configuration, security configuration etc.
+
+Enter Servlets
+Need
+A plain web server can only serve static content
+(HTML, CSS, images).
+To add the dynamic nature to the web applications, use Servlets.
+Jobs of a Servlet
+1.	Request Processing
+Accepts HTTP requests from clients (via HttpServletRequest).
+2.	Business Logic (B.L.) Execution
+Performs calculations, validations, interacts with services.
+3.	Dynamic Response Generation
+Generates HTML, JSON, XML dynamically (via HttpServletResponse).
+4.	Manages Database Access (DAO) layer
+5.	Page Navigation
+Forwards/redirects to JSPs, HTML, or other servlets.
+It is a Java class (without main() method).
+•	It represents a dynamic web component that runs inside a Web Container (Servlet Container).
+•	The Web Container manages its lifecycle.
+
+Servlet Lifecycle Methods
+The WC calls these methods automatically:
+1.	init(ServletConfig config)
+o	Called once when the servlet is first loaded.
+o	Used for initialization tasks (loading configurations,
+setting up resources).
+2.	service(HttpServletRequest req, HttpServletResponse res)
+o	Called for each request.
+o	Handles both request processing & response generation.
+o	Dispatches to doGet(), doPost(), doPut etc.
+3.	destroy()
+o	Called once before servlet is unloaded.
+o	Cleanup tasks (close DB connections, free resources).
+
+
+Servlet API details - Refer to diag servlet-api.png
+•	Starting point is jakarta.servlet.Servlet interface. 
+It has defined 3 life cycle methods
+Objective - Test basic servlet life cycle  -- init , service ,destroy
+Creating & deploying HelloWorld Servlet.
+Deployment of the servlet
+1. Via annotation
+eg : @WebServlet(value="/hello")
+public class HelloWorldServlet extends HttpServlet {....}
+Meaning : A class level annotation , for WC, to add the mapping between incoming url-pattern n the servlet.
+A URL mapping's Map ,  will be created by WC  , at the web app deployment time
+key --  url-pattern eg : /hello
+value -- Fully qualified servlet cls name (eg : pages.HelloWorldServlet)
+
+URL : http://host:port/day1.1/hello
+URI : /day1.1/hello
+URL pattern : /hello
+OR
+2. Legacy approach to deploy a servlet w/o annotations : Use XML tags in web.xml
+<servlet>
+<servlet-name>abc</servlet-name>
+<servlet-class>pages.SecondServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>abc</servlet-name>
+<url-pattern>/test2</url-pattern>
+</servlet-mapping>
+WC created  map  will have a
+key : /test2
+value  : pages.SecondServlet
+At the time of web app deployment , WC tries to populate URL map, from XML tags or using @WebServlet annotation
+(via Reflection)
+Objective 2: Test basic servlet life cycle  -- init , service ,destroy (deployed via xml)
+
+10. How to read request params sent from the client ?
+javax.servlet.ServletRequest i/f methods
+1. public String getParameter(String paramName)
+2. public String[] getParameterValues(String paramName)
+
+What is default loading policy of WC for servlets ?
+Lazy
+Meaning - WC will start life cycle of the servlet , only after client sends the 1st request to the servlet
+Can you change it to eager ? Yes
+Use Case : Typically for time consuming(heavy weight) initializations
+eg : setting up DB conn, setting up spring frmwork....
+HOW ?
+@WebServlet (value="/test",loadOnStartup=1)
+OR
+use xml tag :
+<load-on-startup>1</load-on-startup>
+Solve -
+Load HelloWorldServlet eagerly @ app deployment time.
+Let HelloWorldServlet2 - get loaded by default in  lazy manner.
+
+11. Servlet JDBC Integration
+ - start with the case study.
+

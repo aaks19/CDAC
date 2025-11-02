@@ -1,0 +1,109 @@
+CREATE TABLE Flights ( flight_id INT PRIMARY KEY AUTO_INCREMENT, airline VARCHAR(50) NOT NULL, source VARCHAR(50) NOT NULL, destination VARCHAR(50) NOT NULL, departure_date DATE NOT NULL, arrival_date DATE NOT NULL, departure_time TIME NOT NULL, arrival_time TIME NOT NULL, no_of_stops INT NOT NULL DEFAULT 0, price double NOT NULL );
+
+
+
+INSERT INTO Flights (Airline, Source, Destination, departure_date, arrival_date, departure_time, arrival_time, no_of_stops, price) VALUES
+('IndiGo', 'Mumbai', 'Delhi', '2025-05-10', '2025-05-10', '06:00:00', '08:05:00', 0, 5500.00),
+('Air India', 'Bangalore', 'Kolkata', '2025-05-10', '2025-05-10', '08:30:00', '10:45:00', 0, 6200.00),
+('SpiceJet', 'Delhi', 'Mumbai', '2025-05-11', '2025-05-11', '10:00:00', '12:10:00', 0, 5800.00),
+('Vistara', 'Chennai', 'Hyderabad', '2025-05-11', '2025-05-11', '12:30:00', '13:40:00', 0, 3200.00),
+('IndiGo', 'Kolkata', 'Bangalore', '2025-05-12', '2025-05-12', '14:00:00', '16:15:00', 0, 6500.00),
+('Go First', 'Mumbai', 'Goa', '2025-05-12', '2025-05-12', '16:30:00', '17:30:00', 0, 4000.00),
+('Air India', 'Delhi', 'Chennai', '2025-05-13', '2025-05-13', '18:00:00', '20:40:00', 0, 7000.00),
+('SpiceJet', 'Hyderabad', 'Chennai', '2025-05-13', '2025-05-13', '20:30:00', '21:40:00', 0, 3500.00),
+('Vistara', 'Bangalore', 'Mumbai', '2025-05-14', '2025-05-14', '07:00:00', '08:55:00', 0, 5200.00),
+('IndiGo', 'Kolkata', 'Delhi', '2025-05-14', '2025-05-14', '09:30:00', '11:45:00', 0, 6000.00),
+('SpiceJet', 'Mumbai', 'Ahmedabad', '2025-05-10', '2025-05-10', '11:00:00', '12:15:00', 0, 3800.00),
+('Vistara', 'Chennai', 'Bangalore', '2025-05-10', '2025-05-10', '13:00:00', '14:00:00', 0, 3000.00),
+('IndiGo', 'Delhi', 'Kolkata', '2025-05-11', '2025-05-11', '15:00:00', '17:15:00', 0, 6300.00),
+('Air India', 'Hyderabad', 'Mumbai', '2025-05-11', '2025-05-11', '17:30:00', '18:50:00', 0, 4500.00),
+('Go First', 'Bangalore', 'Chennai', '2025-05-12', '2025-05-12', '19:00:00', '20:00:00', 0, 3500.00),
+('SpiceJet', 'Bangalore', 'Chennai', '2025-05-12', '2025-05-12', '19:30:00', '20:30:00', 0, 3200.00),
+('Vistara', 'Bangalore', 'Chennai', '2025-05-12', '2025-05-12', '16:00:00', '27:00:00', 0, 3800.00),
+('SpiceJet', 'Kolkata', 'Mumbai', '2025-05-12', '2025-05-12', '21:30:00', '23:40:00', 0, 6800.00),
+('Vistara', 'Mumbai', 'Kochi', '2025-05-13', '2025-05-14', '08:00:00', '10:30:00', 1, 8200.00),
+('IndiGo', 'Delhi', 'Bangalore', '2025-05-13', '2025-05-13', '10:30:00', '13:10:00', 0, 7500.00),
+('Air India', 'Chennai', 'Delhi', '2025-05-14', '2025-05-14', '12:00:00', '14:45:00', 0, 7200.00),
+('Go First', 'Hyderabad', 'Kolkata', '2025-05-14', '2025-05-14', '14:30:00', '16:40:00', 0, 5900.00),
+('SpiceJet', 'Mumbai', 'Indore', '2025-05-15', '2025-05-15', '16:00:00', '17:10:00', 0, 4100.00),
+('Vistara', 'Bangalore', 'Hyderabad', '2025-05-15', '2025-05-15', '18:30:00', '19:30:00', 0, 3300.00),
+('IndiGo', 'Kolkata', 'Chennai', '2025-05-16', '2025-05-16', '07:30:00', '09:40:00', 0, 6100.00),
+('Air India', 'Delhi', 'Hyderabad', '2025-05-16', '2025-05-16', '10:00:00', '12:00:00', 0, 5600.00),
+('Go First', 'Chennai', 'Mumbai', '2025-05-17', '2025-05-17', '12:30:00', '14:20:00', 0, 6700.00),
+('SpiceJet', 'Hyderabad', 'Bangalore', '2025-05-17', '2025-05-17', '15:00:00', '16:00:00', 0, 3000.00),
+('Vistara', 'Bangalore', 'Delhi', '2025-05-18', '2025-05-18', '17:00:00', '19:40:00', 0, 7300.00),
+('IndiGo', 'Kolkata', 'Goa', '2025-05-18', '2025-05-18', '19:30:00', '22:10:00', 1, 7800.00),
+('Air India', 'Mumbai', 'Chennai', '2025-05-19', '2025-05-19', '09:00:00', '10:50:00', 0, 6600.00),
+('SpiceJet', 'Delhi', 'Ahmedabad', '2025-05-19', '2025-05-19', '11:30:00', '12:45:00', 0, 4200.00),
+('Air India', 'Delhi', 'Ahmedabad', '2025-05-19', '2025-05-19', '11:00:00', '12:15:00', 0, 4500.00),
+('Indigo', 'Delhi', 'Ahmedabad', '2025-05-19', '2025-05-19', '12:30:00', '13:45:00', 0, 4300.00),
+('Vistara', 'Delhi', 'Ahmedabad', '2025-05-19', '2025-05-19', '09:30:00', '10:45:00', 0, 4800.00);
+
+
+
+
+CREATE TABLE `reservations` (
+ `id` int PRIMARY KEY AUTO_INCREMENT,  
+  `reservation_date` date DEFAULT NULL,
+ `email` varchar(25) DEFAULT NULL,
+  `first_name` varchar(20) DEFAULT NULL,
+  `last_name` varchar(20) DEFAULT NULL,
+  `phone_no` varchar(12) DEFAULT NULL,
+ `status` varchar(12) DEFAULT NULL,
+  `flight_id` int DEFAULT NULL,
+   CONSTRAINT `FK_FLIGHT` FOREIGN KEY (`flight_id`) REFERENCES `flights` (`flight_id`)
+);
+
+
+CREATE TABLE `passengers` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `email` varchar(25) DEFAULT NULL,
+  `first_name` varchar(20) DEFAULT NULL,
+  `last_name` varchar(20) DEFAULT NULL,
+  `phone_no` varchar(12) DEFAULT NULL,
+   `reservation_id` int DEFAULT NULL,
+  CONSTRAINT `FK_RES` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`)) ;
+
+
+
+
+CREATE TABLE `cards` (
+ `id` int PRIMARY KEY AUTO_INCREMENT,
+  `card_no` varchar(20) NOT NULL,
+  `balance` int NOT  NULL,
+  `exp_date` date NOT NULL,
+  `cvv` varchar(3) NOT NULL 
+);
+
+insert into cards values (default,'4111 1111 1111 1111'	,20000,'2025-1-1','435')
+,(default,'4111 1111 1111 1112'	,25000,'2026-1-1','235')
+,(default,'4111 1111 1111 1113'	,15000,'2027-1-1','135');
+
+CREATE TABLE `customers` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+`first_name` varchar(20) DEFAULT NULL,
+  `last_name` varchar(20) DEFAULT NULL,
+  `email` varchar(25) DEFAULT NULL,  
+  `password` varchar(20) NOT NULL,
+ `dob` date DEFAULT NULL,
+   `card_id` int DEFAULT NULL,
+  CONSTRAINT `FK_CARD` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`)
+) ;
+
+INSERT INTO `customers` VALUES (default,'Mihir','Pant','mihir@gmail.com','12345','1990-10-20',1),
+(default,'Riya','Pathak','riya@gmail.com','2345','1980-10-20',2),
+(default,'Anu','Sawant','anu@gmail.com','1345','1985-10-20',3);
+
+
+
+CREATE TABLE `passengers` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `email` varchar(25) DEFAULT NULL,
+  `first_name` varchar(20) DEFAULT NULL,
+  `last_name` varchar(20) DEFAULT NULL,
+  `phone_no` varchar(12) DEFAULT NULL,
+   `reservation_id` int DEFAULT NULL,
+  CONSTRAINT `FK_RES` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`)) ;
+
+
+select * from cards where card_no=1 and balance > 5000 and exp_date='2025-1-1' and cvv='345'

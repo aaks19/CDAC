@@ -1,0 +1,189 @@
+Today's Topics
+
+1. Servlet-JDBC Integration
+2. Page Naviagation Techniques
+ - Client Pull
+3. Server Side State Management
+ - Cookie
+ - HttpSession
+
+
+Revise first 
+What is a Servlet ?
+Why
+API & implementation steps
+
+1. Centralized exc handling in Servlet
+- In case of exception in  init() method
+try {
+ init logic 
+} catch(Exception e)
+{
+ //To inform the WC that init has failed , so that WC aborts remaining life cycle
+ throw new ServletException("error message" , e);
+}
+
+Constructor of ServletException
+public ServletException(String message,Thorowable rootCause)
+
+
+
+2. Page Navigation Techniques
+- Taking client from one page to another page.
+2 types 
+1. Client Pull - 
+=> Client (browser) is involved in the navigation.
+1.1 Client clicks on the link or submit button -> new request will be sent from the browser to the next page.
+1.2 Redirect scenario
+Without involving the client , how to naviagate automatically ?
+Method of HttpServletResponse
+- public void sendRedirect(String redirectLocation) throws IOException
+Eg. To redirect client to dashboard
+response.sendRedirect("patient_dashboard");
+- WC immediately sends response to the clnt 
+Client browser send a next (new) request to redirect location.
+Internals of sendRedirect
+- WC immediatel sends temp redirect response
+ SC 302 , Location - patient_dashboard , body - EMPTY
+- Web browser sends NEXT request
+URL - http://host:port/ctx_path/patient_dashboard
+HTTP method - GET
+Next servlet has to override - doGet , otherwise SC 405 will be sent.
+Exception raised - java.lang.IllgealStateException
+- WC throws this exception if the resp is already sent | committed (via w.flush | pw.close)
+Err mesg - You can't call sendRedirect after committing the resp!!!!!!!!
+
+
+3.Server side  State management techniques
+Need -
+1. To remember the conversational state of the client across multiple requests
+(i.e typically from login -> logout)
+
+2. To identify & store  state of different clients separately.
+
+NOTE - In full stack application , you will store the state of the client , in the front end app (i.e. using localstorage , sessionstorge , Redux store...)
+
+Jakarata EE 
+1. Cookie
+OR 
+2. HttpSession i/f
+OR
+HttpSession i/f
++ URL rewriting
+
+Cookie - 
+small text data created by server (servlet | JSP)
+
+Steps in Cookie based state management
+1. Create a cookie. on server side
+API jakarta.servlet.http.Cookie(String name, String value)
+Eg. Cookie c1=new Cookie("patient_details",patient.toString());
+
+2. Add the cookie to response header.
+API of HttpServletResponse
+- public void addCookie(Cookie c)
+Eg. resp.addCookie(c1);
+
+3.  Send / commit /render response.
+Cookie is sent is the resp header
+Name - Set-Cookie
+
+4. Client browser checks cookie settings
+Blocked - session tracking fails !!!!!!!!!!!!!!
+Accepted - Browser by default stores the cookie - in browser cache.
+
+5. Client browser auto sends the cookie/s in the next requests to the same web application (i.e from the same server where it was originated)
+
+6. To access the cookies in Servlet | JSP
+HttpServletRequest API
+public Cookie[] getCookies()
+- returns null , in case of no cookies.
+
+7. Cookie class methods
+public String getName();
+public String getValue();
+
+Limitations 
+1. Cookie processor may not allow all the charcters (eg whitespace) in the cookie contents
+2. Can store only text data.
+3. Increasing no of cookies results into increased net traffic.
+4. Servlet developer has to manage the cookies (eg create , add & retrieve)
+5. In case of blocked cookies - since entire state of the client is stored on the client side , you can't remember client (i.e session tracking fails !!!!!)
+
+2. Better alternative 
+- HttpSession interface.
+Dev Steps
+1. Get HttpSession from WC
+- Method of HttpServletRequest
+ public HttpSession() getSession()
+- In case of new user , WC creates a NEW HttpSession object & returns it to caller.
+- In case of existing user , WC returns EXISTING HttpSession object to the caller.
+Eg . HttpSession session=request.getSession();
+
+2. To save client details under HttpSession
+HttpSession API
+public void setAttribute(String attrName,Object attrValue)
+eg . session.setAttribute("patient_details",patient);
+
+3. To get client details from HttpSession
+HttpSession API
+public Object getAttribute(String attrName)
+Eg . Patient patientDetails=(Patient)session.getAttribute("patient_details");
+
+4. To discard HttpSession (typically in logout page)
+HttpSession API
+public void invalidate()
+
+Extra API - 
+
+5. To remove attribute from HttpSession
+HttpSession API
+public void removeAttribute(String attrName)
+
+6. To get all attribute names bound to HttpSession
+public Enumeration<String> getAttributeNames()
+java.util.Enumeration<T> - generic interface , modern alternative is Iterator<T>
+
+For debugging
+7. public boolean isNew()
+- Rets true in case newly created HttpSession 
+- otherwise false.
+
+8. public String getId()
+- Rets HttpSession id , created by WC , unique per client
+
+Default value of HttpSession expiration time , for Apache tomcat=30 mins.
+
+9.To change its value
+
+public void setMaxInactiveInterval(int seconds)
+
+OR
+ use xml tags (declarative approach) - web.xml
+<session-config>
+	<session-timeout>tmout in minutes</session-timeout>
+</session-config>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

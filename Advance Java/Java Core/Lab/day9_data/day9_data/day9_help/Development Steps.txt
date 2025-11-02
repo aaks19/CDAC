@@ -1,0 +1,70 @@
+1. Create from scratch , hibernate & maven based Java SE application. Test the same.
+
+Steps for Hibernate + Java SE
+1. Change perspective to Java
+
+2. Create Maven Project 
+-Simple Project (skip archetype selection)
+-Enter group id,artifact id , packaging option - jat
+-finish
+
+3.It will create a default pom.xml under the root of the project.
+-  Edit it to add <build> n <dependencies> tags 
+
+4. Update the project .
+R click on the project --> Maven --> Update Project -->select Force update checkbox -->Finish
+
+5. Copy from the Hibernate ReferenceMaterial\config-files\hibernate.cfg.xml under : src/main/resources .
+Edit hibernate.cfg.xml , as per your DB settings.
+
+
+OR 
+Simpler alternative :
+Directly  import - hibernate_template as existing Maven project
+Edit hibernate.cfg.xml , as per your DB settings.
+
+6. Create HibernateUtils class to create singleton , immutable , inherently thrd safe SessionFactory instance.
+
+7. Create a class TestHibernate Add following code. 
+
+import static utils.HibernateUtils.*;
+import org.hibernate.*;
+
+public class TestHibernate {
+
+	public static void main(String[] args) {
+		try(SessionFactory sf=getSf())
+		{
+			System.out.println("Hibernate up & running");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+
+8. Run this as "java application" , check console to see successful start up.
+
+Above confirms bootstrapping of hibernate framework.
+
+9. Create a POJO(Eg. User) & test automatic table creation
+users table - 
+column - id(PK) , first name , last name, email ,password , dob:date , role:enum,image :blob,registration amount (double)
+
+
+
+9.1 Add <mapping> entry per POJO in hibernate.cfg.xml
+Run TestHibernate to confirm auto table creation.
+
+10. Create Hibernate based DAO layer , to insert a record.
+
+10.1 DAO layer i/f
+String registerUser(User user);
+
+10.2 Hibenrate based DAO implementation class
+- no data mebers, no constructor,no clean up required.
+-Implment CRUD method
+
+11. Create a main(...) based tester to test entire application , for user registration.
+

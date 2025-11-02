@@ -1,0 +1,227 @@
+What is ServletContext ?
+- interface in jakarta.servlet
+Specificiations are in Jakarta provided JAR - servlet-api.jar
+Apache Tomcat implementation - catalina.jar
+ServletContext represent an interface to the WC
+- Represents entire web application.
+- WC creates the instance of ServletContext , at the web app start up(deployment)
+Use case
+1. To create global parameters (i.e scope =current web app)
+In web.xml
+<context-param>
+ <param-name>...</..>
+ <param-value>..</..>
+</context-param>
+
+API
+1. Get servlet ctx
+public ServletContext getServletContext()
+2. Method of ServletContext i/f
+public String getInitParamter(String paramName)
+- rets param value if present , otherwise null.
+
+
+2. To create global attributes(=server side object. attrName : String , attrValue:Object)
+- Single copy of the Servlet context scoped attrbute is maintained within entire web app.
+API
+Method of ServletContext i/f
+public void setAttribute(String name,Object value)
+public Object getAttribute(String name)
+.....
+3. Server side logging
+Method of ServletContext i/f
+public void log(String message)
+
+4. Request Dispatching.
+NOTE -
+Any parameter(request , init-param, ctx-param) - read only 
+=> immutable
+=> inherently thread safe (i.e synchronization won't be required)
+
+Context scoped attributes 
+- single copy within web app
+- read-write(rw)
+- mutable 
+- inherently thread un safe
+- MUST be accessed from within synchronized block
+(DO NOT synchronize entire doXXX methods - since it will mean loss of concurrency
+-resulting in to worst perfomance)
+eg . In doXXX 
+{
+.......
+ synchornized(getServletConext()) {
+   //get | set | modify the value of ctx scoped attribute
+   
+ }
+..........
+}
+
+Page Navigation
+- Server Pull (Request Dispatching | Request Chaining)
+- Navigating the client to next page BUT in the SAME request.
+- Dispatching the same request to visit multiple pages (HTML | JSP | Servlet)
+Why 
+- Division of responsibility(separation of concerns=tasks)
+Meaning one web page can be responsible for B.L (business logic) & another page can be responsible for P.L (presentation logic) - response generation logic.
+
+API steps
+1. Create Request Dispatcher , to chain the resources(web pages - HTML , JSP , Servlet)
+API of ServletRequest 
+public RequestDispatcher getRequestDispatcher(String dispatcherLocation)
+RequestDispatcher - i/f 
+pkg - jakarta.servlet
+Eg. To chain servlet1 -> servlet2
+In servlet1 
+RequestDispatcher rd=request.getRequestDispatcher("s2");
+
+2. API of RequestDispatcher
+2.1 forward scenario
+public void forward(ServletRequest rq,ServletResponse rs);
+Eg.
+rd.forward(rq,rs);
+- WC clears the resp buffer.
+- WC invokes doXXX method of the next page (doGet --> doGet , doPost--> doPost)
+- Only the last page in the chain , can generate  the dynamic resp(i.e can add to the resp buffer)
+- After the method exec , control comes to the 1st page . 
+- resp is then rendered (sent to clnt).
+- This is the default technique used for navigation in typical MVC framework.
+
+2.2 include scenario
+public void include(ServletRequest rq,ServletResponse rs);
+Eg.
+rd.include(rq,rs);
+- WC does NOT clear the resp buffer(i.e it retains the contents in the resp buffer).
+- WC invokes doXXX method of the next page (doGet --> doGet , doPost--> doPost)
+- Control comes back to the main page.
+- Included page can't modify resp status code or headers.
+
+Note -
+In client pull (i.e clicking on the link/btn or sendRedirect)
+ - min scope required for the attributes : session
+
+In server pull (i.e RequestDispatcher - forward | include)
+ - min scope required for the attributes : request
+
+
+Web Application Event Handling
+-In a typical web app , multiple events are taking place.
+Eg - Servlet request & resp objects are getting created & destroyed.
+session objects are created & destroyed
+servlet context is getting created & destroyed.
+attributes are getting added , modified, removed.
+
+To handle these events , Java EE supplies Event Listener interfaces
+Eg . 
+ServletRequestListener, HttpSessionListener, ServletContextListener..
+Methods -
+1. public default void requestInitialized(ServletRequestEvent e)
+2. public default void requestDestroyed(ServletRequestEvent e)
+......
+Dev steps
+1. Create a class that implements 
+- listener interface/s
+2. To tell WC , following is an event listener class 
+@WebListener - class level annotation
+OR
+web.xml 
+<listener>
+ <listener-class> F.Q class name</..>
+</listener>
+
+How does WC handle the concurrent request handling from multiple clients ?
+- It doesn't use thread per request pattern , since for muliple requests , WC will need to create a spearate thread & destroy it , when the resp is rendered.
+
+- Instead it uses thread pool.
+- Internally it uses Executor Framework , supplied from java.util.concurrent package.
+
+1. Root i/f - starting point
+Executor - Functional i/f
+SAM - public void execute(Runnable task)
+
+2. ExecutorService extends Executor
+- has multiple methods 
+- to submit , execute Runnable & Callable tasks.
+
+3. Helper / utility class to supply ready made implementation of -ExecutorService i/f
+- Executors
+Method to create fixed size thread pool based exec service
+public ExecutorService newFixedThreadPool(int noOfThreads)
+
+
+JSP API
+1. jakarta.servlet.Servlet i/f
+Root i/f (starting point)
+2.  jakarta.servlet.jsp.JspPage - sub i/f.
+Methods 
+public void jspInit() throws ServletException
+public void jspDestroy()
+- If required , JSP prog can override these life cycle methods.
+
+3. jakarta.servlet.jsp.HttpJspPage - sub i/f.
+Method
+-public void _jspService(HttpServletRequest rq,HttpServletResponse rs) throws ServletException,IOException
+- JSP prog should NEVER override this method.
+(since WC translates .jsp -> .java . If you override , you will have to do the same!!!!!!)
+
+4. WC creates the implementation class of above APIs , in a vendor specific manner.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

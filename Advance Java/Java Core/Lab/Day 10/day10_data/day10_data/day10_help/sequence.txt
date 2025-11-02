@@ -1,0 +1,237 @@
+Today’s Topics
+
+1. Revise Hibernate (with code walk through )
+2. SessionFactory API
+ openSession vs getCurrentSession
+3. Entity state transitions 
+-	Transient , persistent , detached, removed
+4. CRUD operations
+5. JPQL 
+
+
+1. Hibernate Based DAO layer
+- DAO i/f
+- DAO implementation class
+
+1.1 DAO implementation class
+- no data memebers , no ctor , no cleanup
+-CRUD method
+Steps
+1. Get Hibernate Session from SessionFactory
+API of SessionFactory
+public Session openSession() throws HibernateException
+OR
+public Session getCurrentSession() throws HibernateException
+- Hibernate(SF) checks if any Session is already bound to current thread
+- if no -> creates new Session object
+- if yes -> returns existing Session object
+
+Such Session object is closed implicitly upon tx boundary
+- commit 
+OR
+- rollback
+
+2. Begin Transaction (Tx management currently done by Prog , later by Spring ORM frmwork)
+API of Session
+public Transaction beginTransaction() throws HibernateException
+
+3. try {
+    Session API - for CRUD
+    // 3.1 Commit Tx
+    API of Transaction i/f
+   public void commit() throws HibernateException 
+  } catch (RuntimeException e)
+  {
+    if(tx != null)
+     tx.rollback();
+    //re throw the exception to the caller
+    throw e;
+  }
+
+
+Session API
+1. To insert a record 
+ public void persist(Object transientEntity) throws HibernateException
+- Transitions the entity , from TRANSIENT -> PERSISTENT state.
+
+
+What happens internally upon commit(tx.commit)
+1. Session.flush()
+- Hibernate tries to sync up the state of L1 cache to that of DB
+- In case 
+ - new entity - fires DML - insert
+ - existing entity with updated state , DML - update
+ - entity marked for removal - DML  - delete
+- Process  is called : autmatic dirty checking
+
+2. Session.close()
+ - L1 cache is destroyed 
+ - pooled out DB connection rets to DBCP
+ - session is destroyed.
+
+What happens internally upon rollback(tx.rollback)
+1. Session.close()
+ - L1 cache is destroyed 
+ - pooled out DB connection rets to DBCP
+ - session is destroyed.
+
+
+
+
+Objectives
+0.	Save User Details 
+i/p – user details
+o/p – a status message
+
+
+1. Get user details by id
+i/p - user id
+o/p - null or actual user details
+
+
+
+Session API – 
+To get entity details by its id.
+public <T> T get|find|load(Class<T> class, Object id) throws HibernateException
+T – type of the entity (POJO)
+Returns – null in case of invalid id
+OR PERSISTENT entity reference.
+Eg. User user=session.find(User.class,userId);//select
+user=session.find(User.class,userId);
+user=session.find(User.class,userId);
+
+(In the earlier versions (till Hibernate 5.x) – ID property – Serializable)
+
+
+2. Get all users
+o/p - display all user details
+
+Steps
+1. Use Object oriented Query language - DB independent
+HQL (hibernate query language)
+OR
+JPQL (Java Persistence query language)
+Here table name is replaced by POJO class name, col names by POJO property names , ? is supported BUT better recommendation is to use named IN params.
+eg - sql – select * from users   
+	hql – from User
+   jpql – select u from User u
+u – alias to an entity (u.* => all props => all columns)
+2. Create Query object to hold HQL/JPQL
+Session API
+public Query<T> createQuery(String jpql/hql, Class<T> result) throws HibernateException
+ T – type of the result
+3. API of org.hibernate.query.Query<T> - i/f
+3.1 To execute the select query , with multiple results
+public List<T> getResultList()  throws HibernateException
+T - type of result
+Returns List of PERSISTENT entities
+3.2 In case of single result
+public T getSingleResult() throws HibernateException
+Throws - 
+NoResultException - in case of no results
+IllegalStateException - in case of DML
+NonUniqueResultException - in case of multiple results.
+3.3 public T uniqueResult() throws HibernateException
+Returns:
+the single result or null if there is no result to return
+NonUniqueResultException - in case of multiple results.
+3.4 public Stream<T> getResultStream()
+ - Rets Functional Stream<T> of results.
+
+
+3. Get all user details from specified role , born after specified date
+i/p - role n date
+o/p - list of selected users.
+
+JPQL - select u from User u where u.role = :userRole and u.dob > :date
+
+
+API of Query interface -  to set named IN params
+public Query setParameter(String paramName,Object paramValue) throws HibernateException
+(This is used for setting named IN params)
+Eg – List<User> users=.......
+
+4. Display last names of all users from specified role 
+i/p - role 
+o/p - list of last names
+
+
+
+5.  Get first name, last name and dob of all users from specified role 
+i/p - role 
+o/p - list of above details
+
+
+-	In case of projection (multiple columns-fields) instead of using Object[].class as a result type n using List<Object[]> n down casting 
+-	Use JPQL constructor expression
+Eg - JPQL - select new com.healthcare.entities.User(u.firstName,u.lastName,u.dob) from User u where u.role=:role
+
+-	Pre requisite : Supply matching parameterized constructor in the Entity class.
+OR DTO or record 
+
+5.5 Display user details by specified ids (or roles or dobs)
+i/p – List of ids (eg – List<Long> )-  idList 
+o/p – list of users.
+DAO layer non boilerplate code
+JPQL – “select u from User u where u.id in :ids”;
+List<User> users=session.createQuery(jpql,User.class)
+                    .setParameter(“ids”,idList)
+            .getResultList();
+
+6. Change password
+i/p - email , password , new password
+o/p - a message
+
+Objective – Understand PERSISTENT vs DETACHED
+Persistent Vs Detached
+Persistent entities exist within L1 cache, Detached don’t
+Hibernate can track / propagate the changes made to the state of ONLY PERSISTENT entities, not for detached entities !
+
+
+
+7. Apply discount to all users born before specified date n specified role
+i/p - date n discount , role
+o/p – message
+
+
+In case of bulk updations  , use update JPQL instead of select 
++ n no update queries.
+
+1.	Update JPQL
+Eg - jpql=update User u set u.regAmount=u.regAmount-:discount where u.role=:rl and u.dob < :dt
+
+2.	Use Session ‘s API
+Public Query<T> createMutationQuery(String update|deleteJpql) throws HibernateException
+3.	Set IN params (setParameter(String name,Object value))
+4.	Use
+Query API – 
+public int executeUpdate()  throws HibernateException
+-	Rets no of updated | deleted rows
+
+
+
+
+
+8. Delete (un subscribe) user details
+i/p - user id
+o/p – message
+
+jpql- delete from User u where u.userId=:id
+
+OR 
+
+Session API 
+public void remove(Object persistentEntity) throws HibernateException
+- Hibernate simply marks this entity for removal.
+- It is neither removed from L1 cache nor DB
+Upon commit
+- session.flush() -> auto dirty checking
+ - finds entity marked for removal -> DML: delete (removed from DB)
+
+- session.close() -> L1 is destroyed -> entity is removed from L1 cache.
+ -> entity : TRANSIENT
+
+
+
+
+

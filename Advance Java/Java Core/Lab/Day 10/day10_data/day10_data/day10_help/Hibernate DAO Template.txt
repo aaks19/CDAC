@@ -1,0 +1,13 @@
+// 1. get Session from SessionFactory
+		Session session=getFactory().getCurrentSession();
+		//2. Begin Transaction
+		Transaction tx=session.beginTransaction();
+		try {
+			
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			//re throw the same exc to the caller
+			throw e;
+		}

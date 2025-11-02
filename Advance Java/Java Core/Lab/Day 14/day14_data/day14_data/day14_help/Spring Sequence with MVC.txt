@@ -1,0 +1,196 @@
+
+1. Revise different types of D.I in spring
+2. autowire=constructor
+
+3. For hybrid approach  (lesser xml & majority annotations)
+Refer -
+3.1 "day14-data\day14_help\spring sequence for annotations.txt"
+3.2 "Spring Reference Material\diagrams\xml vs annotations.png"
+
+
+@Autowired - has attribute required="true|false"
+Default value=true (implying depcy is mandatory -> SC throws the exception -NoSuchBeanDefinitionException & aborts!)
+To specify optional depcy , required=false(NOT RECOMMENDED!!!!!)
+
+
+@Autowired - at field level 
+- SC creates dependent object first & then resolves the depcy
+- not reco.
+Spring recommends 
+- Constructor based D.I
+
+
+
+
+
+
+
+Note this !
+Field level D.I (no setters n no paramterized ctor)
+1. @Autowired //=> autowire=byType
+private Teacher myTeacher;
+In case of no match - SC throws the exception - NoSuchBeanDefinitionException
+In case multiple matches - NoUniqueBeanDefinitioException
+In case exact match - no exceptions --B.L works using dependenices .
+
+2. @Autowired(required=false) //=> autowire=byType
+private Teacher myTeacher;
+In case of no match - B.L failure (NPExc) 
+In case multiple matches - NoUniqueBeanDefinitioExc
+In case exact match - no exceptions --B.L works using dependenices .
+
+
+3. @Autowired //=> autowire=byType
+@Qualifier("eng") //=byName
+private Teacher myTeacher;
+
+In case of no match - SC throws the exception - NoSuchBeanDefinitionException
+In case multiple matches - NoUniqueBeanDefinitioExc
+In case exact match - no excs --B.L works using dependenices .
+
+
+4. Enter Spring MVC
+(Refer : "Spring MVC concepts & implementation")
+End Objective 
+ CRUD with Department-Employees.
+
+1.	Testing Spring MVC Flow
+
+Development steps in Spring MVC
+
+1.	Copy n import in the workspace (as existing Maven Project)
+" template projects\spring_mvc_hibernate" 
+Force Maven Update.
+
+2. Configure org.springframework.web.servlet.DispatcherServlet (Spring supplied servlet) , to ensure that it can intercept any request coming from any client.
+Acts as the Front controller /centralized dispatcher/common interceptor.
+(Copy servlet tags in web.xml)
+
+3. DispatcherServlet(D.S) starts SC in web app, using hybrid approach(less xml + majority annotations) , in init method.
+Default convention
+3.1 Name of bean config xml file (master file) to boot SC
+servletName-servlet.xml
+eg - spring-servlet.xml
+3.2 Location - WEB-INF
+3.3 Contents - xml tags for config.
+- enable annotation support
+- specify the location of base pkg of spring beans 
+- enable MVC annotations
+- configure view resolver.
+
+Copy spring-servlet.xml under <WEB-INF>
+
+4. Create request handling controller (=handler) (equivalent to the servlets)
+It's a spring bean - prog supplied.
+- singleton & eager
+ - annotated with @Controller
+Add request handling methods
+Method level annotation for request handling methods
+- @RequestMapping(value="url-pattern")
+(equivalent to service(...) method of the Httpservlet)
+- @GetMapping - doGet (=@RequestMapping(method=GET))
+- @PostMapping - doPost (=@RequestMapping(method=POST))
+  
+5. SC auto creates & populates HandlerMapping bean using Handler classes & @RequestMapping .
+It is singleton n eager spring bean.
+Contains a Map
+key - Value of @RequestMapping (eg "/") annotation
+Value - F.Q Handler class Name + Method name
+(eg : com.cdac.HomeController.renderIndexPage)
+
+6. D.S calls handler's method.
+7. Handler returns a string , representing - Logical View Name(LVN) = forward view name , to D.S
+8. D.S sends LVN(logical view name) to ViewResolver (V.R)
+V.R returns Actual view name(AVN) to D.S
+AVN=prefix+LVN+suffix
+
+9. D.S checks if any model attributes(result)  are present?
+If no - D.S (SC) simply forwards the client to the view layer(JSP)
+If yes - D.S stores these model attributes under the request scope.
+
+
+10. D.S forwards the client (in the SAME request) to the view Layer.
+11. View Layer(JSP) generates the response & control returns back to D.S 
+12. D.S sends this response to WC --> Web server --> adds it in the response packet(resp content type : text/html) & sends it to client , completing request response loop.
+
+Objective 
+1. Test spring MVC flow
+2. Testing ModelAndView , to generate dynamic response via model attributes.
+To share the results between Handler n View Layer , use Model attrbutes.
+They are sent from Handler --> D.S
+D.S sends LVN --> V.R --> AVN back to D.S
+D.S stores model attribute/s under request scope, 
+n then forwards the client to View layer
+Use EL syntax(${requestScope.modelAttributeName}) to access the results.
+
+
+2 ways of creating the Model attributes
+2.1 Using o.s.w.s.ModelAndView - class
+Represents a holder holding 
+- LVN + model attributes.
+Constructor
+public ModelAndView (String LVN, String modelAttrName,Object modelAttrValue)
+
+OR
+2. Using o.s.ui.Model interface
+ - Holder of model attributes.
+ - Simply add this as the method argument of request handling method
+ - SC creates it as dependency(IoC) - empty Model map
+ - Prog's job 
+ - add model attribute
+How 
+API of Model interface
+public Model addAttribute(String attrName,Object attValue);
+
+Handler's method explicitly returns LVN -> D.S
+SC implicitly rets model map -> D.S
+-> D.S sends -> LVN -> V.R -> AVN -> D.S
+SC adds model attribute/s under request scope -> forwards the client to view layer.
+
+
+Continue with Spring MVC Hibernate integration
+Objective - List all departments.
+
+Configuration steps
+1. web.xml 
+ - added D.S entry
+2. spring-servlet.xml
+ - to start SC in web app
+3. import hibernate config file 
+ - in spring-servlet.xml
+
+4. name of hibernate config file 
+- hibernate-persistence.xml
+- location : <resources> (run time classpath)
+Contents -
+4.1 Configure Apache Supplied Data source bean 
+ - to create faster (more  efficient) DBCP
+
+4.2 Configure Spring supplied o.s.orm.hibernate5.LocalSessionFactoryBean
+ -to provide SessionFactory
+ -It will be used as a dependency in DAO layer
+   - using @Autowired.
+ - dependency of LocalSessionFactoryBean
+  - Apache Supplied Data source bean (created in earlier step)
+
+4.3 Configute Spring supplied Transaction manager bean
+ - o.s.orm.hibernate5.HibernateTransactionManager
+ - so that Spring can manage the transactions automatically (reducing boiler   	plate code)
+
+4.4 Enable annotation based transactions
+  <tx:annotation-driven/>
+   - Using @Transactional annotation.
+
+This completes configuration steps.
+
+Actual dev steps
+Controller --> Service --> DAO --> DB
+
+
+
+
+
+
+
+
+

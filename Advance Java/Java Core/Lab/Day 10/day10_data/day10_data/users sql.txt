@@ -1,0 +1,12 @@
+INSERT INTO users (id, dob, email, first_name, last_name, image, password, phone, role, reg_amount)
+VALUES
+(1, '1980-05-12', 'dr.arjun.kumar@gmail.com', 'Arjun', 'Kumar', NULL, 'Arjun@123', '9876543210', 'ROLE_DOCTOR', 500.00),
+(2, '1985-09-23', 'dr.neha.sharma@gmail.com', 'Neha', 'Sharma', NULL, 'Neha@123', '9876509876', 'ROLE_DOCTOR', 700.00),
+(3, '1990-01-15', 'dr.ravi.mehta@gmail.com', 'Ravi', 'Mehta', NULL, 'Ravi@123', '9898123456', 'ROLE_DOCTOR', 600.00),
+(4, '1992-07-10', 'dr.priya.singh@gmail.com', 'Priya', 'Singh', NULL, 'Priya@123', '9812345678', 'ROLE_DOCTOR', 800.00),
+(5, '1978-03-30', 'dr.sanjay.patel@gmail.com', 'Sanjay', 'Patel', NULL, 'Sanjay@123', '9823456789', 'ROLE_DOCTOR', 550.00),
+(6, '1998-11-22', 'patient.rahul.jain@gmail.com', 'Rahul', 'Jain', NULL, 'Rahul@123', '9012345678', 'ROLE_PATIENT', 200.00),
+(7, '2000-04-18', 'patient.sneha.nair@gmail.com', 'Sneha', 'Nair', NULL, 'Sneha@123', '9123456780', 'ROLE_PATIENT', 150.00),
+(8, '1995-06-05', 'patient.akash.verma@gmail.com', 'Akash', 'Verma', NULL, 'Akash@123', '9345678901', 'ROLE_PATIENT', 100.00),
+(9, '1999-12-11', 'patient.maya.pillai@gmail.com', 'Maya', 'Pillai', NULL, 'Maya@123', '9456789012', 'ROLE_PATIENT', 250.00),
+(10, '1987-08-29', 'patient.anil.kapoor@gmail.com', 'Anil', 'Kapoor', NULL, 'Anil@123', '9567890123', 'ROLE_PATIENT', 300.00);

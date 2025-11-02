@@ -1,0 +1,140 @@
+Enter Servlets
+What is it ?
+- Java class , w/o any main(...) method.
+- server side , dynamic web component , whose life cycle is managed by WC(servlet container)
+- consists of 3 life cycle methods 
+-init - once @ beginning of the life cycle
+- service - once per request
+- destroy - once @ end of the life cycle
+
+Why ?
+- To perform these objectives
+- request processing
+- Business logic / validations
+- Page Navigation
+- Dynamic Response generation
+- server side state management
+
+Servlet API
+1. jakarata.servlet.Servlet - i/f
+- 5 methods declared.
+- 3 important life cycle methods
+1.1 public void init(ServletConfig config) throws ServletException
+1.2 public void service(ServletRequest rq,ServletResponse rs) throws ServletException, IOException
+1.3 public void destroy()
+
+2. jakarta.servlet.GenericServlet - implements Servlet
+ - abstract class
+ - init & destroy : concrete
+ - service : abstract
+Tip - To create HTTP servlet , use HttpServlet class as the super class.
+- This represents protocol independent servlet.
+
+3. jakarta.servlet.http.HttpServlet - extends GenericServlet
+- abstract class BUT all method are concrete.
+- It has implemented concrete service method
+ - public void service(ServletRequest rq,ServletResponse rs) throws ServletException, IOException
+ServletRequest - i/f represents clnt request.
+ServletResponse - i/f represents response sent to clnt.
+
+3.1 Above service method calls another protected service method, to enter HTTP .
+protected void service(HttpServletRequest rq,HttpServletResponse rs)  throws ServletException, IOException
+ - concrete method
+HttpServletRequest - extends ServletRequest
+HttpServletResponse - extends ServletResponse
+
+3.2 protected service method - does the request dispatching
+HTTP Method GET - invokes 
+1. protected void doGet(HttpServletRequest rq,HttpServletResponse rs)  throws ServletException, IOException
+ - By default returns err code SC 405 => method not implemented !
+
+HTTP Method POST -service  invokes
+2. protected void doPost(HttpServletRequest rq,HttpServletResponse rs)  throws ServletException, IOException
+ - By default returns err code SC 405 => method not implemented !
+
+3. PUT -> doPut(...)
+4. DELETE -> doDelete(....)
+
+Dev steps 
+1. Create Java class extending from HttpServlet
+
+2. override doGet | doPost
+2.1   set response content type
+Method of ServletResponse
+ public void setContentType(String type)
+Eg. resp.setContentType("text/html");
+2.2 Get Writer stream , to write text(HTML) resp to the client
+Method of ServletResponse
+public PrintWriter getWriter() throws IOException
+OR
+ To send binary response 
+Method of ServletResponse
+public ServletOutputStream getOutputStream() throws IOException
+2.3 Write the response , using print | write methods of PrintWriter
+Eg . 
+pw.print("<h5> Welcome 2 Servlets, Server TS "+LocalDateTime.now()+"</h5>");		 
+		
+In addition to writing servlet class , add deployment steps
+- to give Deployment info to WC(i.e to supply request mapping info.)
+
+2 ways 
+1. Modern way - annotations
+@WebServlet("/hello")
+Add class level run time annotation, meant for WC
+Who reads it & when - WC @ web app deployment time
+Meaning - To map incoming request ending in url-pattern /hello with HelloWorldServlet.
+URL - http://host:port/day3_web/hello
+URI(path) - /day3_web/hello
+url - pettern - /hello
+Internals - 
+WC creates an empty  HashMap(specialized sub class of HashMap)
+ - at the app startup
+key - url -pattern (eg /hello) : value of annotation
+value - F.Q servlet class name (com.cdac.pages.HelloWorldServlet)
+Any time client sends a request , WC matches incoming url-pattern to the servlet & then servlet will start processing of the request.
+
+OR
+
+Alternate way (Legacy)
+ - XML tags in web.xml
+<!-- servlet deployment tags -->
+	<servlet>
+		<servlet-name>abc</servlet-name>
+		<servlet-class>F.Q servlet class name</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>abc</servlet-name>
+		<url-pattern>/url-pattern</url-pattern>
+	</servlet-mapping>
+
+WC - creates singleton instance of the servlet & shares it across multiple clients.
+By default it will start the life cycle 
+- lazy manner(after  clnt sends 1st request)
+How to change it to eager init ?
+1. @WebServlet(value="/hello", loadOnStartup=1)
+public class MyServlet extends HttpServlet {...}
+
+OR
+add <load-on-startup> in <servlet> tag
+
+To read request paramters sent from client -> server
+Method of ServletRequest
+public String getParameter(String paramName)
+- rets parameter value if present , otherwise null
+
+public String[] getParameterValues(String paramName)
+- rets parameter values if present , otherwise null
+
+
+
+
+
+
+
+
+
+
+
+
+
+

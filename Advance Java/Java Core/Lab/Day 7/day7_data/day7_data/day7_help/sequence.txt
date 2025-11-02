@@ -1,0 +1,8 @@
+Today's topics
+Quick revision of JSP basics(API & life cycle)
+JSP syntax
+- Scripting elements
+- Directives
+- Actions 
+
+Refer to readme_jsp or JSP.pdf for more details

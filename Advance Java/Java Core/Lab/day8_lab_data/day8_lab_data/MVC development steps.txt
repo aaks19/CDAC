@@ -1,0 +1,38 @@
+MVC development steps
+case study - HealthCare
+1. Technique
+ - Do not keep view layer(JSPs) directly accessible to the client.
+It should be accessed only via Servlets.
+- Add JSPs under a subfolder under <WEB-INF>
+Eg- <WEB-INF> \ views
+-patient_login.jsp, book_appointment.jsp.....
+
+2. Create patient_login.jsp , with login form 
+under <WEB-INF> \ views
+
+3. Specify patient_login.jsp as welcome page.(in web.xml)
+URL - http://host:port/ctx_path/
+Resp - patient_login.jsp
+
+4. After submitting login form
+URL - http://host:port/ctx_path/authenticate
+In case of invalid login , Resp - patient_login.jsp
+ , with err_mesg
+
+In case valid login -
+Resp - redirect resp
+
+5. URL -http://host:port/ctx_path/patient_dashboard
+-> PatientDashboardServlet -> forward it to patient_dashboard.jsp
+-> Render the resp.
+
+6. In case of "Cancel"  link/button clicked
+-> new request with URL - http://host:port/ctx_path/appointments?action=cancel&id=appointment id
+->Sumitted to AppointmentServlet - doGet 
+-> check action -> cancel -> cancel appointment & redirect to patient_dashboard servlet
+
+
+
+
+
+ 

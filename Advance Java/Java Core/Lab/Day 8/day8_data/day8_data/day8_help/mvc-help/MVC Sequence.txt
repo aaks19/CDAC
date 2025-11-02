@@ -1,0 +1,69 @@
+MVC Sequence
+1. Welcome page 
+/WEB-INF/views/patient_login.jsp
+
+2. In patient_login.jsp
+- print error message (Invalid login) if any(not empty)
+- submit the form to "authenticate" servlet (PatientLoginServlet)
+
+3. PatientLoginServlet
+- no changes in init & destroy
+-doPost
+ - no Printwriter & setting resp content
+- in case of invalid login , set attribute(error message) & forward to patient_login.jsp
+- in case of valid login , 
+ - save patient details under session & redirect to dashboard.
+
+After successful login , do not use request.getSession() , instead use request.getSession(false) , so that a new session won't be created , if it already doesn't exist.
+
+4. PatientDashboardServlet
+- no changes in init & destroy
+-doGet 
+ - Get patient details from Session 
+ - invoke dao's method to get list of upcoming appointments
+ - set attribute & forward it to view layer(JSP) - /WEB-INF/views/patient_dashboard.jsp
+
+5. patient_dashboard.jsp
+- render message (if not empty)
+- patient greeting
+- Render appointment list , along with cancel button/link
+- add link to Book Appointment  (AppointmentsServlet)
+- add link to  log out (LogoutServlet)
+
+6. AppointmentsServlet
+- init & destroy 
+ - create & destroy appointment & doctor dao.
+
+- After clicking on Book Appointment link
+ - doGet
+ - check action - if it's book
+  - get list of all doctors from doctor dao
+  - add it to request scope & forward to 
+   - /WEB-INF/views/book_appointment.jsp
+-if action = cancel 
+ - get appointment id from request parameter.
+ - get patient id form session
+ - invoke dao's method , store the message under session 
+ - redirect to patinet dashboard.
+
+7. book_appointment.jsp
+ - attach doctor list in a drop down list , with option value as doctor id & doctor details as the label.
+ - accept appointment date-time (datetime-local)
+ - submit form via method-post to AppointmentsServlet
+
+8. AppointmentsServlet
+doPost
+- get patient id from session
+- get doc id & appointment date-time from request parameters.
+- invoke dao's method
+- in case of failure (via message)
+ - get doctor list again (since it was in earlier request scope) & add it under current request scope
+ - add message under req scope
+ - forward client to book_appointment.jsp form again , highlighted with err message.
+- in case of success , add the message in session & redirect client to patient dashboard.
+
+9. After clicking on logout link 
+- doGet
+ - invalidate the session , if it exists.
+ - redirect client to home (/healthcare)
+

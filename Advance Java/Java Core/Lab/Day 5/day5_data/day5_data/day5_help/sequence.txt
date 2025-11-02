@@ -1,0 +1,65 @@
+Today's  topics
+0. Code walk through.
+1. Revise HttpSession
+2. Complete case study
+3.What is ServletConfig (exam objective) & init parameters
+ Use case - To write DB independent web application 
+4. ServletConfig vs ServletContext (exam objective)
+
+
+What is ServletConfig ?
+- jakarta.servlet.ServletConfig 
+- interface
+- to represent servlet specific configuration.
+- Created by WC , one per Servlet , after creating the servlet instance (via def ctor) & before calling init method.
+Use case - for using servlet specific init paramters.
+Eg. To create DB independent web application
+
+Dev  steps 
+1. Add DB specific parameters(url, username , pwd) in web.xml file, within servlet deployment tags
+<servlet>
+ <servlet-name>..</>
+ <servel-class>..</>
+  <init-param>
+   <param-name>..</>
+   <param-value>..</>
+  </init-param>
+  ......
+ <load-on-startup>1</..>
+</servlet>
+
+2. WC starts the servlet life cycle
+ - servlet class loading
+ - creates singleton instance using default ctor.
+ - creates ServletConfig object & populates it with init-parameters , if any.
+ - passes ServletConfig object to Servlet in the init() method
+
+3. How to get , servlet specific init params from init method?
+API 
+3.1 
+Get servlet config.
+public ServletConfig getServletConfig()
+3.2 API of ServletConfig
+public String getInitParamter(String paramName)
+- Rets the value 
+- returns null - if param is absent.
+
+OR 
+
+To add init-params
+Use annotation
+@WebServlet(value="/url-pattern",loadOnStartup=1,initParams={@WebInitParam(name="nm",value="val")})
+public class TestServlet extends HttpServlet {....}
+
+
+What is ServletContext ?
+- later.
+
+
+
+
+
+
+
+
+

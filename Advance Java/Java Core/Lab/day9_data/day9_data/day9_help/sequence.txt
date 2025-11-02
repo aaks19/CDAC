@@ -1,0 +1,85 @@
+1. Edit SpringToolSuite4.ini
+
+"sts-4.30.0.RELEASE\SpringToolSuite4.ini"
+Edit last line
+#-javaagent:E:\sts-4.30.0.RELEASE\lombok.jar
+-javaagent:.\lombok.jar
+
+2. Revise day8_mvc_lab flow
+
+3. Front Controller pattern added to above web app
+
+4. Regarding Mven 
+5. Enter Hibernate
+
+
+
+Hibernate Development steps
+1. import hibernate_template (a maven project) in your workspace
+
+2. Edit hibernate.cfg.xml (from src\main\resources) as per DB settings
+change password.
+DB name - healthcare_1 (it will be auto created)
+
+3. Create HibernateUtils class
+-  to create SessionFactory(singleton & heavy weight object)
+3.1 Create static init block , to ensure singleton instance of SF(SessionFactory)
+API of org.hibernate.cfg.Configuration
+- Create Configuration class instance , using default constructor.
+- public Configuration configure() throws HibernateException 
+ - loads the hibernate config from hibernate.cfg.xml into Configuration instance
+- Build SessionFactory
+ public SessionFactory buildSessionFactory() throws HibernateException 
+
+4. Create a Tester 
+- to confirm booting of hibernate (DBCP , SF...)
+
+5. Create Hibernate managed POJO class - Entity class
+To specify to hibernate  , can either use
+ - XML tags (legacy) : Have to separate XML / POJO (Eg. User.hbm.xml, Patient.hbm.xml....)
+OR
+JPA (jakarata.persistence) annotations - mainly
+5.1 Mandatory annotations
+- @Entity 
+ - class level , run time aoontation , to indicate Entity class
+- @Id 
+- field level OR property level (getter)
+-To specify PK column.
+
+
+Hibernate reco for creattin entity class
+1. id property (PK) - choose either Integer | Long
+- Hibernate uses efficiently null checking for finding transient vs detached entities.
+- why Long - PK column type - bigint --> Long
+
+2. Use ID property - only for HBM (hibernate mapping purpose)
+
+3. Add def ctor - required for hibernate using reflection.
+
+4. For convenience 
+- add getters , setters & toString
+
+
+6. Add mapping entry / Entity class , in hibernate.cfg.xml
+
+
+
+
+
+
+
+
+
+
+Objectives
+1.	Save User Details 
+i/p – user details
+o/p – a status message
+
+2. Get user details by id
+i/p - user id
+o/p - null or actual user details
+
+
+3. Get all users
+o/p - display all user details

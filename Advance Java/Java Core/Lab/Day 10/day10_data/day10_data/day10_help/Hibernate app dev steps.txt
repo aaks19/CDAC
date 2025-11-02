@@ -1,0 +1,60 @@
+Hibernate app dev steps
+1. import hibernate template project
+ - downloads hibernate JARs in maven local repo.
+
+2. Copy(create) hibernate.cfg.xml 
+ - <resources>
+ - configure DB settings
+
+(Important hibernate property
+hibenrate.hbm2ddl.auto = update
+Hibernate creates a NEW table if none exists for the POJO(Entity class)
+otherwise - continues with the existing table.)
+
+3. Create HibernateUtils class
+ - to create singleton instance of the SF (SessionFactory) , using static init block.
+API 
+3.1 Create org.hiberante.cfg.Configuration class instance 
+ - Configuration()
+3.2 Configure it
+public Configuration configure() throws HibernateException
+
+3.3 Build SF
+public SF buildSessionFactory() throws HibernateException
+ - SessionFactory extends AutoCloseable
+
+4. Write a tester
+ - main class
+ - to test booting of the hibernate frmwork.
+
+5. Create POJO class 
+ - Hibernate managed Entity class
+ - Create regular POJO class
+ - To declare the class as entity
+  -use xml tags (eg - User.hbm.xml - one per entity)
+  OR 
+  - use JPA annotations
+  - jakarata.persistence
+  - mandatory annotations
+   - @Entity - class level annotation
+   - @Id - field level or getter (property) level.
+
+6.  Add mapping entry per entity
+ - hibernate.cfg.xml
+
+7. Run TestHibernate again
+ - to confirm automatic table creation.
+
+8. Add optional BUT reco JPA annotations 
+ - to customize table n columns
+
+9. Run TestHibernate.java again
+ - to confirm customizations
+
+10. Create Hibernate based DAO layer 
+ - i/f
+ - imple class
+
+11. Solve CRUD objectives
+ - with Session API
+

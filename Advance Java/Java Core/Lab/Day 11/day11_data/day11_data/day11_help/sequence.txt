@@ -1,0 +1,143 @@
+Today’s Objectives
+Revise Entity States , auto dirty checking , Session API
+Any specific questions ?
+New Topics 
+1.	Image Handling
+2.	Advanced Hibernate
+3.     Discuss Health Care E-R 
+4.	JPA Inheritance (Mapped super class)
+5.	Establish association between entities
+6.	Cascading
+7.	Orphan removal
+8.	JPA Fetch Types and LazyInitializationException
+
+1.	Image Handling
+	 1.1 Save user image in DB		
+i/p - user id , image file name(path)
+o/p – message
+1.2 Restore user image from DB
+i/p - user email ,new image file name(path) - where the image from DB will be stored
+o/p – message
+Instead of using File I/O methods - 
+Use FileUtils class  from Apache supplied , commons-io.jar
+Its dependency is already added in pom.xml
+Methods 
+1.	public static byte[] readFileToByteArray(File file) throws IOException
+Reads the contents of a file into a byte array. The file is closed afterwards.
+2. public static void writeByteArrayToFile(File file,byte[] data) throws IOException
+Writes a byte array to a file creating the file if it does not exist. Closes the file later.
+
+
+2.	Use Lombok annotations to reduce boilerplate code from Java classes (typically POJOs)
+Refer - " day11_help\readmes\Regarding Lombok.txt"
+Steps 
+1. Copy supplied lombok.jar under <sts home>
+2. Edit SpringToolSuite4.ini
+
+"sts-4.30.0.RELEASE\SpringToolSuite4.ini"
+Edit last line
+#-javaagent:E:\sts-4.30.0.RELEASE\lombok.jar
+-javaagent:.\lombok.jar
+
+
+3.	
+Enter advanced hibernate 
+Refer - " day11-data\day11_help\Advanced Hibernate sequence.txt" 
+1.	Inheritance
+2.	Associations
+
+Establish association between entities as per E-R diagram
+
+Refer to HealthCare E-R
+1. BaseEntity - abstract | concrete class
+- id
+- creation date
+-updation TS
+- optimsitic locking (Later)
+- common base class for other entities
+- inheritance between entities
+- no tables
+
+2. User - entity extends BaseEntity
+-Table : users
+
+Association between Entities
+
+3. Eg . 
+Doctor HAS-A User (user details)
+
+Doctor 1-----> 1 User
+ - uni dir one to one association between Doctor & User.
+In Doctor class
+....
++
+private User userDetails;
+1. Problem
+Exception - org.hibernate.MappingException
+Cause - JPA(Hibernate) doesn't know about the type of the association
+Solution - add mapping annotation
+Annotations (JPA)
+@OneToOne
+@OneToMany
+@ManyToOne
+@ManyToMany
+
+
+2. To modify id column name as - doctor_id
+ Eg . 
+@AttributeOverride(name = "id", column = @Column(name = "doctor_id"))
+- optional annotation
+
+3. To specify FK column name & to add not null constraint
+@JoinColumn(name="FK col name" , nullable=false)
+
+
+4. To establish uni dir many to one association betweeen entities
+Appointment *------>1 Doctor 	
+4.1  
+@ManyToOne - mandatory
+	
+4.2 	To specify  Foreign key col name &  not null constraint
+@JoinColumn(name = "FK col name", nullable = false)
+	
+Eg. In Appointment class
+	// Appointment * ------> 1 Patient - many to one association between entities
+	@ManyToOne
+	// FK col name , not null
+	@JoinColumn(name = "patient_id", nullable = false)
+	private Patient myPatient;
+
+
+5. To establish uni dir many to many association betweeen entities
+
+
+5.1 Choose Collection type as Set , instead of List
+5.2 Mandatory annotation 
+@ManyToMany 
+ - creates a link table (child table)
+5.3 Optionally to specify 
+ - name of the join table & col names
+Eg. Patient *---->* DiagTest
+In Patient class : 
+@ManyToMany 
+@JoinTable(name="patient_tests",joinColumns = @JoinColumn(name="patient_id"),inverseJoinColumns = @JoinColumn(name="test_id")) //optional 
+private Set<DiagnosticTest> diagnosticTests=new HashSet<>();
+
+
+Solve objectives
+1.	Register Patient | Doctor
+ 
+2.	Login Patient | Doctor
+ - common login with email , password 
+ - check the role & as per the role fetch complete details (doctor | patient dashboard)
+
+3.  View Upcoming appointments
+
+4. Book Appointment
+
+5. Cancel Appointment
+
+----------------
+Links 
+https://vladmihalcea.com/optimistic-vs-pessimistic-locking/
+https://thorben-janssen.com/ultimate-guide-association-mappings-jpa-hibernate/

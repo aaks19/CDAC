@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="register" method="post">
+		<!-- maps to @WebServlet("/register") -->
+		<label>Name:</label><br> <input type="text" name="name" required><br>
+		<br> <label>Speciality:</label><br> <input type="text"
+			name="speciality" required><br>
+		<br> <label>Email:</label><br> <input type="email"
+			name="email" required><br>
+		<br> <label>Password:</label><br> <input type="password"
+			name="password" required><br>
+		<br> <label>Date of Birth:</label><br> <input type="date"
+			name="dob" required><br>
+		<br> <input type="submit" value="Register">
+	</form>
+</body>
+</html>

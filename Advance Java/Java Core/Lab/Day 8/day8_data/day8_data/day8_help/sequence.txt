@@ -1,0 +1,121 @@
+Revise JSP syntax with examples
+URL rewriting
+JSP include directive
+JSP Actions
+- forward
+- include
+- param
+
+JSP using Java Bean
+- extra help
+
+Enter MVC
+ -what is it ?
+ - why
+ -custom implementation
+Reference case study - Healthcare patient appointment
+
+
+
+Revise 
+1.	page vs pageContext vs pageScope
+2.	Name JSP Scripting elements
+3.	Name JSP implicit objects available from scriptlets n expression
+4. 	Name EL implicit objects available from EL syntax(${...})
+
+5 Solve
+How will you render the value of a cookie by the name "abc" , using EL syntax
+- ${cookie.abc.value}
+
+6. Solve : what will be o/p 
+${pageContext.session.maxInactiveInterval}
+- 1800
+
+7. Given -
+<%
+ session.setAttribute(“user_info”,customer);
+%>
+What will this do ? 
+${sessionScope.user_info}
+- customer details sent to the clnt
+
+ 8. Solve
+${pageContext.session.id}
+ -DSAJKFHDJ567657KJKJHKJ - Session ID
+
+9. ${param.product_id}
+ - renders product id (request.getParameter("product_id") -> sent to clnt
+
+10. How to invalidate session ?
+Options : 
+1. Scriptlet : 
+<%
+ session.invalidate();
+%> 
+2. JSP expr : <%= session.invalidate() %> 
+3. EL syntax : ${pageContext.session.invalidate} 
+4. EL syntax : ${pageContext.session.invalidate()}
+ 
+Choose correct options : 1,4
+
+1. URL rewriting along with HttpSession
+Problem - HttpSession based session tracking fails in the absence of cookies.
+(Since WC does not get session id from client in from of a cookie - JSESSIONID)
+
+What is URL rewriting ?
+- Embeding session id in the URL
+Why 
+- To create a web app , which is independent of cookies.
+
+Servlet API
+Methods of HttpServletResponse
+1. public String encodeURL(String url)
+- WC encodes the URL with value session ID , if required.
+- otherwise suppresses URL encoding
+Use case - In case of clicking on the link / button (ie. user action is involved)
+
+
+2. public String encodeRedirectURL(String url)
+- WC encodes the URL with value session ID , if required.
+- otherwise suppresses URL encoding
+Use case - In case of redirect scenario
+
+Refer - eclipse project day8.1 
+
+
+Eg - redirect
+http://localhost:8080/day8.1/details.jsp;jsessionid=1B4BF07AB97205DF02CF7BE5800D72D3
+
+Eg. - link
+http://localhost:8080/day8.1/logout.jsp;jsessionid=1B4BF07AB97205DF02CF7BE5800D72D3
+
+
+Any problems 
+- Vulnerable to security attack
+- session stealing (sesison fixation) attack
+
+Solution
+- Always use HTTPS instead of HTTP , along with URL rewriting.
+(to ensure end to end encryption)
+
+
+
+Refer 
+readme_jsp.txt
+"Regarding MVC.txt"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

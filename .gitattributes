@@ -1,0 +1,83 @@
+###############################################################################
+# Global line-ending normalization
+###############################################################################
+# Normalize all text files to LF (Unix-style)
+* text=auto eol=lf
+
+###############################################################################
+# Windows-only scripts (keep CRLF)
+###############################################################################
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+###############################################################################
+# Java and related files
+###############################################################################
+*.java text eol=lf
+*.classpath text eol=lf
+*.project text eol=lf
+*.prefs text eol=lf
+*.properties text eol=lf
+
+###############################################################################
+# Web technologies
+###############################################################################
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.xhtml text eol=lf
+*.jsp text eol=lf
+
+###############################################################################
+# Config / Markup / Docs
+###############################################################################
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+*.conf text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+*.editorconfig text eol=lf
+*.settings text eol=lf
+
+###############################################################################
+# IDE-specific configs
+###############################################################################
+*.iml text eol=lf
+*.vssettings text eol=lf
+*.vscode text eol=lf
+
+###############################################################################
+# Scripts and data
+###############################################################################
+*.sh text eol=lf
+*.py text eol=lf
+*.sql text eol=lf
+*.csv text eol=lf
+
+###############################################################################
+# Binary files (never modify line endings)
+###############################################################################
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.jar binary
+*.class binary
+*.exe binary
+*.dll binary
+*.mp4 binary
+*.avi binary
+*.mov binary

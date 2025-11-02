@@ -1,0 +1,70 @@
+JDBC ResultSets
+
+What is a ResultSet?
+
+ResultSet is a table of data representing the result of a SQL query.
+
+It acts like a cursor, pointing to one row at a time.
+
+Created by executing Statement or PreparedStatement queries:
+
+Statement stmt = conn.createStatement();
+ResultSet rst = stmt.executeQuery("select * FROM users");
+
+
+You can move through the rows using methods like next(), previous(), first(), etc.
+
+2. ResultSet API
+
+next() - Moves cursor to next row (most common)
+previous()	- Moves cursor to previous row (if scrollable)
+first() - Moves cursor to first row
+last()	- Moves cursor to last row
+getInt(String/columnIndex)	- Get column value as int
+getString(String/columnIndex)	- Get column value as String
+updateXXX()	- Update current row (if updatable)
+insertRow() / deleteRow()	- Insert or delete current row (if updatable)
+absolute(int row)	- Move to specific row number
+beforeFirst() / afterLast()	- Move cursor before first / after last
+
+3.  ResultSet Types
+
+JDBC allows you to define type and concurrency when creating the statement:
+
+Statement stmt = conn.createStatement(
+    ResultSet.TYPE_SCROLL_INSENSITIVE,
+    ResultSet.CONCUR_READ_ONLY
+);
+
+TYPE_FORWARD_ONLY
+ - Allows Only forward movement 	
+ - It is Default type most efficient
+
+TYPE_SCROLL_INSENSITIVE	
+- Allows both Forward & backward movement	
+-  Does not reflect DB changes after query	
+
+TYPE_SCROLL_SENSITIVE	
+- Allows both Forward & backward movement
+- Reflects changes in DB after query but it is less portable & DB dependent
+
+
+ ResultSet Concurrency (Update capability)
+CONCUR_READ_ONLY	
+ - It can not update DB.
+
+CONCUR_UPDATABLE	
+ - It can update DB
+-  Allows updateRow(), insertRow(), deleteRow()
+
+Typical Combinations
+TYPE_FORWARD_ONLY, CONCUR_READ_ONLY
+ - Default	-  best performance
+TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY	
+ - Scrollable but read-only	
+TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE	
+- Scrollable + updatable. It is rarely used in production
+
+As a best practice - 
+Always close ResultSet, Statements, and Connection to prevent resource leaks.
+
