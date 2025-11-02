@@ -1,0 +1,53 @@
+Day 1
+
+Mandatory exercise - everyone MUST complete it.
+1.Create a new workspace for web java
+2. Create new java project & add JDBC connector(mysql connector) in the build path.
+- Java Project -> Next -> Libraries -> ClassPath -> Add External Jar -> Browse & select "day1_data\day1_help\jdbc help\jdbc drivers\mysql-connector-j-9.3.0.jar"
+- Finish
+It should show you , a Referenced Library 
+- under package explorer.
+
+3. Revise JDBC steps
+
+4 create database 
+ - iacsd_25
+
+5. Create DBUtils class
+ - add public static method to create & return Connection.
+ - add db URL , username & password 
+
+6. Write a Tester class & test it.
+
+7. Refer to -
+"day1_data\day1_help\jdbc help\sql\healthcare sql.txt"
+Copy tables 
+ - doctors & patients
+- Copy DML.
+
+7. As discussed ,
+7.1 Write Java application to display all doctors details
+7.2 Write Java application to display all patients details
+
+
+Core Java topics revision - 
+
+8. import day1.1 in your new work space (web java work space)
+Revise
+8.1 Synchronization 
+ - with synchronized methods & blocks.
+Code from package - threads7 , threads9
+
+9. Revise ITC
+ - deadlocks , wait & notify
+Code from package - itc_with_sleep, itc_with_wait_notify
+
+10. Revise
+- cloning_shallow_copy
+- cloning_deep_copy
+
+11. Refer 
+ - "day1_data\day1_help\core java help\reflection\Java Reflection summary.txt"
+Code - test_reflection
+
+
