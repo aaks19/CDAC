@@ -24,7 +24,7 @@ public class DepartmentController {
 	}
 
 	// http://host:port/ctx_path/department/list
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	public ModelAndView listAllDepartment() {
 		System.out.println("in list all department");
 

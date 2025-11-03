@@ -1,0 +1,33 @@
+
+use ems;
+show tables;
+
+
+INSERT INTO departments (created_on, last_updated, dept_name, location)
+VALUES
+(CURDATE(), NOW(), 'Human Resources', 'Pune'),
+(CURDATE(), NOW(), 'Information Technology', 'Bangalore'),
+(CURDATE(), NOW(), 'Finance', 'Mumbai'),
+(CURDATE(), NOW(), 'Marketing', 'Delhi');
+
+
+INSERT INTO emps (created_on, last_updated, email, first_name, last_name, join_date, password, salary, type, dept_id)
+VALUES
+-- Department 1
+(CURDATE(), NOW(), 'ravi.sharma@corp.com', 'Ravi', 'Sharma', '2021-06-10', 'ravi@123', 52000, 'FULL_TIME', 1),
+(CURDATE(), NOW(), 'megha.patil@corp.com', 'Megha', 'Patil', '2023-03-15', 'megha@123', 28000, 'CONTRACT', 1),
+
+-- Department 2
+(CURDATE(), NOW(), 'arjun.verma@corp.com', 'Arjun', 'Verma', '2020-02-25', 'arjun@123', 72000, 'FULL_TIME', 2),
+(CURDATE(), NOW(), 'neha.nair@corp.com', 'Neha', 'Nair', '2022-08-19', 'neha@123', 35000, 'INTERNSHIP', 2),
+(CURDATE(), NOW(), 'rahul.mehta@corp.com', 'Rahul', 'Mehta', '2019-11-12', 'rahul@123', 60000, 'PART_TIME', 2),
+
+-- Department 3
+(CURDATE(), NOW(), 'kiran.deshmukh@corp.com', 'Kiran', 'Deshmukh', '2021-09-05', 'kiran@123', 45000, 'CONTRACT', 3),
+(CURDATE(), NOW(), 'pooja.singh@corp.com', 'Pooja', 'Singh', '2018-01-14', 'pooja@123', 83000, 'FULL_TIME', 3),
+
+-- Department 4
+(CURDATE(), NOW(), 'amit.kulkarni@corp.com', 'Amit', 'Kulkarni', '2020-12-30', 'amit@123', 40000, 'PART_TIME', 4),
+(CURDATE(), NOW(), 'sana.khan@corp.com', 'Sana', 'Khan', '2023-07-07', 'sana@123', 26000, 'INTERNSHIP', 4),
+(CURDATE(), NOW(), 'devika.pawar@corp.com', 'Devika', 'Pawar', '2019-09-22', 'devika@123', 75000, 'FULL_TIME', 4);
+
