@@ -1,0 +1,4 @@
+INSERT INTO restaurants (creation_date, last_updated, address, city, description, name,status) VALUES
+('2024-05-01', '2024-05-01 11:00:00', '123 FC Road', 'Pune', 'Traditional Maharashtrian meals', 'Shree Misal House',1),
+('2024-05-02', '2024-05-02 14:00:00', '88 JM Road', 'Pune', 'Popular North Indian and tandoor dishes', 'Tandoor Junction',1),
+('2024-05-03', '2024-05-03 17:30:00', '42 Baner Road', 'Pune', 'Modern vegetarian café with fusion food', 'Green Leaf Café',1);

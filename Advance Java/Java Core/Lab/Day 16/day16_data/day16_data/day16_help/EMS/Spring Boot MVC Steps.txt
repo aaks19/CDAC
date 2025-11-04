@@ -1,0 +1,219 @@
+1. import spring_boot_mvc template in your workspace
+
+2. Edit DB password - application.properties (resources)
+
+3. Add the properties (only for MVC based web app)
+server.servlet.context-path=/ems
+#To specify ViewResolver
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+
+3.5 Add JSP/JSTL related dependencies in pom.xml
+
+4. Copy / Create layers
+base package - com.ems
+Under that
+- com.ems.controller
+- com.ems.service
+- com.ems.dao 
+Above spring managed beans
+For Entities (managed by JPA implementor - Def -Hibernate)
+- com.ems.entities
+
+All of above pkges will be scanned auto.
+These defaults can be modified using additional annotations
+ - @ComponentScan , @EntityScan
+
+5. Create / Copy view layer under (WEB-INF)
+
+
+6. Problem - while accessing DAO layer (via Whitelable err page - Spring boot rendered err page)
+
+In DAO - sessionFactory.getCurretSession()
+Exception - org.hibernate.HibenrateException
+-  No CurrentSessionContext configured
+
+Cause - In Native(standalone) hibernate  , 
+property - current_session_context_class : thread
+
+With Spring Boot managed hibernate - it DOES NOT directly support Native Hibernate APIs(eg - org.hibernate.SessionFactory , Session)
+
+Solution - Instead use it's abstraction
+Replace Hibernate by JPA
+Pkg - jakarata.persistence (DAO layer)
+API - 
+org.hibernate.SessionFactory(sub i/f) -> jakarata.persistence.EntityManagerFactory (super i/f)
+
+org.hibernate.Session (sub i/f) -> jakarata.persistence.EntityManager(super i/f)
+
+Earlier depcy of DAO
+- @AutoWired 
+private SessionFactory sf;
+Now
+@AutoWired 
+private EntityManager manager;
+
+Same API (Session inherits - persist-save , merge- update , find - find by PK , remove - delete , JPQL , createQuery , setParameter - same)
+
+
+Alternative JPA annotation for D.I
+@PersistenceContext
+private EntityManager manager;
+
+
+
+7. Create DAO layer 
+- Spring Data JPA based.
+7.1 public interface DepartmentDao extends JpaRepository<Department,Long>
+{}
+
+8. Request resp flow
+URL -> http://host:port/ctx_path/
+Resp - index.jsp
+
+9. After clicking on the link ,
+<a href="department/list">List All Departments</a>
+Req URL - http://host:port/ctx_path/department/list
+Resp - <WEB-INF>/views/dept/list.jsp
+
+10. After choosing the dept (eg : Finance)
+URL -http://host:port/ctx_path/emps/list -- cookies are accepted
+
+Create Entity , DAO , Service ,Controller
+
+11. Simpler way of sharing model attributes between Handler & View Layer
+o.s.ui.Model - interface
+- Represents holder of model attributes.
+- You can specify to SC , a dependency of Model i/f
+ -How 
+ By adding Model as argument in the req handling method.
+SC creates EMPTY map of model attributes & passes(injects) it to the method.
+Prog (in Handler) class populates it with model attributes
+
+Method of Model i/f
+public Model addAttribute(String attrName,Object value)
+Can use method chaining - multiple attributes.
+
+
+12. To access request parameter from the Handler
+Use method argument annotation
+- @RequestParam
+Eg @RequestParam(Long departmentId)
+ - Long departmentId=Long.parseLong(request.getParameter("departmentId"));
+
+Match request param name with method argument , typically .
+Otherwise will have to add name in @RequestParam
+
+
+13. After clicking on delete link
+URL - http://localhost:8080/ems/emps/delete?id=6
+-> D.S -> H.M -> EmployeeController : deleteEmpDetails(empId)
+-> service -> emp dao : existsById n deleteById
+-> controller -> add mesg in model map -> LVN -> D.S-> forward it to the view layer.
+
+14. forward - wrong approach - data was deleted from DB , BUT view layer wasn't!
+Soln - replace froward by redirect
+After delete - return "redirect:/emps/list";
+
+15. Clnt sends a new request ->
+http://localhost:8080/ems/emps/list
+Prob - since dept id=null , no emps fetched from DB
+Soln - Send dept id along with redirect location.
+(Set & get dept id from HttpSession)
+
+
+16. In order to remember the details only till next redirect request
+- choose flash scope
+How ?
+RedirectAttributes - sub i/f of Model i/f, representing flash scope
+API of RedirectAttributes
+-public RedirectAttributes addFlashAttribute(String attrName,Object value)
+
+As a result of IoC - simply add RedirectAttributes as the method arg, SC will create EMPTY flash map & injects it .
+
+17. After clicking on Update link
+URL - http://localhost:8080/ems/emps/update?id=6 , method=GET
+-> D.S -> HandlerMapping -> EmployeeController :
+-> show update form
+Steps 
+get existing emp details from service -> add it under model map
+
+18. Form data binding in Spring MVC
+In case of multiple request parameters , instead of using @RequestParam multiple times, use data binding technique.
+Steps
+1. In show form phase , bind model (emp details) under model map
+Eg . modelMap.addAttrbute("emp_details",emp);
+2. Forward user to update form.
+
+3. In update.jsp , 
+import spring supplied form tag library - using taglib directive.
+Use tags for data binding.
+Eg - <form:form method="post" modelAttribute="emp_details">
+<form:input path="lastName" />
+....
+Any problem noticed regarding the data binding ? 
+YES - SC didn't bind - date field
+Reason - SC can't auto convert string -> LocalDate
+Solution - Supply date format, using the annotation.
+
+
+4. Since form action is not specified , form will be submitted to the same URL , with method = POST
+Upon update form submission -
+URL -  http://localhost:8080/ems/emps/update?id=6 , method=POST
+What should be the next step 
+4.1 Add a new method -
+To perform data binding (from view -> model) 
+@ModelAttribute(name="emp_details") Employee emp
+
+4.2 Invoke service layer - empId , updated emp details : updated emp
+dao - findById - existing emp :  PERSISTENT - setters
+- return from service -> no exc -> tx.commit() -> session.flush() -> update
+-> session.close()
+
+-> controller -> redirect -> emp list
+
+
+
+19. Complete pending work
+- Add new employee.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
