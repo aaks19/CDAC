@@ -52,4 +52,16 @@ public class RestaurantServicesImpl implements RestaurantServices {
 		return "Soft deleted restaurant details...";
 	}//no exception -> tx.commit -> DML  - Update -> session close
 
+	
+	
+	@Override
+	public String updateDetails(Long restaurantId, Restaurant updateRestaurant) {
+
+		Restaurant restaurant = restaurantDao.findById(restaurantId).orElseThrow(()-> new ResourseNotFound("Restaurant not found"));
+		
+		// update the restaurant details
+		
+		return null;
+	}
+
 }

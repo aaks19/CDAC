@@ -1,0 +1,57 @@
+Practice Lab Exam Question:
+
+Q1) Write a Spring Boot REST application which will provide following CRUD operations for "Student" and "Course" resource offered by Training Institute.
+
+A course can have multiple students. A student can enroll only in 1 course.
+
+
+1.	Add new Course
+        - i/p course details
+2.     Add new Student
+        - i/p  student details along with course id
+3.	Update Course Details 
+        - i/p course id n new (Start Date, End Date, Fees)
+4.	Fetch all courses by given Category
+        - i/p category name
+
+Additional optional work for more parctice
+
+4.	Fetch all students for given Course Name
+        - i/p course name
+5.     Cancel Admission of specific student
+        - i/p student id
+6.     Cancel Course 
+        - i/p course id
+
+Course has the following attributes: 
+1.	ID (unique identifier for each Course, auto generated, starts from 1)
+2.	Name (unique , Cannot be Blank, Example : Java SE,Web Programming in Java ,Spring Boot , Spring Cloud, Oracle DB , MySql DB  )
+3.	Category (Enum, Example: JAVA,DBT)
+4.	Start Date (Cannot be Blank)
+5.	End Date (Cannot be Blank)
+6.	Fees (Cannot be Blank)
+7.	Marks to Pass (Cannot be Blank)
+
+Student has the following attributes: 
+1.	Student id (unique identifier for each Student , auto generated, starts from 1) - primary key
+2.	student name (Cannot be Blank)
+3.	Email (Cannot be Blank)
+4.	Password (Cannot be Blank)
+5.     Marks
+6.	Course id - Foreign key
+
+
+•	Use MySQL Relational Database to save resource.
+•	There should be Validation on Create & Update Payload.
+
+For example: 
+1)	End Date cannot be before Start Date.
+2)	Name should not be blank.
+3)	None of the fields in Course table is Nullable.
+•	Rest URL should be named as per REST best practices.
+•	Response codes should be as per REST guidelines
+(201 for resource creation, 404 for not found, 200 for ok, 400 Bad request , 500 internal server error)
+•	Proper Error handling in case of failures. 
+         Best Option -  Global Exceptional Handling
+
+Note:- You have to test all API's on Postman or Swagger

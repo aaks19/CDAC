@@ -1,0 +1,34 @@
+In spring data JPA , what exactly happens when you add suppose a derived finder such as List<Restaurant> findByAddress(String addr)
+
+OR any custom query method ?
+
+
+In Spring Data JPA, when you define a derived query method like:
+
+you're instructing Spring Data JPA to automatically generate the implementation at runtime, based on the method name and parameter or based on custom JPQL
+
+Steps followed by Spring Data behind the scenes 
+
+ 1. It parses the Method Name or custom query
+
+findBy → indicates a query method.
+
+Address → refers to a field named address in your Restaurant entity.
+
+Constructs a query similar to -
+
+select r from Restaurant r where r.address = :addr
+
+2. Binding the Parameter
+Spring binds the method parameter addr to the named parameter :addr in the generated query.
+
+3. Creating a Proxy at Runtime
+Spring Data creates a proxy implementation of your repository interface using JDK dynamic proxies or CGLIB
+
+It registers this proxy as a Spring bean.
+
+When you call findByAddress(...), Spring intercepts the call and runs the generated query.
+
+4. Query Execution
+Spring delegates the query to EntityManager (under the cover), which executes it via JPQL or SQL  and returns the result.
+

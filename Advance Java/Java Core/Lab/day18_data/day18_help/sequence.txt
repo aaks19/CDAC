@@ -1,0 +1,212 @@
+Tip 
+Suppose you need to start 
+user ids from 100 onwards
+patient ids from 200 onwards....
+Simplest tip 
+After table generation 
+alter table users AUTO_INCREMENT=100;
+.....
+OR 
+Use ID generation strategy as sequence or Table.
+
+Revise via hands on
+1. Book Appointment
+
+Design 
+URL - http://host:port/patients/{pid}/appointments
+Request Payload -   
+{
+ 
+  "doctorId": 5,
+  "appointmentDateTime": "2025-11-05T10:30:00",
+ }
+
+Controller  - PatientController
+Method - POST
+Response - AppointmentResp DTO
+
+Resp SC 201
+{
+  "appointmentId": 101,
+  "doctorName": "Dr. Priya Sharma",
+  "appointmentDateTime": "2025-11-05T10:30:00",
+  "status": "SCHEDULED",
+  "message": "Appointment booked successfully"
+}
+
+Error Resp SC 400 | 404 | 409
+Api Response - with error message.
+
+2. Patient Registration
+Request -DTO (patient reg request dto)
+{
+  "userDetails": {
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "password": "string",
+    "phone": "string",
+    "dob": "string",
+    "regAmount": 0
+  },
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "familyHistory": "string"
+}
+
+Resp 
+Success -SC 201 +  ApiResp with  success message & patient id
+Failure - Dup email - SC 409 (conflict) ApiResp with error message
+or SC 400 ApiResp with error message
+
+
+Discuss DAO (Repository Layer)
+Which Repository will you choose ?
+0. inc reg amount by specified % for users under specified role
+- @Modifying
+@Query("update User u  set u.regAmount=u.regAmount+(u.regAmount*:rate)/100 where u.role=:role")
+int updateRegAmount(double rate,UserRole role)
+
+1. List users born between specified dates under specified role
+Derived query
+List<User> findByDobBetweenAndRole(LocalDate start,LocalDate end, UserRole role);
+
+2. Cancel all scheduled appointments of specific doctor for specific date.
+Eg. PATCH /appointments/cancel?doctorId=12&date=2025-11-20
+AppointmentRepo
+@Modifying
+@Query("update Appointment a set a.status=....Status.CANCELLED where a.myDoctor.id=:id and date(a.appointmentDateTime)=:date)
+int cancelDoctorsAppointments(@Param("id") Long docId,@Param("date") LocalDate date);
+
+3. Find all appointments between given date/times
+- AppointmentController 
+i/p - begin datetime & end datetime 
+Eg - GET /appointments?start=2025-11-05T09:00:00&end=2025-11-10T18:00:00
+Hint - @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+
+4. Find all diagnostic tests prescribed to a patient
+i/p - patient id
+//Hint - Patient *--->* diagnosticTests : DiagTest
+In PatientRepo
+- 
+In PatientService - Set |List dto
+-@Service @Transactional
+Patient patient=patientRepo.findById(pid)..orElseThrow(...);
+return patient.getDiagnosticTests() //Set<Entity>
+.stream() //Stream<Entity>
+.map(entity -> modelMapper.map(entity,dto.class)) //Stream<DTO>
+.toSet(); //Set <DTO>
+
+OR 
+
+Custom query - Find all diagnostic tests prescribed to a patient
+@Query("select t from Patient p join p.diagnosticTests t where p.id=:pid")
+Set<DiagTest> getDiagnosticTestsForPatient(@Param ("pid")Long patientId))
+
+
+
+5. Find all patients who have taken a specific diagnostic test
+i/p -test name
+Which Repo ?
+ - PatientRepo
+Which Query ?
+@Query("select p from Patient p join p.diagnosticTests  t where t.name=:nm")
+List<Patient> listPatientsByDiagTest(@Param("nm") String testName);
+
+
+6. Add a  diagnostic test  , for specified patient
+i/p payload - 
+{
+ "patientId" : 10,
+ "testName" : "MRI"
+}
+These are done through entity methods rather than direct repository queries:
+patient.getDiagnosticTests().add(test);
+patientRepo.save(patient);
+
+
+2. What will happen if you dont' add email or password , for user sign  in ?
+Observe n conclude.
+- The error is dected directly at DB level .
+Ideally  , since it's a presentation logic failure, it should be detected at Controller | RestController.
+
+2 types of server side validations
+1. B.L validations (eg. dup email , appointment full , start date < end date...)
+ - Service layer
+
+2. P.L validations - Controller Layer
+- P.L validations - annotations (added in DTO layer)
+
+2.1  How will you add server side validations ?
+Refer - Regarding spring boot exc handling n validations.txt"
+
+Development Steps :
+1. add dependency : spring boot validation stater
+(already added in pom.xml)
+
+2. For validating Request Body(JSON payload)
+eg : Add these field level annotations in DTO or Entity - DTO
+@NotEmpty(Strings cannot be null and must have at least one character including whitespace, for collections must contain at least 1 element) , 
+
+@NotBlank(strings not null & must contain some content after whitespace trimming) ,
+
+@NotNull(simply not null) - no  string field (eg LocalDate)
+
+@Pattern(regex="....") , @Min,@Max, @Range, @Length,@Future ,@Past,@PastOrPresent,@Positive....
+3. Add @RequestBody(de-serial , JSON -> Java)  + @Valid on the method argument  of POST/PUT/PATCH request handling method
+In case of validation failures , SC throws -
+MethodArgumentNotValidException
+It sends status code - SC 400 => BAD REQUEST
+
+4. For validating -  path variables or request params
+Additionally add -
+@Validated on  RestController class level annotation
++
+@NotBlank , @NotNull , @Pattern, @Min,@Max, @Range, @Length....
+on request parameters or path variables
+Exception  raised :  ConstraintViolationException
+
+
+3.  Why do we need to add centralized(Global) exception handling ?
+3.1 Spring boot supplies a default exception handler
+which sends JSON error object containing -
+timestamp , error code , error mesg n error stack trace to the clnt (which is totally un desirable)
+You can't even catch P.L failures(validation failures) , using try-catch block.
+3.2 In case of B.L failures (service layer exceptions)
+you can add a try- catch block in rest controller n catch it.
+But it will lead to too many try catch blocks in RestController methods
+3.3 Best Solution
+Add custom global exception handler
+
+How will you add it ?
+Development steps
+1. Create a separate global exception handler class -
+Add class level annotation
+@ControllerAdvice | @RestControllerAdvice
+@RestControllerAdvice = @ControllerAdvice + @ResponseBody added over all exception handling methods.
+=> Spring bean containing common exc handling advice .
+This exc handler is supplying a common advice to all REST controllers saying ,
+Do Not Add exception handling logic separately BUT add it ONLY in this class.
+2. Add method level annotation per exc handling method/s
+eg : ResourceNotFoundException
+@ExceptionHandler(ResourceNotFoundException.class)
+public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException e)
+{
+return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+}
+Or you can add a common exception handling method (equivalent to catch-all)
+
+
+4. Spring Boot Testing 
+ - unit testing 
+ - integration testing 
+Solve
+Write Unit Test 
+Write integration test.
+
+
+
+ 
+
+
+

@@ -1,0 +1,144 @@
+Spring Data JPA Practice -
+
+
+Entities  -
+@Entity
+@Getter
+@Setter
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name; 
+}
+
+@Entity
+@Getter
+@Setter
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private Double price;
+    private boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    // getters and setters
+}
+
+NOTE - uni dir association from Product *---->1 Category
+Of course you can make it bi dir anytime !
+
+
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    // Finder methods
+    Optional<Category> findByName(String name);
+    List<Category> findByNameContainingIgnoreCase(String namePart);
+    
+    // Delete by name
+    void deleteByName(String name);
+
+    // Check existence
+    boolean existsByName(String name);
+}
+
+
+ProductRepository (Derived Methods)
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    // Finders
+    List<Product> findByCategoryName(String categoryName);
+    List<Product> findByActiveTrue();
+    List<Product> findByPriceLessThan(double maxPrice);
+    List<Product> findByNameContainingIgnoreCase(String name);
+
+    // Combined conditions
+    List<Product> findByCategoryNameAndActiveTrue(String categoryName);
+    List<Product> findByCategoryIdAndPriceBetween(Long categoryId, Double min, Double max);
+
+    // Delete
+    void deleteByName(String name);
+    void deleteByCategoryId(Long categoryId);
+
+    // Count
+    long countByCategoryName(String categoryName);
+
+    // Exists
+    boolean existsByName(String name);
+}
+
+For Update queries - 
+Spring Data JPA does not allow updates using derived method names directly. 
+
+Updates should be done by - 
+Fetching the entity, modifying its fields, then saving it:
+OR 
+Use update jpql , in the custom query
+
+eg - 
+Product p = productRepository.findById(1L).orElseThrow();
+p.setPrice(12345);
+productRepository.save(p);
+Or using @Modifying @Query if you need a direct update (not proxy-based).
+
+
+
+Using E-R
+
+These are based on your Category ↔ Product model.
+
+1. JOIN Example (Without Fetch)
+
+Get product names with their category names using an inner join:
+
+@Query("SELECT new com.app.dto.NameDTO(p.name, c.name) FROM Product p JOIN p.category c WHERE c.name = :categoryName")
+List<NameDTO> findProductNamesWithCategory( String categoryName);
+This returns a list of DTOs
+(Given - you have added a paramterized ctor in your NameDTO)
+
+
+ 2. JOIN FETCH (Eagerly Load Category)
+Load active products with category in one query to avoid N+1 issue:
+
+
+@Query("SELECT p FROM Product p JOIN FETCH p.category WHERE p.active = true")
+List<Product> findActiveProductsWithCategory();
+ This will return a list of Product objects with their category eagerly fetched.
+
+
+ 4. Custom Query with Filtering on Both Entities
+
+@Query("SELECT p FROM Product p JOIN p.category c WHERE c.name = :categoryName AND p.price > :minPrice")
+List<Product> findProductsInCategoryWithMinPrice(
+    String categoryName,double minPrice
+);
+
+5. Count Using Join
+
+@Query("SELECT COUNT(p) FROM Product p JOIN p.category c WHERE c.name = :categoryName")
+long countProductsInCategory( String categoryName);
+
+
+6. Return DTO (Projection) via Constructor Expression
+
+@Query("SELECT new com.example.dto.ProductCategoryDTO(p.name, c.name) FROM Product p JOIN p.category c")
+List<ProductCategoryDTO> fetchProductWithCategoryName();
+Prerequisite -  DTO must have a matching constructor:
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class ProductCategoryDTO {
+    private String productName;
+    private String categoryName;    
+}
+
+

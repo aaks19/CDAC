@@ -1,0 +1,177 @@
+1. Revise development of backend using RESTful web service
+
+A REST web service 
+-  a way for different software systems to communicate with each other over the web (HTTP) using a stateless, lightweight, and resource-oriented architecture.
+
+- REST (Representational State Transfer) 
+ - is an architectural style, not a protocol or standard.
+ - It defines a set of constraints on how web services should be designed.
+
+RESTful Web Service -
+
+A REST web service exposes data and functionality as resources that can be accessed through URLs (URIs).
+
+Clients (like browsers, mobile apps, or React frontends) interact with these resources using HTTP methods.
+
+REST Key Principles | Constraints
+
+1. Stateless	
+- Each request is independent 
+ - server doesn’t remember previous ones
+2. Client–Server	
+ - Separation of frontend (client) and backend (server)
+3. Uniform Interface	
+ - Consistent way to access all resources.
+4. Cacheable 
+ - Responses can be cached(by frontend  to improve performance)
+5. Layered System
+ - Requests may pass through intermediaries 
+ - The client doesn’t know if requests are served by one monolithic backend or multiple microservices.
+ - The backend may have load balancers, caches, or proxies — transperent to the client.
+
+
+2. Revise Annotations
+  - @ResponseBody
+ - @RestController
+ - @RequestBody
+ - @RequestParam
+ - @PathVariable
+ - @CrossOrigin
+
+2.1 Revise ResponseEntity
+
+3. Complete Update end point , connect it with React , understand the problem & fix it.
+- Spring boot project - restaurants_backend
+
+4. Spring Data JPA Practice
+4.1 User sign in
+i/p - email , password
+
+4.2 List all users born between date range and of specified role , sorted as per reg amount
+
+4.3 User sign up
+ 
+4.4 Get the user paying max reg amount
+Optional<User> findFirstByOrderByRegAmountDesc();
+First can be replaced by Top
+
+
+4.5 Find the user with the highest age
+Optional<User> findTopByOrderByAgeDesc();
+
+4.6 Oldest emp in a department (Emp *---->1 Department)
+Optional<Emp> findTopByDepartmentNameOrderByAgeDesc(String deptName)
+
+4.7  Delete Product category by name(given name-unique)
+    void deleteByName(String name);
+
+4.8   void deleteByCategoryId(Long categoryId);
+  OR
+long deleteByCategoryId(Long categoryId);
+
+
+4.9 Count no of products in specified category
+    long countByCategoryName(String categoryName);
+ 
+4.10 
+List<User> findTop10ByLastnameOrderBySubscriptionAmountDesc(String lastName)
+
+
+5. Project Tips
+
+5.1 Instead of sending a message (String) , wrap it in ApiResponse DTO & send it to front end.
+
+5.2 Spring recommendation for D.I
+-	Use constructor based D.I instead of field level D.I
+-	 Since in constructor based D.I , dependency is created first n then dependent.
+-	Using this approach – you can create singleton spring bean as immutable (with final fields) 
+-	Eg In UserController
+-	 Add @AllArgsConstructor
+-	 private final UserService userService;
+
+5.3 Develop backend of Healthcare appointment system.
+Use cases
+
+1. Patient Login / Doctor Login(User Login)  common
+- Controller
+ - UserController
+URL - http://host:port/users/signin
+Method - POST  (for security , JWT generation, JSON payload)
+Eg . Patient Logs in 
+Payload - email , password  (Auth Request DTO)
+Success Resp -Sc 200 |201  Auth Resp DTO (user id ,name, email , role , message)
+Failure Resp - SC 401 ApiResp DTO(status : succes | failure , timestamp , message)
+
+Full stack Flow - 
+For signin 
+- front end sends JSON(email & password) to backend
+- In case of successful signin ,backend sends JSON(auth resp dto) to front end.
+- front end stores these details under sessionStorage(preferred) | localStorage , checks role -> navigates patient -> patient dashboard 
+
+->front end makes a call to backend with user id 
+- to fetch list of upcoming appointments
+
+2. List upcoming patient appointments
+i/p : path variable - user id (or simpler patient id)
+Response - list of upcoming appointment dtos
+Eg .
+{
+    "appointmentId": 1,
+    "appointmentTS": "2025-11-08T10:30:00",
+    "firstName": "Rajiv",
+    "lastName": "Mehta"
+ }
+
+3. Book Appointment
+Request Payload -   
+{
+  "patientId": 3,
+  "doctorId": 5,
+  "appointmentDateTime": "2025-11-05T10:30:00",
+ }
+
+Resp SC 201
+{
+  "appointmentId": 101,
+  "doctorName": "Dr. Priya Sharma",
+  "appointmentDateTime": "2025-11-05T10:30:00",
+  "status": "SCHEDULED",
+  "message": "Appointment booked successfully"
+}
+
+Error Resp SC 400 | 404
+Api Response - with error message.
+
+4. Patient Registration
+Request -DTO (reg request dto)
+{
+  "userDetails": {
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "password": "string",
+    "phone": "string",
+    "dob": "string",
+    "regAmount": 0
+  },
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "familyHistory": "string"
+}
+
+Resp 
+Success -SC 201 +  ApiResp with  success message & patient id
+Failure - Dup email - SC 409 (conflict) ApiResp with error message
+or SC 400 ApiResp with error message
+
+
+
+Optional work - 
+5. Cancel Appointment
+6. Doctor prescribes diag tests to patient
+7. Display all diag tests for a patient
+
+
+
+
+

@@ -1,0 +1,88 @@
+Project Tips (Standard design practice for back end)
+1.Instead of sending plain strings(error or resp messages) to the front end, create a API respose object(DTO -data transfer object) and send it
+- Time Stamp
+- message
+- status - sucess |failure
+
+2. DO NOT directly send response body content , instead wrap it in ResponseEntity object, which represents ENTIRE HTTP response(status code,header/s, body)
+
+3. Spring recommendation for D.I
+-	Use constructor based D.I instead of field level D.I
+
+4. Separation of Entity and DTOs
+Entity - DB table
+DTO(Data transfer object) - customized view
+
+4.1 REST client sends payload (JSON | XML)
+- @RequestBody - DTO (request DTO)
+- In RestController 
+ - De serialization (JSON -> Java - DTO)
+ -Jackson invokes setters on the DTO (during de-serial)
+
+4.2 RestController -> DTO -> Service
+
+4.3 Service Layer has to convert (map)
+DTO -> Entity (getters on DTO & setters on Entity)
+
+4.4 Service layer invokes DAO's method 
+- passing entity
+
+4.5 DAO layer fires the query(Eg . empDao.save(empEntity) -> persistent entity)
+
+4.6 DAO layer returns entity/Collection of entities to Service layer
+
+4.7 Service layer converts
+Entity ->  DTO (getters of entity & setters of DTO)
+
+sends it to RestController
+
+4.8 RestController sends @ResponseBody DTO/Collction of DTO 
+-> JSON (serialization)
+During serialization - getters of DTO & sets data in JSON
+ - Jackson
+
+4.9 JSON representation  of DTO/s will be sent to REST client.
+
+
+5. Instead of doing these conversions (Entity <----> DTO) manually , use 3rd party libraries
+Vendors - ModelMapper , MapStruct
+Ref - Baeldung 's articles.
+
+Steps in configuring ModelMapper class as spring bean
+1. Create a configuration class
+@Configuration - class level annotation.
+Good news - Spring boot app class(main class - starting point of Spring boot app) is already implicitly annotated with @Configuration , so that no separate config class is required.
+
+2. Add @Bean annotated method 
+- to register 3rd party (Eg - ModelMapper) class as a spring bean.
+- so that SC manages its life cycle 
+- makes it available as depcy in other spring beans.
+- configure ModelMapper bean.
+
+3. Inject ModelMapper bean as depcy in the service layer
+- using ctor based D.I
+
+4. Use ModelMapper API
+public D map(Object src , Class<D> destinationClass)
+Maps source object to an instance of destinationType. 
+D -  destination type
+Returns:
+fully mapped instance of destinationType
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

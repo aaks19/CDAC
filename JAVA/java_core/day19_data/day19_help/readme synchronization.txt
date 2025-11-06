@@ -20,6 +20,7 @@ It looks like a like a single atomic operation (i.e single statement)
 
 When two threads run concurrently & when we have not applied any lock , these steps can interleave(i.e the steps get mixed up between multiple threads)
 
+
 So what really happens sometimes is - 
 
 Both threads read the same old value (say counter=10)
