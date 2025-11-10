@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>String Function Using Radio Button</title>
+  </head>
+  <body>
+    <script>
+      function displayResult() {
+        var str = document.getElementById("str").value;
+        var op = document.getElementsByName("op");
+        var selectedOp = "";
+
+        for (var i = 0; i < op.length; i++) {
+          if (op[i].checked) {
+            selectedOp = op[i].value;
+            break;
+          }
+        }
+
+        switch (selectedOp) {
+          case "upper":
+            var result = str.toUpperCase();
+            break;
+
+          case "lower":
+            var result = str.toLowerCase();
+            break;
+
+          case "trim":
+            var result = str.trim();
+            break;
+
+          case "concat":
+            var str1 = prompt("Enter another string to concat :");
+            var result = str.concat(str1);
+            break;
+
+          case "length":
+            var result = str.length;
+            break;
+
+          case "slice":
+            var startPos = parseInt(prompt("Enter starting position "));
+            var endPos = parseInt(prompt("Enter end position"));
+            var result = str.slice(startPos, endPos);
+            break;
+
+          case "split":
+            var delimiter = ":";
+            var result = str.split(delimiter);
+            break;
+
+          case "indexof":
+            var str1 = prompt("Enter Substring to find the index");
+            var result = str.indexOf(str1);
+            break;
+
+          case "includes":
+            var str1 = prompt("Enter Substring to check if it exists or not");
+            var result = str.includes(str1);
+            break;
+
+          case "match":
+            var pattern = /a.*?n/gi;
+            var result = str.match(pattern);
+            break;
+
+          case "replace":
+            var pattern = /h.*?t/gi;
+            var str2 = prompt("Enter string to replace")
+            var result = str.replace(pattern,str2);
+
+            break;
+
+          case "search":
+            var pattern = /h.*?t/gi;
+            var result = str.search(pattern);
+            break;
+
+          case "test":
+            var pattern = /h.*?t/gi;
+            var result = str.search(pattern);
+            break;
+        }
+        document.getElementById("result").value = result;
+        console.log(str);
+        console.log(selectedOp);
+        console.log(result);
+      }
+    </script>
+    <div>
+      <form>
+        String : <input type="text" name="str" id="str" /><br /><br />
+        Result : <input type="text" name="result" id="result" readonly /><br />
+        <div id="op">
+          <input type="radio" id="upper" name="op" />Uppercase
+          <input type="radio" id="lower" value="lower" name="op" />Lowercase
+          <input type="radio" id="trim" value="trim" name="op" />Trim
+          <input type="radio" id="concat" value="concat" name="op" />Concat
+          <input type="radio" id="length" value="length" name="op" />Length
+          <input type="radio" id="slice" value="slice" name="op" />Slice
+          <input type="radio" id="split" value="split" name="op" />Split
+          <input type="radio" id="indexof" value="indexof" name="op" />IndexOf
+          <input
+            type="radio"
+            id="includes"
+            value="includes"
+            name="op"
+          />Includes
+          <input type="radio" id="match" value="match" name="op" />Match
+          <input type="radio" id="search" value="search" name="op" />Search
+          <input type="radio" id="replace" value="replace" name="op" />Replace
+          <input type="radio" id="test" value="test" name="op" />Test
+        </div>
+        <button
+          type="button"
+          name="show"
+          id="show"
+          value="result"
+          onclick="displayResult()"
+        >
+          Result
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
