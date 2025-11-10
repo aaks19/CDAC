@@ -12,7 +12,7 @@ import com.exam.entities.Course;
 public interface CourseRepository extends JpaRepository<Course, Long> {
 	boolean existsByCourseName(String courseName);
 	
-	@Query("select c from Course c where c.category=:cat")
-	List<Course> getCoursesByCourseCategory(@Param("cat") Category category);
+//	@Query("select c from Course c where c.category=:cat")
+	List<Course> findByCategory(Category category);
 
 }

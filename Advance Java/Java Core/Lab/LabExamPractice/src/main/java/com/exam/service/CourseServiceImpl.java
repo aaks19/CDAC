@@ -55,7 +55,7 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<CourseDetailResponse> listAllCourseByCourseCategory(String category) {
 		Category ccategory = Category.valueOf(category.toUpperCase());
-		List<Course> courseList = courseRepository.getCoursesByCourseCategory(ccategory);
+		List<Course> courseList = courseRepository.findByCategory(ccategory);
 		return courseList.stream().map(c->mapper.map(c, CourseDetailResponse.class)).toList();
 		
 		
