@@ -25,23 +25,22 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(callSuper = true)
+@ToString(callSuper = true,exclude = "students")
 public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(length = 20, unique = true)
-	@NotBlank
+	@Column(length = 20, unique = true, nullable = false)
 	private String courseName;
 	@Enumerated(EnumType.STRING)
 	private Category category;
-	@NotBlank
+	@Column(nullable = false)
 	private LocalDate startDate;
-	@NotBlank
+	@Column(nullable = false)
 	private LocalDate endDate;
-	@NotBlank
+	@Column(nullable = false)
 	private double fees;
-	@NotBlank
+	@Column(nullable = false)
 	private double marksToPass;
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
 	private List<Student> students = new ArrayList<>();

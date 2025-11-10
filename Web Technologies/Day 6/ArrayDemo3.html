@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        //convert given data into another form
+        var arr1=[12,3,4,5,25,45,7];
+        var arr2=arr1.map(val=>val*val)
+        console.log(arr2);
+
+        // to sort data as String
+        var arr3=arr1.sort();
+        console.log(arr3);
+
+        // to sort data as Number
+        //function compare(n1,n2){
+        //    //if(n1<n2)
+        //    //   return -1;
+        //    //else if(n1==n2)
+        //    //   return 0;
+        //    //else
+        //    //   return 1;
+        //    return n1-n2;
+
+        //}
+        //var arr3=arr1.sort(compare);
+        var arr3=arr1.sort((n1,n2)=>n1-n2)
+        console.log(arr3);
+
+        var addition=arr1.reduce((acc,num)=>acc+num,100)
+        console.log("Addition : "+addition);
+
+        var maximum=arr1.reduce((acc,num)=>acc>num?acc:num)
+        console.log("Maximum : "+maximum);
+
+        var arr3=["Python","Perl","Java","Javascript","React"]
+        //PytPerJavJavRea
+        var ans=arr3.reduce((acc,str)=>acc.concat(str.slice(0,3)),"");
+console.log("answer: "+ans)
+
+        //find the string from arr3 with maximum length
+        var ans=arr3.reduce((acc,str)=>acc.length>str.length?acc:str);
+        console.log("answer: "+ans)
+    </script>
+</body>
+</html>

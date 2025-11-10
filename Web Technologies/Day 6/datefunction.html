@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var dt=new Date();
+        document.write("Date: "+dt+"<br>");
+        var month=dt.getMonth()+1; //month starts with 0
+        document.write("Month: "+month+"<br>");
+        var year=dt.getFullYear(); //month starts with 0
+        document.write(`Year ${year}<br>`);
+        var dt1=new Date(2024,10,22);
+        document.write("Date 1: "+dt1+"<br>");
+        document.write("difference in 2 dates<br>");
+        var time1=dt.getTime(); 
+        var time2=dt1.getTime();
+        var difference=time1-time2;
+        //convert milliseconds into days
+        var daysdiff=difference/(1000*60*60*24)
+        document.write("difference in days: "+daysdiff);
+    </script>
+</body>
+</html>

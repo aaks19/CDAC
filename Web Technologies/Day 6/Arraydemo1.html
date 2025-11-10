@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var arr1=new Array(12,13,"xxxx",34);
+        console.log(arr1);
+        var arr2=[12,13,"xxxx",34];
+        console.log(arr2);
+        //to copy reference
+        var arr3=[23,34,33,arr1]; //length 4
+        console.log(arr3)
+        console.log("length: "+arr3.length)
+         var arr4=[23,34,33,...arr1]; //length 7
+        console.log(arr4)
+        console.log("length: "+arr4.length)
+        //to add at the end
+        arr4.push(400);
+        console.log(arr4)
+        arr4.pop();
+        console.log(arr4)
+
+        //to add at the begining
+        arr4.unshift(400);
+        console.log(arr4)
+        arr4.shift();
+        console.log(arr4)
+
+        //delete from given position
+        arr4.splice(2,2)
+        console.log(arr4)
+
+        //replace from given position
+        arr4.splice(2,2,11,22,33,44,55,66)
+        console.log(arr4)
+
+        //add at the given position
+         arr4.splice(2,0,10,20,30)
+        console.log(arr4)
+        console.log("indexof: "+arr4.indexOf(20))
+        console.log("indexof: "+arr4.indexOf(444))
+    </script>
+</body>
+</html>

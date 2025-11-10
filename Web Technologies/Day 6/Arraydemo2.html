@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var arr1=[1,5,2,10,3,45,23,56,7,25]
+        //to find the position of the value, that satisfies the condition
+        var pos=arr1.findIndex((val,index,arr)=>{
+            console.log(val+"--->"+index);
+            return val%5==0})
+        console.log("val % 5 position : "+pos);
+
+ //to find the the value, that satisfies the condition
+         var pos=arr1.find((val,index,arr)=>{
+            console.log(val+"--->"+index);
+            return val%5==0})
+        console.log("val % 5 position : "+pos);
+
+        //to find all the value, that satisfies the condition
+        //var pos=arr1.filter((val,index,arr)=>{
+        //    console.log(val+"--->"+index);
+        //    return val%5==0})
+          var arr2=arr1.filter(val=>val%5==0 && val>10)
+        console.log("val % 5 all : "+arr2);
+
+       
+
+    </script>
+</body>
+</html>
