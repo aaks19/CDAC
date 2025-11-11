@@ -55,3 +55,86 @@ For example:
          Best Option -  Global Exceptional Handling
 
 Note:- You have to test all API's on Postman or Swagger
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q2) Library Management REST API
+
+Build a Spring Boot REST API that provides CRUD operations for Books and Members of a library.
+
+Requirements:
+
+Add new Book
+
+Input: book details
+
+Add new Member
+
+Input: member details
+
+Issue a Book to a Member
+
+Input: member id and book id
+
+Return a Book
+
+Input: issue id
+
+Update Book details
+
+Input: book id and updated info (price, available copies)
+
+Fetch all Books by given Author or Category
+
+Input: author name or category name
+
+Fetch all Issued Books for a Member
+
+Input: member id
+
+Book Entity:
+
+id (auto)
+
+title (unique, not blank)
+
+author (not blank)
+
+category (Enum: FICTION, TECHNICAL, HISTORY, etc.)
+
+price (positive)
+
+availableCopies (≥ 0)
+
+Member Entity:
+
+id (auto)
+
+name (not blank)
+
+email (unique, not blank)
+
+membershipDate
+
+status (Enum: ACTIVE, INACTIVE)
+
+Validations:
+
+Cannot issue if no available copies.
+
+Cannot issue if member status ≠ ACTIVE.
+
+Proper exception handling (Global @ControllerAdvice).
