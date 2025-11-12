@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../bootstrapdemos/jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+            //$('p,h1').each((index,element)=>{
+            //   alert(index+": "+$(element).html())
+            //})
+             // donot use => function while using this
+            $('p,h1').each(function(index){
+               alert(index+": "+$(this).html())
+            })
+        })
+    </script>
+</head>
+<body>
+    <p>This is para11111</p>
+    <p>This is para2222</p>
+    <p>This is para33333</p>
+    <p>This is para444444</p>
+    <h1>This is h11111</h1>
+</body>
+</html>

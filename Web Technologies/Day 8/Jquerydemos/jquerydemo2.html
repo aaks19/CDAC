@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- cdn for jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <!-- <script src="../bootstrapdemos/jquery.js"></script> -->
+    <script>
+        $(document).ready(function(){
+            //this is javascript code
+            //var arr=document.getElementsByTagName('p');
+            //for(var v of arr){
+            //    v.setAttribute("style","background-colro:yellow")
+            //}
+
+            //$('p').css("background-color","yellow")
+            //$('p,h1,h2').css({"background-color":"yellow",
+            //             "color":"red"})
+            //$('#myp,.myclass').css({"background-color":"yellow",
+            //             "color":"red"});
+        //   $('p[class^=my]').css({"background-color":"yellow",
+        //                 "color":"red"});           
+        //})
+
+        $('p:first-child').css({"background-color":"cyan",
+                        "color":"black"});           
+        })
+    </script>
+</head>
+<body>
+    <p class="myclass">This is para1111</p>
+    <h1>This is h11111</h1>
+    <p id="myp">This is para222</p>
+    <p>This is para3333</p>
+    <p>This is para4444</p>
+    <div>
+        <p>This is para222 inside div</p>
+         <h1 class="myclass">This is h11111 inside div</h1>
+        <p class="test">This is para3333 inside div</p>
+        <p class="myc">This is para4444 inside div</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
+    <script src="../bootstrapdemos/jquery.js"></script>
+    <script>
+
+        $(document).ready(function(){
+            //document.getElementById("add").addEventListener("click",function(){})         
+            function validateTextbox(id,errid){
+                var num=$('#'+id).val();
+                if(num!="" && num.trim().length>0 && isFinite(num)){
+                    $('#'+errid).html("");
+                    return true;
+                }
+                $('#'+errid).html("Number cannot be blank or spaces");
+                    return false;
+            } 
+            function validateData(){
+                var flag1=validateTextbox("num1","errn1");
+                var flag2=validateTextbox("num2","errn2");
+                return flag1 && flag2;
+            }
+            $('#add').click(function(){
+                var flag=validateData();
+                if(flag){
+                    var n1=parseInt($('#num1').val())
+                    var n2=parseInt($('#num2').val())
+                    var ans=n1+n2;
+                    $('#result').val(ans);
+                    $('#mydiv').html("addition : "+ans)
+                } 
+            })
+        })
+    </script>
+</head>
+<body>
+    <form>
+       <label for="num1">Number1 :</label>
+       <input type="text" name="n1" id="num1"><span id="errn1" class="error"></span><br>
+       <label for="num2">Number2 :</label>
+       <input type="text" name="n2" id="num2"><span id="errn2" class="error"></span><br>
+       <label for="num2">Result :</label>
+       <input type="text" name="result" id="result" readonly><br>
+       <button type="button" name="addition" id="add" >Addition</button>
+       <div id="mydiv">
+
+       </div>
+    </form>
+</body>
+</html>

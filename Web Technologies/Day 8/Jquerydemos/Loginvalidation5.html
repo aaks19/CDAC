@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
+    <script src="../bootstrapdemos/jquery.js"></script>
+    <script>
+        const validatetestbox=(id,errid)=>{
+            //it shouldnot be empty,should not contain only spaces
+            //should contain minimum one alphabet
+            //retrieve value form the tetxbox
+            var v=$('#'+id).val()
+            if(v!="" && v.trim().length>0 && isNaN(v)){
+                //clear the message
+                $('#'+errid).html("")
+                return true;
+            }
+            $('#'+errid).html("it should not be only spaces, it should contain alphbets")
+            return false;
+
+        }
+        function validateData(){
+            var flag1=validatetestbox("unm","errunm");
+            var flag2=validatetestbox("passwd","errpasswd");
+            return flag1 && flag2;
+        }
+        $(document).ready(function(){
+           $('#loginfrm').submit(function(){
+               var flag=validateData();
+               return flag;
+           })
+        })
+    </script>
+</head>
+<body>
+    <table>
+    <form action="validate" method="post" id="loginfrm">
+        <tr>
+            <td><label for="unm">User name :</label></td>
+            <td><input type="text" name="uname" id="unm" placeholder="enter user name" autofocus required /></td>
+            <td id="errunm" class="error"></td>
+        </tr>
+        <tr>
+            <td><label for="passwd">password :</label></td>
+            <td><input type="password" name="pass" id="passwd" placeholder="enter password" required /></td>
+            <td id="errpasswd" class="error"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+<!-- comments -->
+        <!--<input type="submit" name="btn" id="login" value="Login"/>-->
+        <button  type="submit" name="btn" id="login" value="Login">Login</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <button  type="reset" name="btn" id="cancel" value="cacel">Cancel</button>
+            </td>
+        </tr>
+        
+    </form>
+    </table>
+</body>
+</html>

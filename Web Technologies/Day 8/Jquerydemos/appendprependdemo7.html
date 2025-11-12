@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .myclass{
+            background-color: aqua;
+            color:blue;
+            border:2px solid red;
+            border-radius: 20px;
+        }
+    </style>
+    <script src="../bootstrapdemos/jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+            var count=1;
+            $('#append').click(function(){
+               $('body').append("<p id='para"+count+"' class='p1'>This is append paragraph</p>") 
+               count++;
+            })
+            $('#prepend').click(function(){
+                $('body').prepend("<p class='p2'>This is append paragraph</p>") 
+            })
+           
+            $('#removeappend').click(function(){
+                $('p').remove('.p1')
+            })
+            $('#removeprepend').click(function(){
+                $('p').remove('.p2')
+            })
+             $('#wrap').click(function(){
+                $('p').wrap("<div class='myclass'></div>")
+             })
+              $('#wrapall').click(function(){
+                 $('p').wrapAll("<div class='myclass'></div>")
+              })
+        })
+    </script>
+</head>
+<body>
+    <button type="button" name="append" id="append" >Append para</button>
+    <button type="button" name="prepend" id="prepend">prepend para</button>
+    <button type="button" name="remove " id="removeappend">remove Append para</button>
+    <button type="button" name="remove " id="removeprepend">remove preppend para</button>
+    <button type="button" name="wrap" id="wrap">wrap para</button>
+    <button type="button" name="wrapall " id="wrapall">wrap all</button>
+</body>
+</html>

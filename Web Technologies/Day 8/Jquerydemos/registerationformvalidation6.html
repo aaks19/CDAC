@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../bootstrapdemos/jquery.js"></script>
+    <script>
+        const validateDropDown=(id,errid)=>{
+            //select value of selected city
+            var v=$('#'+id).val();
+            //check no city is selected and display error message
+            if(v=='test'){
+                $('#'+errid).html("pls select one "+id);
+                return false;
+            }
+             //Since city is selected , clear error message
+            $('#'+errid).html("");
+            return true;
+        }
+        const validateFile=(id,errid)=>{
+
+            alert($('#'+id)[0].files)
+            if($('#'+id)[0].files.length==0){
+               $('#'+errid).html("pls select minimum one file")
+               return false;
+            }else{
+                //retrive size of file in bytes, and convert to kb
+                var size=$('#'+id)[0].files[0].size/1024;
+                //check file size should not exceed 10kb
+                if(size>10){
+                    $('#'+errid).html("file size exceeded, it should be <= 10kb")
+                    return false;
+                }else{
+                    $('#'+errid).html("")
+                    return true;
+                }
+            }
+        }
+        const validateCheckboxes=(nm,errid,count)=>{
+            var cnt=0;
+            var str="";
+            //input[name=skill]:checked
+            //select all checked checkboxes, 
+            // and perform each function for every checkbox
+            $('input[name='+nm+']:checked').each(function(index,element){
+                //count selected check boxes and concat the value of it in str
+               cnt++;
+               str+=$(element).val();
+            })
+            if(cnt>=count){
+              $('#'+errid).html("");  
+              return true;
+            }
+             $('#'+errid).html("pls select minimum "+count+" checkboxes ");  
+            return false;
+            
+
+        }
+        const validateRadioButtons=(nm,errid)=>{
+            $("input[name="+nm+"]")
+            var v=$('input[name='+nm+']:checked').val()
+            //alert(v)
+             if(v!==undefined){
+                $("#"+errid).html("")
+                return true;
+             }
+            //display error message
+            $("#"+errid).html("pls select one value of "+nm)
+            return false;
+        }
+        function validateData(){
+            //var flag1=validateTextBox("name","errname")
+            var flag2=validateRadioButtons("gender","errgender")
+            var flag3=validateRadioButtons("degree","errdegree")
+            var flag4=validateCheckboxes("skill","errskill",3)
+            var flag5=validateDropDown("city","errcity");
+            var flag6=validateFile("profile","errprofile");
+            return flag2 && flag3 && flag4 && flag5 && flag6;
+        }
+        $(document).ready(function(){
+            $('#regfrm').submit(function(event){
+                console.log(event);
+                //stops default action of submit --- it stops page reload
+                event.preventDefault();
+                var flag=validateData();
+                return flag;
+            })
+        })
+    </script>
+</head>
+<body>
+    <table>
+        <form action="registerdata" method="post" id="regfrm">
+            <tr>
+                <td><label for="">Name :</label></td>
+                <td><input type="text" name="nm" id="name"
+                    placeholder="enter name"/></td>
+                    <td id="errname"></td>
+            </tr>
+            <tr>
+                <td><label for="age">Age</label></td>
+                <td><input type="number" name="age" id="age" placeholder="enter age" min="18" max="60"/></td>
+            </tr>
+            <tr>
+                <td><label for="age">Address</label></td>
+                <td><textarea rows="5" cols="20">This is in textarea</textarea></td>
+            </tr>
+            <tr>
+                <td><label for="bdate">Birth date</label></td>
+                <td><input type="date" name="bdate" id="bdate" placeholder="enter birth date" min="2025-01-01" max="2025-10-15"/></td>
+            </tr>
+            <tr>
+                <td><label>Gender</label></td>
+                <td>
+                    <input type="radio" name="gender" id="male" value="male"/>
+                    <label for="male" >Male</label>
+
+                  <input type="radio" name="gender" id="female" value="female"/>
+                  <label for="female" >Female</label>  
+                </td>
+                <td id="errgender">
+
+                </td>
+            </tr>
+            <tr>
+                <td><label>Degree</label></td>
+                <td>
+                    <input type="radio" name="degree" id="BE"  value="BE"/>
+                    <label for="BE">BE</label>
+                    
+                  <input type="radio" name="degree" id="BTech" value="BTech"/>
+                  <label for="BTech" >BTech</label> 
+                  
+                  
+                  <input type="radio" name="degree" id="MTech" value="MTech" />
+                  <label for="MTech" >MTech</label>
+
+                  <input type="radio" name="degree" id="PHD" value="PHD"/>
+                  <label for="PHD" >PHD</label>
+                </td>
+                <td id="errdegree"></td>
+            </tr>
+            <tr>
+                <td><label>Skills</label></td>
+                <td>
+                    <input type="checkbox" name="skill" id="Linux"
+                    value="Linux" checked/>
+                    <label for="Linux" >Linux</label>
+                    
+                  <input type="checkbox" name="skill" id="java" value="java"/>
+                  <label for="java" >java</label> 
+                  
+                  <input type="checkbox" name="skill" id="C++" value="C++"  value="python"/>
+                  <label for="C++">C++</label>
+                  <br/>
+                  <input type="checkbox" name="skill" id="Python"  value="python"/>
+                  <label for="Python">Python</label>
+
+                  <input type="checkbox" name="skill" id="React" value="React"/>
+                  <label for="React">React</label>
+
+                  <input type="checkbox" name="skill" id="Javascript" value="javascript"/>
+                  <label for="Javascript" >Javascript
+                  </label>
+                </td>
+                <td id="errskill"></td>
+            </tr>
+            <tr>
+                <td><label>City</label></td>
+                <td>
+                    <select id="city">
+                        <option value="test">-----select one----</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Banglore">Banglore</option>
+                    </select>
+
+                </td>
+                <td id="errcity"></td>
+            </tr>
+            <tr>
+                <td><label>Profile</label></td>
+                <td>
+                  <input type="file" name="profile" id="profile"/>
+                </td>
+                <td id="errprofile"></td>
+            </tr>
+            <tr>
+              <td></td>
+                <td>
+                  <input type="hidden" name="type" id="type" value="student"/>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit" name="btn" id="register">Register</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="reset" name="btn" id="register">Register</button>
+                </td>
+            </tr>
+        </form>
+    </table>
+</body>
+</html>
