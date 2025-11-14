@@ -1,6 +1,7 @@
 package com.exam.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -51,11 +52,12 @@ public class StudentServiceImpl implements StudentService {
 		return "Student deleted";
 	}
 
-//	@Override
-//	public List<StudentDTO> fetchStudentByCourseName(String courseName) {
-//		List<Student> byCourseName = studentDao.findByCourse_Name(courseName);
-//
-//		return byCourseName.stream().map(s -> mapper.map(s, StudentDTO.class)).toList();
-//	}
+	@Override
+	public List<StudentDTO> fetchStudentByCourseName(String courseName) {
+		
+		List<Student> byCourseName = studentDao.findByCourseName(courseName);
+
+		return byCourseName.stream().map(s -> mapper.map(s, StudentDTO.class)).toList();
+	}
 
 }

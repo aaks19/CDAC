@@ -1,0 +1,7 @@
+Hello
+welcome
+joy
+Testing file read operation
+This is line 1
+this is line 2
+this is line3

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../bootstrapdemos/jquery.js"></script>
+    <script>
+        function displayTable(arr){
+            var str = "<table border = '2'>"
+                str+= "<tr><th>id</th><th>name</th><th>quantity</th><th>price</th></tr>"
+                for(var v of arr){
+                    str+= `<tr><td>${v.pid}</td><td>${v.pname}</td><td>${v.qty}</td><td>${v.price}</td></tr>`
+                }
+            str+= "</table>"
+            $('#mydiv3').html(str)
+        }
+        function showData(product){
+            var str = ""
+            str+="id:"+product.pid+"<br/>"
+            str+="name:"+product.pname+"<br/>"
+            str+="quantity:"+product.qty+"<br/>"
+            str+="price:"+product.price+"<br/>"
+            $('#mydiv2').html(str)
+        }
+        function getById(){
+            var id = $('#pid').val();
+            $.ajax({
+                url: "http://localhost:8686/products/"+id,
+                type: "GET",
+                success: function(result, status, xhr){
+                    if(status === "success"){
+                        showData(result);
+                    }
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            })
+        }
+        function displayDropdown(arr){
+            var str = "<select id = 'pid'>"
+                for(var v of arr){
+                    str+=`<option value = "${v.pid}">${v.pid}</option>`
+                }
+                str+="</select>"
+                $('#mydiv1').html(str)
+                $('#pid').change(function(){
+                    getById();
+                })
+
+        }
+
+        $(document).ready(function(){
+            $('#btn').click(function(){
+                $.ajax({
+                    url:"http://localhost:8686/products",
+                    type:"GET",
+                    success:function(result,status,xhr){
+                        if(status==="success"){
+                            console.log(result);
+                            console.log(status);
+                            displayDropdown(result);
+                            displayTable(result);
+                        }
+                    },
+                    error:function(err){
+                    console.log(err);
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <button type="button" name="btn" id="btn">get data</button>
+    <div id = "mydiv1"></div>
+    <div id = "mydiv2"></div>
+    <div id = "mydiv3"></div>
+</body>
+</html>

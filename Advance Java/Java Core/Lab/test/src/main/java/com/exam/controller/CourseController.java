@@ -70,17 +70,7 @@ public class CourseController {
 		}
 	}
 
-	// 4 fetch all students details from course name
-	@GetMapping("/fetchStudentsDetails/{courseName}/students")
-	public ResponseEntity<?> fetchStudentDetailsFromCourse(@PathVariable String courseName) {
-		try {
-			return ResponseEntity.ok(courseService.fetchStudentByCourseName(courseName));
-
-		} catch (RuntimeException e) {
-
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("course already exists");// 404 pageNot found
-		}
-	}
+	
 
 	@DeleteMapping("/deleteCourse/{courseId}")
 	public ResponseEntity<?> deleteCourse(@PathVariable Long courseId) {

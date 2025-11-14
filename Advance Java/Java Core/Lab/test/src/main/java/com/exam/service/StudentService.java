@@ -10,5 +10,7 @@ public interface StudentService {
 
 	public String deleteStudentById(Long studentId);
 
-//	public List<StudentDTO> fetchStudentByCourseName(String courseName);
+//	public Object fetchStudentByCourseName(String courseName);
+
+	public List<StudentDTO> fetchStudentByCourseName(String courseName);
 }

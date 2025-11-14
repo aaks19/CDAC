@@ -28,6 +28,6 @@ public class Student {
     private double marks;
 
     @ManyToOne
-    @JoinColumn(name = "cid")
+    @JoinColumn(name = "course_id")
     private Course course; // FK
 }

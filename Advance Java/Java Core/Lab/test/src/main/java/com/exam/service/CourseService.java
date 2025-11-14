@@ -15,7 +15,6 @@ public interface CourseService {
 	
 	public List<CourseFetchDetailsDTO> fetchCourseDetails(String category);
 
-	List<StudentDTO> fetchStudentByCourseName(String courseName);
 
 	public String deleteCourseByCourseId(Long courseId);
 	

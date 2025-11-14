@@ -11,12 +11,13 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString(exclude = "students")
+
 public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cid;
+    @Column(name = "course_id")
+    private Long course_id;
 
     @Column(length = 20, nullable = false, unique = true)
     private String name;
@@ -35,7 +36,8 @@ public class Course {
 
     @Column(name = "marks_to_pass", nullable = false)
     private double marksToPass;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    
+    @OneToMany(mappedBy = "course")
     private List<Student> students;
+
 }

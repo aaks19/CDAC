@@ -75,12 +75,7 @@ public class CourseServiceImpl implements CourseService {
 		return list;
 	}
 
-	@Override
-	public List<StudentDTO> fetchStudentByCourseName(String courseName) {
-		Course byName = courseDao.findByName(courseName);
-		List<Student> students = byName.getStudents();
-		return students.stream().map(s->mapper.map(s, StudentDTO.class)).toList();
-	}
+	
 
 	@Override
 	public String deleteCourseByCourseId(Long courseId) {
