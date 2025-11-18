@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Add new product</h1>
+    <form action="/product/insertproduct" method="post">
+        Product id:<input type="text" name="pid" id="pid"><br>
+        Product name:<input type="text" name="pname" id="pname"><br>
+        Product qty:<input type="text" name="qty" id="qty"><br>
+        Product price:<input type="text" name="price" id="price"><br>
+        Product mfgdate:<input type="date" name="mfgdate" id="mfgdate"><br>
+        <button type="submit" name="add" id="add" value="add">Add product</button>
+    </form>
+</body>
+</html>

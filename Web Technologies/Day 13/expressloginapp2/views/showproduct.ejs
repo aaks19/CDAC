@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Product management system</h1>
+    </header>
+    <div>
+        <form action="/product/addproduct">
+            <button type="submit" name="add" id="add" value="add">Add product</button>
+        </form>
+    </div>
+    <div>
+        <table border="2">
+            <thead>
+            <tr>
+                <th>Product id</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Mfg Date</th>
+                <th>action</th>
+            </tr>
+            </thead>
+            <tbody>
+                <%for(var i=0;i<productdata.length;i++) {%>
+                    <tr>
+                        <td><%=productdata[i].pid%></td>
+                        <td><%=productdata[i].pname%></td>
+                        <td><%=productdata[i].qty%></td>
+                        <td><%=productdata[i].price%></td>
+                        <td><%=productdata[i].mfgdate.toISOString().split('T')[0]%></td>
+                        <td>
+                            <a href="/product/editproduct/<%=productdata[i].pid%>">edit</a>/
+                            <a href="/product/deleteproduct/<%=productdata[i].pid%>">delete</a>
+                        </td>
+                    </tr>
+                <%}%>
+            </tbody>
+
+
+        </table>
+
+    </div>
+</body>
+</html>
