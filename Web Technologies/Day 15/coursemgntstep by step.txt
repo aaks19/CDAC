@@ -1,0 +1,231 @@
+1. create a Course Management application add App.js, CourseFormComponent.js
+CourseListComponent.js
+
+App.js
+import { useState,useEffect } from 'react';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.css'
+import CourseListComponent from './components/CourseListComponent';
+import CourseFormComponent from './components/CourseFormComponent'
+function App() {
+  const [coursearr,setcoursearr]=useState(["Java","Python","Databases"])
+const [searcharr,setsearcharr]=useState([])
+const [searchtxt,setsearchtxt]=useState("");
+
+  //copy couserarr into searcharr every time 
+  //when coursearr changes
+  useEffect(()=>{
+setsearcharr([...coursearr])
+  },[coursearr])
+
+  //assign search textbox value to searchtxt 
+  const handleChange=(ev)=>{
+      setsearchtxt(ev.target.value)
+  }
+  return (
+    <>
+    <label htmlFor="search">Search</label> : <input type="text" name="searchtxt" id="search"
+    value={searchtxt}
+    onChange={handleChange}></input>
+    <br/><br/>
+    <div className="container">
+      <div className="row">
+        <div className="col-sm-12 col-md-6">
+          <CourseListComponent arr={searcharr}/>
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <CourseFormComponent 
+          />
+        </div>
+      </div>
+    </div>
+    </>
+  );
+}
+
+export default App;
+
+----------------------------
+CouseListComponent.js 
+//to display searcharr in unordeed lisr format
+import React from 'react'
+
+export default function CourseListComponent(props) {
+  return (
+    <div>
+        <ul>
+            
+           {/* display searcharr of app.js in unorderd list form */} {props.arr.map((val,index)=><li key={index}>{val}</li>)}
+        </ul>
+    </div>
+  )
+}
+------------------
+CourseFormComponent.js 
+ 
+//display form and perform crud opearations
+import React,{useState} from 'react'
+
+export default function CourseFormComponent(props) {
+    const [formdetails,setformdetails]=useState({cname:""})
+    // gets called for onChange event
+    const handlechange=(event)=>       {
+        console.log("in handlechange")
+        setformdetails({...formdetails,cname:event.target.value})}
+
+        
+  return (
+    <div>
+        <form>
+            <div className="form-group">
+                <label htmlFor="course">Course Name</label>
+                <input type="text" className="form-control" name="cname" id="course"
+                value={formdetails.cname}
+                onChange={handlechange}/>
+            </div>
+              <button type="button" id="add" name="add" className="btn btn-primary" >Add course</button>
+
+              <button type="button" id="del" name="del" className="btn btn-primary" >Delete course</button>
+
+
+              <button type="button" id="update" name="update" className="btn btn-primary">update course</button>
+        </form>
+    </div>
+  )
+}
+
+=================
+
+2. Add new course
+a. add onClick event on Add course button and add function 
+addcourse in CourseFormComponent.js
+
+<button type="button" id="add" name="add" 
+className="btn btn-primary" 
+onClick={addcourse}>Add course</button>
+
+
+    //add a course in arr in APP.js
+    const addcourse=()=>{
+        if(formdetails.cname==="" || formdetails.cname.trim().length===0){
+            alert("corsename cannot be empty")
+           
+        }else{
+            //pass data to App.js i.e parent component
+            props.insertCourse(formdetails.cname)
+             //clear text box
+            setformdetails({...formdetails,cname:""})
+        }
+    }
+
+b. add insertCourse property in CourseFormComponent tag in 
+and add function addNewCourse in App.js file
+
+ <CourseFormComponent 
+          insertCourse={addNewCourse}
+          />
+        </div>
+
+ const addNewCourse=(cnm)=>{
+    console.log("addNewCourse course name: "+cnm)
+    setcoursearr([...coursearr,cnm])
+  }
+  
+================
+3. delete course
+
+a. add onClick event on Delete course button and add function 
+deletecourse in CourseFormComponent.js
+
+ <button type="button" id="del" name="del" 
+ className="btn btn-primary" 
+ onClick={deletecourse}>Delete course</button>
+
+
+
+
+    //add a course in arr in APP.js
+    //delete course from array in App.js
+    const deletecourse=()=>{
+        if(formdetails.cname==="" || formdetails.cname.trim().length===0){
+            alert("coursename cannot be empty");
+        }else{
+            //pass data to App.js i.e parent component
+            props.deleteCourse(formdetails.cname);
+            //clear text box
+            setformdetails({...formdetails,cname:""})
+        }
+    }
+
+b. add deleteCourse property in CourseFormComponent tag in 
+and add function removeCourse in App.js file
+
+ <CourseFormComponent 
+          insertCourse={addNewCourse}
+          deleteCourse={removeCourse}
+          />
+        </div>
+        </div>
+
+ const removeCourse=(cnm)=>{
+    console.log("in deleteCourse App.js "+cnm)
+	//remove course from coursearr array
+    const arr=coursearr.filter(nm=>nm!=cnm)
+    setcoursearr([...arr])
+  }
+  
+
+
+
+
+==================
+4. update course
+a. add onClick event on Update course button in 
+CourseFormComponent.js and add update course function also
+
+ <button type="button" id="update" name="update" 
+ className="btn btn-primary"
+ onClick={updatecourse}>update course</button>
+        </form>
+		
+		const updatecourse=()=>{
+        if(formdetails.cname==="" || formdetails.cname.trim().length===0){
+            alert("coursename cannot be empty")
+        }else{
+            var newcname=prompt("enetr new course name")
+            props.updatecourse(formdetails.cname,newcname)
+             //clear text box
+            setformdetails({...formdetails,cname:""})
+        }
+    }
+
+b. add updateCourse property to CourseFormcomponent in App.js
+also add modifycourse in App.js
+<CourseFormComponent 
+          insertCourse={addNewCourse}
+          deleteCourse={removeCourse}
+          updatecourse={modifycourse}/> 
+		  
+const modifycourse=(oldname,newname)=>{
+     const arr=coursearr.map(c=>c===oldname?newname:c)
+     setcoursearr([...arr]);
+  }
+  
+  
+5.search the data, add useEffect function which will be called 
+  every time we change the searchTextBox
+  
+  useEffect(()=>{
+  //when search textbox is empty, then searcharr and coursearr 
+  //are same
+    if(searchtxt===""){
+      setsearcharr([...coursearr])
+    }else{
+	//when search textbox is not empty, then searcharr will be a filtered array
+	// which contains all the courses which has 
+	//searchtxt as a substring
+      const arr=coursearr.filter(c=>c.includes(searchtxt))
+      setsearcharr([...arr])
+    }
+  },[searchtxt])
+  

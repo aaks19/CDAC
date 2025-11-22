@@ -1,0 +1,42 @@
+Rotate Array Right by k Positions
+----------------------------------------
+Statement : Given an array and a number k, rotate the array to the right by k steps. 
+
+Note: k can be larger than array length.
+-----------------------------------------
+
+arr = [1, 2, 3, 4, 5], k = 2
+Result: [4, 5, 1, 2, 3] 
+
+-----------------------------------------
+
+Hint:
+
+Step 1: Reverse entire array
+[1, 2, 3, 4, 5] → [5, 4, 3, 2, 1]
+
+Step 2: Reverse first k=2 elements
+[5, 4, 3, 2, 1] → [4, 5, 3, 2, 1]
+ └─┘
+
+Step 3: Reverse remaining n-k=3 elements
+[4, 5, 3, 2, 1] → [4, 5, 1, 2, 3]
+       └─────┘
+
+
+
+Why k % n?
+If arr = [1, 2, 3], k = 5
+Rotating by 5 is same as rotating by 5 % 3 = 2
+Because after 3 rotations, array returns to original state
+
+Complexity Analysis
+Time Complexity: O(n)
+
+Each reversal is O(n) in worst case
+Three reversals: O(n) + O(k) + O(n-k) = O(n)
+
+Space Complexity: O(1)
+
+Only constant extra variables
+All operations in-place
