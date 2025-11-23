@@ -1,0 +1,22 @@
+Create a React application to manage a list of student names.
+Your application must:
+
+Maintain an array of student names in the parent (App).
+
+Provide a search box to filter students by substring.
+
+Display the filtered list using StudentListComponent.
+
+Use StudentFormComponent to:
+
+1. Add a student
+
+2. Delete a student
+
+3. Update a student (via prompt or new input box)
+
+Use useState and useEffect hooks.
+
+Use props to pass handlers from parent to child.
+
+Write code for all components.
