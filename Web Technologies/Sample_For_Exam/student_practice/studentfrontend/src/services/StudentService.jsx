@@ -9,7 +9,6 @@ class StudentService {
     addStudent(student) {
         let myHeader = { 'content-Type': 'application/json' };
         return axios.post(baseUrl + "/student/students", student, { headers: myHeader });
-        //                    ^^^^^^^^^^^^^^^^^^^^^^^^^  no id in POST
     }
 
     updateStudent(student) {
