@@ -16,6 +16,10 @@ class VehicleService{
         let myHeader = {'content-Type':'application/json'};
         return axios.put(baseurl+"/vehicle/vehicles/"+vehicle.id, vehicle, {headers:myHeader})
     }
+    
+    deleteVehicle(id){
+        return axios.delete(baseurl+"/vehicle/vehicles/"+id)
+    }
 }
 
 export default new VehicleService();

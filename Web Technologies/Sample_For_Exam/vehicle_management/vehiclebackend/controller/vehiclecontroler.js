@@ -34,3 +34,13 @@ exports.updateVehicle=(req,resp)=>{
         }
     })
 }
+
+exports.deleteVehicle=(req,resp)=>{
+    connection.query("delete from myvehicle where id=?",[req.params.id],(err,result)=>{
+        if(err){
+            console.log("Error occured "+err);
+        }else{
+            resp.json({message:"deleted"})
+        }
+    })
+}
