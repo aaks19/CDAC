@@ -1,0 +1,32 @@
+Akash is a software developer working with Infosys. Akash has expertise on .NET Platform.
+Akash works with a client named CT Group.
+CT Group works in document domain. CT group serves major government organizations in order to handle major legal documents through software.
+CT group has asked Akash & team to create a document processing related application which works with a pilot extension PDF.
+
+
+PDF needs to be created programmatically. 
+The data needs to be validated with some rules before it goes in PDF file. The data needs to be parsed for invalid characters. After all process the data needs to be saved. 
+
+Akash needs to ensure PDF creation, validation, parse & save happen
+in sequence. Akash also needs to ensure - the sequencing should not be changed or change-able by junior developers upon will.
+
+After PDF pilot success, more documents needs to be processed.
+Some documents may need extra processing - which can only be conveyed after PDF pilot part is done.
+
+Akash ensures - SRP and OCP implementation along with good architecture & structuring of classes.
+
+In one of the module Akash received an exception saying - "Object reference not set to an Instance of an object". What might be the reason for this exception
+
+1. New keyword is missing while creating some object
+2. Object used is of a class which does not inherit from some base class
+3. Some logical problem
+4. None of above 
+
+ 
+
+
+
+
+
+
+

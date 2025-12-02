@@ -36,7 +36,7 @@ exports.updateRestaurant=(req,resp)=>{
 }
 
 
-exports.deleteRestaurant=(req,resp)=>{
+exports.deleteRestaurantById=(req,resp)=>{
     connection.query("delete from restaurants where id=?",[req.params.id],(err,result)=>{
         if(err){
             console.log(err)
