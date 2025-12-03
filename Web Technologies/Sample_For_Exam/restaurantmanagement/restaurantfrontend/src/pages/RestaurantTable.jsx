@@ -14,6 +14,17 @@ export default function RestaurantTable() {
         console.log(result);
         setrestaurantarr(result.data.data);        
     }
+
+    const deleteRestaurant=(id)=>{
+        restaurantservice.deleteRestaurantById(id)
+        .then(()=>{
+            fetchData();
+        })
+        .catch((err)=>{
+            console.log(err);
+            
+        })
+    }
   return (
     <div>
         <Link to={'/form'}>
@@ -41,7 +52,7 @@ export default function RestaurantTable() {
                         <button type='button' name='edit' id='edit'>Edit</button>
                         </Link>
 
-                        <button type="button" name='delete' id='delete'>Delete</button>
+                        <button type="button" name='delete' id='delete' onClick={()=>{deleteRestaurant(restaurant.id)}}>Delete</button>
                     </td>
                 </tr>
             ))}

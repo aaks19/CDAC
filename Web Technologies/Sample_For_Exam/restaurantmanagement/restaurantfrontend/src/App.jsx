@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import RestaurantTable from './pages/restauranttable'
 import RestaurantForm from './pages/restaurantform'
+import RestaurantEdit from './pages/RestaurantEdit'
 function App() {
 
   return (
@@ -13,7 +14,7 @@ function App() {
 
       <Route path='/form' element={<RestaurantForm/>}></Route>
 
-      {/* <Route path='/edit/:id' element={} */}
+      <Route path='/edit/:id' element={<RestaurantEdit/>}></Route>
      </Routes>
     </>
   )
