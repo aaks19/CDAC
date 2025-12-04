@@ -1,20 +1,20 @@
-// const mysql = require('mysql2')
+const mysql = require('mysql2')
 
-// // const db = mysql.createConnection({
-// //     host:"localhost",
-// //     user:"root",
-// //     password:"aks123",
-// //     database:"expressdb"
-// // })
+const db = mysql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"aks123",
+    database:"expressdb"
+})
 
-// // db.connect((err)=>{
-// //     if(err){
-// //         console.log("Cannot connect to database");
-// //     }
-// //     else{
-// //         console.log("Connection established");
-// //     }
-// // })
+db.connect((err)=>{
+    if(err){
+        console.log("Cannot connect to database");
+    }
+    else{
+        console.log("Connection established");
+    }
+})
 
 
 // const db = mysql.createConnection({
@@ -34,6 +34,6 @@
 
 // });
 
-// module.exports = db;
+module.exports = db;
 
 

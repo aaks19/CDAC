@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from 'axios'
-// import UpdateEmployee from "./UpdateEmployee"
+import UpdateEmployee from "./UpdateEmployee"
 import { useState } from 'react'
 import { useEffect } from 'react';
 
 export default function ListEmployee() {
     const [employees, setEmployees] = useState([]);
-    // const [editing, setEditing] = useState(null);
+    const [editing, setEditing] = useState(null);
 
     const getEmployee=()=>{
         axios.get("http://localhost:5000/employee")
@@ -29,18 +29,18 @@ export default function ListEmployee() {
             <div key={emp.id}>
                 {emp.name} | {emp.position} | {emp.salary}
                 &nbsp;
-                {/* <button onClick={()=>setEditing(emp)}>Edit</button> */}
+                <button onClick={()=>setEditing(emp)}>Edit</button>
             </div>
         ))}
 
   
 
-        {/* {editing&& (
+        {editing&& (
             <UpdateEmployee selected={editing} onUpdate={()=>{
                 setEditing(null);
                 getEmployee();
             }} />
-        )} */}
+        )}
       
     </div>
      
