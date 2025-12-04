@@ -15,7 +15,7 @@ export default function LibraryList() {
     const fetchData= async()=>{
         var result = await LibraryService.getAllBooks();
         console.log(result);
-        setbook(result.data.data)
+        setbook(result.data)
     }
 
     const deleteBook=(id)=>{

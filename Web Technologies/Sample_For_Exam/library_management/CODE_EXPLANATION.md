@@ -225,9 +225,9 @@ Frontend notes:
 15:    const fetchData= async()=>{
 16:        var result = await LibraryService.getAllBooks();
 17:        console.log(result);
-18:        setbook(result.data.data)
+18:        setbook(result.data)
 19:    }
-- `fetchData` calls the service, awaits the response, logs result, and updates state using `result.data.data` because the backend responds `{data: results}`.
+- `fetchData` calls the service, awaits the response, logs result, and updates state with `result.data`.
 
 21:    const deleteBook=(id)=>{
 22:        LibraryService.deleteBook(id)
