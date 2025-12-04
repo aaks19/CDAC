@@ -214,54 +214,65 @@ Frontend notes:
 
 7: export default function LibraryList() {
 8:     const [book, setbook] = useState([])
-- Declares `book` state to store an array of book objects (initially empty).
+9:     const [ searchtxt, setsearchtxt] = useState("")
+- Declares `book` state to store book array and `searchtxt` state for the search input value.
 
-10:    useEffect(()=>{
-11:        fetchData();
-12:    },[])
+11:    useEffect(()=>{
+12:        fetchData();
+13:    },[])
 - `useEffect` with empty dependency array runs once on mount and calls `fetchData`.
 
-14:    const fetchData= async()=>{
-15:        var result = await LibraryService.getAllBooks();
-16:        console.log(result);
-17:        setbook(result.data.data)
-18:    }
+15:    const fetchData= async()=>{
+16:        var result = await LibraryService.getAllBooks();
+17:        console.log(result);
+18:        setbook(result.data.data)
+19:    }
 - `fetchData` calls the service, awaits the response, logs result, and updates state using `result.data.data` because the backend responds `{data: results}`.
 
-20:    const deleteBook=(id)=>{
-21:        LibraryService.deleteBook(id)
-22:        .then(()=>{
-23:            fetchData();
-24:        })
-25:        .catch((err)=>{
-26:            console.log(err);
-27:        })
-28:    }
+21:    const deleteBook=(id)=>{
+22:        LibraryService.deleteBook(id)
+23:        .then(()=>{
+24:            fetchData();
+25:        })
+26:        .catch((err)=>{
+27:            console.log(err);
+28:        })
+29:    }
 - `deleteBook` calls the service to delete by id and then refetches list to refresh UI.
 
-30:  return (
-31:    <div>
-32:        <Link to="/form">
-33:        <button>Add Books</button>
-34:        </Link>
-35:      {book.map(b=>(
-36:        <div key={b.id}>
-37:            {b.id} | {b.bname} | {b.bauthor} | {b.price} | {b.year} 
+31:    const handleChange=(e)=>{
+32:        setsearchtxt(e.target.value)
+33:    }
+- `handleChange` updates the `searchtxt` state with the user's input in the search box.
 
-38:            <Link to={`/edit/${b.id}`} state={{bookdata : b}}>
-39:            <button>Edit</button>
-40:            </Link>
+35:  return (
+36:    <div>
+37:        <label htmlFor="search">Search Book : </label>
+38:        <input type="text" name="searchtxt" id="search" value={searchtxt} onChange={handleChange} /><br />
+39:        <br />
+40:        <Link to="/form">
+41:        <button>Add Books</button>
+42:        </Link>
+43:      {book.filter((b)=>b.bname.toLowerCase().includes(searchtxt.toLowerCase())).map(b=>(
+44:        <div key={b.id}>
+45:            {b.id} | {b.bname} | {b.bauthor} | {b.price} | {b.year} 
 
-41:            
-42:            <button onClick={()=>deleteBook(b.id)}>Delete</button>
-43:            
-44:        </div>
-45:      ))}
-46:    </div>
-47:  )
-48: }
+46:            <Link to={`/edit/${b.id}`} state={{bookdata : b}}>
+47:            <button>Edit</button>
+48:            </Link>
+
+49:            
+50:            <button onClick={()=>deleteBook(b.id)}>Delete</button>
+51:            
+52:        </div>
+53:      ))}
+54:    </div>
+55:  )
+56: }
 - Render notes:
-- The component shows a button linking to `/form` for adding books. It maps over `book` state and renders each book with Edit and Delete buttons.
+- The search input is rendered first, allowing users to type a book name to filter books.
+- The book list is filtered client-side using `.filter()` before mapping — it checks if the book name (case-insensitive) includes the search text.
+- Each book is rendered with Edit and Delete buttons.
 - `Edit` link navigates to `/edit/{id}` and passes the full book object via location `state` as `bookdata`, which the `LibraryEdit` page consumes.
 
 ---

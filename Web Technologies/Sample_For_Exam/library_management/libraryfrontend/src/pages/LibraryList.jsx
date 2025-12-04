@@ -6,6 +6,7 @@ import { Link, Navigate } from 'react-router-dom'
 
 export default function LibraryList() {
     const [book, setbook] = useState([])
+    const [ searchtxt, setsearchtxt] = useState("")
 
     useEffect(()=>{
         fetchData();
@@ -27,12 +28,21 @@ export default function LibraryList() {
         })
     }
 
+    const handleChange=(e)=>{
+        setsearchtxt(e.target.value)
+    }
+
   return (
     <div>
+
+        <label htmlFor="search">Search Book : </label>
+        <input type="text" name="searchtxt" id="search" value={searchtxt} onChange={handleChange} /><br />
+        <br />
+
         <Link to="/form">
         <button>Add Books</button>
         </Link>
-      {book.map(b=>(
+      {book.filter((b)=>b.bname.toLowerCase().includes(searchtxt.toLowerCase())).map(b=>(
         <div key={b.id}>
             {b.id} | {b.bname} | {b.bauthor} | {b.price} | {b.year} 
 
