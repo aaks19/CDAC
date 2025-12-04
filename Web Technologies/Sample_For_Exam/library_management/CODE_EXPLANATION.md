@@ -6,37 +6,92 @@ This document explains, line-by-line, the code provided in the project attachmen
 
 **Backend: `librarybackend/server.js`**
 
-1: const express = require('express')
-- Imports the Express library to create the HTTP server and define routes.
+```javascript
+const express = require("express");
+const mysql = require("mysql2");
+const cors = require("cors");
 
-2: const app = express()
-- Creates an Express application instance assigned to `app`.
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-3: const bodyParser = require('body-parser')
-- Imports the `body-parser` middleware to parse incoming request bodies (JSON).
+// DB Connection
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "aks123",
+  database: "expressdb"
+});
 
-4: const cors = require('cors')
-- Imports the `cors` middleware to enable Cross-Origin Resource Sharing (allow frontend to call backend).
+db.connect((err) => {
+  if (err) {
+    console.log("Database error:", err);
+  } else {
+    console.log("MySQL Connected");
+  }
+});
 
-6: const libraryroute = require('./routes/LibraryRoute')
-- Imports the router defined in `routes/LibraryRoute.js` which contains routes for books.
+// GET all books
+app.get("/library/books", (req, res) => {
+  db.query("SELECT * FROM library", (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
 
-8: app.use(cors())
-- Applies the CORS middleware to every incoming request so the frontend (running on another origin) can access this API.
+// ADD a book
+app.post("/library/books", (req, res) => {
+  const { id, bname, bauthor, price, year } = req.body;
 
-9: app.use(bodyParser.json())
-- Applies JSON body parsing to incoming requests, so `req.body` contains parsed JSON.
+  db.query(
+    "INSERT INTO library (id, bname, bauthor, price, year) VALUES (?, ?, ?, ?, ?)",
+    [id, bname, bauthor, price, year],
+    (err, result) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Book Added", id: result.insertId });
+    }
+  );
+});
 
-11: app.use("/library",libraryroute)
-- Mounts the `libraryroute` router at the path `/library`. All routes defined in the router will be available under `/library/*`.
+// UPDATE book
+app.put("/library/books/:id", (req, res) => {
+  const { bname, bauthor, price, year } = req.body;
 
-13: app.listen(3333,()=>{
-14:         console.log("running on port 3333");
-15: })
-- Starts the server listening on port `3333`. The callback logs that the server is running.
+  db.query(
+    "UPDATE library SET bname=?, bauthor=?, price=?, year=? WHERE id=?",
+    [bname, bauthor, price, year, req.params.id],
+    (err, results) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Book Updated" });
+    }
+  );
+});
 
-Notes:
-- The file contains commented-out alternative/previous code below (not active). The active server runs on port 3333 and delegates to the router.
+// DELETE book
+app.delete("/library/books/:id", (req, res) => {
+  db.query(
+    "DELETE FROM library WHERE id=?",
+    [req.params.id],
+    (err, results) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Book Deleted" });
+    }
+  );
+});
+
+// Start server
+app.listen(3333, () => console.log("Server running on port 3333"));
+```
+
+Explanation:
+- Creates Express app with MySQL database connection directly (refactored from separate router/controller pattern).
+- DB connection: Connects to MySQL on localhost with credentials (root/aks123) to the `expressdb` database.
+- GET `/library/books`: Fetches all books and returns results directly (no wrapping in `{data: ...}`).
+- POST `/library/books`: Destructures id, bname, bauthor, price, year from request body. Inserts into library table with explicit column listing (safer approach). Returns `{message: "Book Added", id: insertId}`.
+- PUT `/library/books/:id`: Updates a specific book by id. Returns `{message: "Book Updated"}`.
+- DELETE `/library/books/:id`: Deletes a specific book by id. Returns `{message: "Book Deleted"}`.
+- Proper error handling: All errors return HTTP 500 status code with error details.
+- Server listens on port 3333.
 
 ---
 
