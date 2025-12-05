@@ -28,6 +28,7 @@ export default function MedicineList() {
   useEffect(() => {
     fetchData();
   }, []);
+  
   return (
     <div>
         <Link to="/form">
