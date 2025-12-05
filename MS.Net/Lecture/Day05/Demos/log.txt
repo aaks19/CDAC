@@ -1,0 +1,1 @@
+Logged at 12/4/2025 1:31:52 PM - create table Employee ( Address varchar(50),Name varchar(50),No int);create table Dept ( Dname varchar(50),DNo int);

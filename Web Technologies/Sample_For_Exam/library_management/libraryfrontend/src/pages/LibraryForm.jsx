@@ -95,6 +95,7 @@ export default function LibraryForm() {
         <br />
 
         <button type="submit">Add Book</button>
+        <button type="reset">Reset</button>
       </form>
     </div>
   );
