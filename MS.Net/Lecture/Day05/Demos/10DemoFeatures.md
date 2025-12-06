@@ -110,9 +110,32 @@ Small exercises for students:
   1. Replace `List<Emp>` with `List<string>` storing only employee names.
   2. Implement a `Find` method to locate an `Emp` by `No` using `List<T>.Find` or LINQ.
 
-What / Why / How summary
-- What: Demonstrates language features and typical collection usage.
-- Why: Hands-on examples help students learn idiomatic C# patterns.
-- How: Try uncommenting regions or copying small examples into fresh projects to run them.
+## Detailed What / Why / How (summary)
 
-End of `10DemoFeatures` documentation.
+What: A set of short, focused examples demonstrating generics, collections, delegates, nullable types, and simple class designs.
+
+Why: These examples teach idiomatic C# usage and common patterns students will use in real applications, such as type-safe collections, lambda expressions, and event/delegate patterns.
+
+How: Recreate the small code snippets in a new console project or uncomment regions in the original project. Experiment with `List<T>`, `Stack<T>`, `Queue<T>`, and `Func`/`Action` to internalize semantics and behavior.
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- A collection of small teaching snippets that demonstrate core language features like generics, delegates, nullable types, and collections.
+
+Why (expanded):
+- These examples target learners to practice idiomatic C# patterns and understand how language constructs behave at runtime.
+
+How (expanded):
+- Provide small exercises after each snippet that incrementally build complexity (e.g., transform a `List<T>` processing into a LINQ query, add error checks for `stack.Pop()`).
+- Encourage writing unit tests for each snippet to validate behavior.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Removing iteration keywords or tokens (e.g., `foreach`) leads to compile-time errors like `CS1002` or `CS0103`.
+- Removing `var` can cause type inference to fail where used; missing `using` or references results in unresolved types.
+- Use IDE tooling and code analysis to quickly locate missing tokens.
+
+---

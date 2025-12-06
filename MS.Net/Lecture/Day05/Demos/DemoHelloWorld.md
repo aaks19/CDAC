@@ -97,12 +97,56 @@ Flow of execution
   3. `Main` constructs a `Maths` instance from `MathLib` and calls `Add(x, y)`.
   4. The result is printed and the program waits for the user to press Enter before exiting.
 
-What / Why / How summary:
-- What: CLI program demonstrating use of a library and console IO.
-- Why: Teaches separation of concerns (I/O vs logic) and encourages robust input handling.
-- How: Replace `Convert.ToInt32` with `int.TryParse` and move parsing into a helper method.
+## Detailed What / Why / How (summary)
+
+What: A simple console application that obtains two integers from the user and prints their sum using `MathLib.Maths`.
+
+Why: Demonstrates clean separation of I/O and business logic, and highlights safe input handling concerns for beginners.
+
+How: Read input using `ReadIntFromConsole` helper (recommended) that uses `int.TryParse` to validate input and avoids exceptions. Instantiate `Maths` from `MathLib` and call `Add` to obtain the result. Print the result and wait for user acknowledgement before exiting.
 
 Layman example:
 - Instead of forcing the user to type perfectly every time (which crashes the app on mistakes), the program politely asks again until a valid number is entered — like a cashier confirming a price if the handwriting is unclear.
 
 End of `DemoHelloWorld` documentation.
+
+---
+
+## Detailed line-by-line expansions (Program.cs)
+
+- `Console.WriteLine("Enter value of X"); string xValue = Console.ReadLine();`
+  - What: Prompt and read raw input. Why: Accept user data. How: Use `int.TryParse` to validate.
+  - Failure mode: If the user types non-numeric input, `Convert.ToInt32` will throw.
+
+- `int x = Convert.ToInt32(xValue);` and `int y = Convert.ToInt32(yValue);`
+  - What: Convert strings to integers. Why: Feed typed values to `Maths.Add`. How: Prefer `int.TryParse` and loop to re-prompt on invalid input.
+
+- `Maths obj = new Maths(); int result = obj.Add(x, y);`
+  - What: Invoke library method. Why: Demonstrate use of a separate assembly. How: Keep logic separate from I/O for testability.
+
+---
+
+Testing and robustness tips:
+- Add unit tests for `Maths` methods and for the parsing logic.
+- Avoid `Console.ReadLine()` blocking calls in code used by automated systems; separate interactive and non-interactive modes.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- A simple console application that demonstrates separation between I/O and logic by using `MathLib`.
+
+Why (expanded):
+- Highlights input validation and the importance of separating concerns for maintainable code and testability.
+
+How (expanded):
+- Provide helper methods for parsing with `TryParse` loops and expose non-interactive modes (command-line args) for automated testing.
+- Unit-test core logic in `MathLib` and keep `Program` thin. For integration tests, simulate console I/O streams.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Example: removing `using MathLib;` will produce `CS0246` when `Maths` is referenced. Add the using or fully qualify `MathLib.Maths`.
+- Removing `static` from `Main` may prevent the runtime from finding the entry point if there's no other suitable `Main` overload.

@@ -108,9 +108,36 @@ Flow of execution
   3. A `StreamWriter` writes the formatted message and both writer and stream are closed.
   4. On exception, resources may not be released unless `using` or try/finally is used; catch and handle exceptions according to policy.
 
-What / Why / How summary
-- What: A simple demo file logger implemented as a singleton that writes timestamped messages to disk.
-- Why: Illustrates file I/O and single-instance patterns for learners.
-- How: Replace with `using` for resource safety, add configuration, and use thread-safety measures or a logging framework for real applications.
+## Detailed line-by-line expansions (FileLogger)
+
+- `private static readonly Lazy<FileLogger> _instance = new Lazy<FileLogger>(() => new FileLogger());`
+  - What: lazy, thread-safe singleton. Why: defer initialization and make thread-safe. How: prefer over eager static instances.
+
+- `using (var stream = new FileStream(_filePath, FileMode.Append, FileAccess.Write, FileShare.Read))`:
+  - What: ensure proper resource disposal. Why: prevent handle leaks. How: `using` pattern guarantees disposal even on exceptions.
+
+- `lock(_sync)` or background queue:
+  - What: synchronization for concurrent writes. Why: file writes must be serialized. How: prefer background queue + single writer for high throughput.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- The docs explain best practices for file-based logging and how to structure a demo logger for safety and portability.
+
+Why (expanded):
+- Demonstrate the pitfalls of naive file I/O and how to harden a logger for production use.
+
+How (expanded):
+- Provide advice on rotation, locking, and configuration; recommend using existing logging frameworks for production.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Missing `using` statements or `using` blocks for disposables will produce compiler or runtime issues (resource leaks). Check build warnings and run analyzers.
+
+---
 
 End of `LoggerLib` documentation.

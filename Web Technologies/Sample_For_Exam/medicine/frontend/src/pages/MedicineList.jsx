@@ -35,7 +35,7 @@ export default function MedicineList() {
       <button>Add Medicine</button>
       </Link>
       <br />
-      <table>
+      <table style={{border:"2px solid white"}}>
         <thead>
             <tr>
                 <th scope="col">Medicine Id</th>

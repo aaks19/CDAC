@@ -11,7 +11,7 @@ This document provides the full code and expanded explanations for `09DemoReflec
 
 ## `Program.cs` (complete code)
 ```csharp
-using System.Reflection;
+using System.Reflection; // What: imports reflection APIs.
 
 namespace _09DemoReflection
 {
@@ -19,31 +19,31 @@ namespace _09DemoReflection
     {
         static void Main(string[] args)
         {
-            string path = "D:\\IACSD\\IACSDDemos\\MathLib\\bin\\Debug\\net8.0\\MathLib.dll";
+            string path = "D:\\IACSD\\IACSDDemos\\MathLib\\bin\\Debug\\net8.0\\MathLib.dll"; // What: hard-coded path in sample. Why: demo convenience. How: replace with user input in real tool.
 
-            Assembly assembly = Assembly.LoadFrom(path);
+            Assembly assembly = Assembly.LoadFrom(path); // What: load assembly from path.
 
-            Type []types = assembly.GetTypes();
+            Type []types = assembly.GetTypes(); // What: get types defined in assembly.
            
             foreach (Type type in types)
             {
                 
                 object dynamicallyCreatedObject =
-                    assembly.CreateInstance(type.FullName);
+                    assembly.CreateInstance(type.FullName); // What: instantiate type using parameterless ctor; may return null.
 
                 Console.WriteLine("Created Object of Type " + type.FullName);
                 Console.WriteLine("-------------------");
 
 
-                MethodInfo[] allMethods = type.GetMethods();
+                MethodInfo[] allMethods = type.GetMethods(); // What: get the methods to invoke.
 
                 foreach (MethodInfo method in allMethods)
                 {
                     Console.WriteLine("-- calling "  + method.Name + " method");
 
-                    ParameterInfo[] allParams = method.GetParameters();
+                    ParameterInfo[] allParams = method.GetParameters(); // What: get parameters for the method.
 
-                    object[]arguments = new object[allParams.Length];
+                    object[]arguments = new object[allParams.Length]; // What: prepare argument array.
 
                     for (int i = 0; i < allParams.Length; i++)
                     {
@@ -51,13 +51,13 @@ namespace _09DemoReflection
 
                         Console.WriteLine("Enter data for " + 
                             parameter.Name + " of type " +
-                            parameter.ParameterType.ToString());
+                            parameter.ParameterType.ToString()); // What: prompt for value and type.
 
-                        string valueOfParameter = Console.ReadLine();
+                        string valueOfParameter = Console.ReadLine(); // What: read user input.
 
-                        object paramaterValue = Convert.ChangeType(valueOfParameter, parameter.ParameterType);
+                        object paramaterValue = Convert.ChangeType(valueOfParameter, parameter.ParameterType); // What: convert to required type; may throw.
 
-                        arguments[i] = paramaterValue;
+                        arguments[i] = paramaterValue; // What: store in array.
 
                     }
 
@@ -68,9 +68,9 @@ namespace _09DemoReflection
                                       BindingFlags.InvokeMethod,
                                       null,
                                       dynamicallyCreatedObject,
-                                      arguments);
+                                      arguments); // What: invoke method reflectively.
 
-                    Console.WriteLine( "Method " + method.Name + " Result is = " +  result.ToString());
+                    Console.WriteLine( "Method " + method.Name + " Result is = " +  result.ToString()); // What: print result; guard against null in production.
                     Console.WriteLine("------------------------");
                     Console.WriteLine();
                 }
@@ -115,5 +115,42 @@ When to use this pattern
 - What: Use for debugging, test tools, or interactive exploration of APIs.
 - Why: Provides flexibility to exercise code without compiling new test harnesses.
 - How: Do not use to execute untrusted code in production; validate inputs and consider sandboxing or limiting loaded assemblies.
+
+---
+
+## Detailed line-by-line expansions (Program.cs)
+
+- `var instance = assembly.CreateInstance(type.FullName);`
+  - What: create object instance. Why: needed to invoke instance methods. How: check for null and use constructors with parameters via `Activator.CreateInstance` if needed.
+
+- `object paramaterValue = Convert.ChangeType(valueOfParameter, parameter.ParameterType);`
+  - What: convert string to parameter type. Why: enable typed invocation. How: for primitives use `TryParse` to validate and provide helpful error messages; for enums use `Enum.Parse` with validation.
+
+- `method.Invoke(instance, args);`
+  - What: call method reflectively. Why: execute API without compile-time dependency. How: guard invocation in try/catch and consider method return types and exceptions when printing results.
+
+Security and policy:
+- Never run this tool against untrusted code without sandboxing; invoked methods may modify files, network, or engage in other side effects.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- The docs describe how to safely perform interactive invocations and provide conversion guidance.
+
+Why (expanded):
+- Encourages robust input handling and careful consideration of side-effects when invoking methods interactively.
+
+How (expanded):
+- Use `TargetInvocationException` handling to surface the root cause of exceptions thrown by invoked methods.
+- Provide a `--dry-run` or `--skip-side-effects` option to avoid executing destructive methods when exploring APIs.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Reflection examples rely on correct `using` directives and `MethodInfo`/`ParameterInfo` types; missing these will produce compile errors like `CS0246`.
+- If `static` is removed in helper methods expected to be static, calls will fail with `CS0120` or similar errors because an instance reference is required.
 
 End of `09DemoReflection` documentation.

@@ -11,32 +11,32 @@ This document contains the complete code and expanded explanations for `002DemoP
 
 ## `Class1.cs` (complete code)
 ```csharp
-using _001DemoMyAttributes;
+using _001DemoMyAttributes; // What: imports custom attributes. Why: uses Table/Column. How: allows attribute usage.
 
 namespace _002DemoPOCOLib
 {
-	[Table(Name = "Employee")]
+	[Table(Name = "Employee")] // What: marks class as mapping to Employee table. Why: used by generator. How: attribute usage with named property.
     public class Emp
     {
-		private int _No;
-		private string _Name;
-		private string _Address;
+		private int _No; // What: backing field for No property.
+		private string _Name; // What: backing field for Name property.
+		private string _Address; // What: backing field for Address property.
 
-		[Column(ColumnName = "Address", ColumnType ="varchar(50)")]
+		[Column(ColumnName = "Address", ColumnType ="varchar(50)")] // What: maps property to Address column. Why: provides SQL type and name. How: attribute with named properties.
 		public string Address
 		{
 			get { return _Address; }
 			set { _Address = value; }
 		}
 
-        [Column(ColumnName = "Name", ColumnType = "varchar(50)")]
+        [Column(ColumnName = "Name", ColumnType = "varchar(50)")] // What: maps Name property. How: attribute carries column metadata.
         public string Name
 		{
 			get { return _Name; }
 			set { _Name = value; }
 		}
 
-        [Column(ColumnName = "No", ColumnType = "int")]
+        [Column(ColumnName = "No", ColumnType = "int")] // What: maps No property to int column.
         public int No
 		{
 			get { return _No; }
@@ -45,21 +45,21 @@ namespace _002DemoPOCOLib
 
 	}
 
-	[Table(Name = "Dept")]
+	[Table(Name = "Dept")] // What: marks Dept class mapping.
 	public class Dept
 	{
 		private int _DNo;
 
 		private string _DName;
 
-		[Column(ColumnName = "Dname", ColumnType = "varchar(50)")]
+		[Column(ColumnName = "Dname", ColumnType = "varchar(50)")] // What: maps DName property.
 		public string DName
 		{
 			get { return _DName; }
 			set { _DName = value; }
 		}
 
-        [Column(ColumnName = "DNo", ColumnType = "int")]
+        [Column(ColumnName = "DNo", ColumnType = "int")] // What: maps DNo property.
         public int DNo
 		{
 			get { return _DNo; }
@@ -106,4 +106,69 @@ Pitfalls
 Layman example
 - Each class is a form template and every property has a sticky-note telling how to enter the value in a spreadsheet column.
 
+---
+
+## Detailed What / Why / How (summary)
+
+What: This document demonstrates POCO classes decorated with `Table` and `Column` attributes to indicate how domain types map to database tables and columns.
+
+Why: Attribute-based mapping enables a simple code-first generator or lightweight ORM to discover database schema preferences directly from the domain types. It separates relationship and mapping metadata from persistence code, simplifying maintenance and testability.
+
+How: In practice, a generator reads the assembly, finds types with `Table` attributes, then inspects property-level `Column` attributes to build SQL `CREATE TABLE` statements. For robustness:
+- Validate that required attributes exist and that `ColumnType` values are supported by the target RDBMS.
+- Provide defaults or fallbacks when attributes are missing (e.g., use property name as column name).
+- Consider adding richer attribute fields like `IsNullable`, `IsPrimaryKey`, `DefaultValue` to capture more schema details.
+
 End of `002DemoPOCOLib` documentation.
+
+---
+
+## Detailed line-by-line expansions (Class1.cs)
+
+- `[Table(Name = "Employee")]` on `Emp`:
+  - What: Marks the class with the table mapping. Why: Generator recognizes which classes represent tables. How: If multiple classes map to the same table, the generator should detect and warn on collisions.
+
+- `[Column(ColumnName = "Name", ColumnType = "varchar(50)")]` on `Name` property:
+  - What: Instructs the generator to use the supplied column name and SQL type. Why: Controls column naming and schema. How: If users omit `Column`, the generator must decide a fallback - default to property name or skip the property.
+
+- `public int No { get; set; }` with `Column(ColumnName = "No", ColumnType = "int")`:
+  - What: Map numeric identity to SQL `int`. Why: Enable proper SQL typing. How: Consider adding `IsPrimaryKey` attribute property or additional attributes to indicate identity/auto-increment.
+
+---
+
+Edge behaviors and checks:
+- Validate `ColumnType` strings before emitting SQL; mismatches will cause SQL execution-time errors.
+- Support optional attribute values by documenting defaults (e.g., default column name is property name).
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- This module defines POCO classes (`Emp`, `Dept`) decorated with `Table` and `Column` metadata to describe their SQL mapping.
+
+Why (expanded):
+- Decouples schema decisions from code logic, allowing a generator or ORM to programmatically create or validate database schema based on attributes.
+- Improves readability of the data model by placing mapping information next to the property it concerns.
+
+How (expanded):
+- Mapping algorithm: loader reads types with `[Table]` and collects `[Column]` from properties; it then composes `CREATE TABLE` statements or other mapping artifacts.
+- Type mapping: translate `ColumnType` strings into platform-specific SQL types; keep a mapping table for the target DB engine (e.g., map `string` to `varchar(n)` or `nvarchar(n)` depending on settings).
+
+Practical checks and tips:
+- Document default behavior when `Column` is missing (use property name or skip).
+- Support optional attributes (e.g., `IsPrimaryKey`, `IsNullable`) to express schema nuances.
+- Sanitize identifiers to avoid SQL injection or invalid names; consider quoting identifiers using the DB engine's quoting rules.
+
+Testing:
+- Create integration tests that generate SQL and run it against a test database to validate the statements.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Examples:
+  - Removing `class` before a type declaration -> `CS1519` or `CS1022` syntax errors.
+  - Removing `using` -> `CS0246` type or namespace cannot be found.
+  - Removing `public`/`private` changes accessibility; missing access modifier may default to `private` for class members and cause unexpected visibility.
+- How to diagnose: Build the project in the IDE or run `dotnet build` to see the compiler diagnostics; use source control to restore the correct version.

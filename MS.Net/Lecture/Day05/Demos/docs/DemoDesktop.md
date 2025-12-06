@@ -34,9 +34,9 @@ namespace DemoDesktop
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.EnableVisualStyles(); // What: enables OS visual styles for controls.
+            Application.SetCompatibleTextRenderingDefault(false); // What: set text rendering behavior for controls.
+            Application.Run(new Form1()); // What: start the message loop with Form1 as main window.
         }
     }
 }
@@ -256,5 +256,25 @@ This section describes inline comments present in the code and provides what/why
 
 Notes:
 - UI code runs on a single UI thread; long-running operations should be moved to background threads to prevent freezing the UI.
+
+---
+
+## Detailed line-by-line expansions (Form1.cs and Program.cs)
+
+- `Application.Run(new Form1());`
+  - What: starts UI message pump. Why: process Windows messages. How: consider using `Application.SetHighDpiMode(HighDpiMode.SystemAware)` for modern DPI settings where appropriate.
+
+- `button1.Click += pointer;`
+  - What: attach event handler. Why: wiring UI events to behavior. How: prefer `button1.Click += SayHi;` for concise syntax.
+
+- `MessageBox.Show("Hi");`
+  - What: show modal dialog. Why: demo. How: avoid blocking in background operations; prefer non-modal notifications or asynchronous UI updates for background tasks.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Missing `STAThread` may not show as a compiler error but can lead to runtime issues related to COM.
+- The IDE's build + run cycle helps detect such issues; test UI thoroughly when changing entrypoint code.
 
 End of `DemoDesktop` documentation.

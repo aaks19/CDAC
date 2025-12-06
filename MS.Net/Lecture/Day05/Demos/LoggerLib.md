@@ -119,4 +119,57 @@ Flow of execution
 When to adopt a logging framework
 - For production applications, prefer structured logging frameworks such as `Serilog`, `NLog`, or `Microsoft.Extensions.Logging` which provide sinks, levels, and robust configuration.
 
+---
+
+## Detailed What / Why / How (summary)
+
+What: A simple file-based logger implemented as a singleton that writes timestamped messages to disk.
+
+Why: Demonstrates logging mechanics and common pitfalls (resource leaks, concurrency, configuration). In small demos a file logger is useful for tracing, but production apps should use a robust logging framework.
+
+How: Use a thread-safe singleton (Lazy<T>) and `using` statements to ensure streams are disposed. Prefer configurable file paths and background flushing for high-throughput scenarios. Consider integrating `Microsoft.Extensions.Logging` or `Serilog` for structured logging and richer features.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- A demo logger that writes timestamped messages to a file, implemented as a singleton in the example.
+
+Why (expanded):
+- Logging is essential for diagnosing runtime behavior and should be reliable, non-blocking, and configurable.
+
+How (expanded):
+- Prefer `Lazy<T>` for thread-safe singleton initialization.
+- Use `using` blocks for streams and a lock or background queue to prevent concurrent write conflicts.
+- Provide configuration for the file path, rotation policy (size-based or time-based), and retention.
+
+Production advice:
+- Use a logging framework for features like structured logs, sinks, and levels (INFO, WARN, ERROR).
+- Use standard timestamp formats (ISO 8601) and include context (correlation IDs) where appropriate.
+
+---
+
+## Detailed line-by-line expansions (FileLogger)
+
+- `private static FileLogger logger = new FileLogger();`
+  - What: Eager singleton instance. Why: Provide a globally accessible logger. How: Use `Lazy<T>` to avoid eager allocation and to support thread-safe lazy initialization.
+
+- `StreamWriter writer = new StreamWriter(stream); writer.WriteLine(messageData); writer.Close(); stream.Close();`
+  - What: Writes message and closes resources. Why: Persist log. How: Wrap in `using` so disposal occurs even on exceptions; consider `FileShare.Read` and buffered writes.
+
+- `string filePath = "D:\\IACSD\\IACSDDemos\\log.txt";`
+  - What: Hard-coded path. Why: For demo convenience. How: Make path configurable; use `Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs")` for relative default.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Removing `using System.IO;` would cause file-related APIs to be unresolved, producing `CS0246`.
+- Removing `using` or forgetting `using` around streams can cause resource leaks if `using` statements are removed; watch for `IDisposable` misuses.
+
+Reliability and performance tips:
+- For high-volume logging, buffer messages concurrently and write on a single background thread.
+- For multi-process scenarios, use an IPC-friendly sink or a logging framework that supports locking and rotation.
+
 End of `LoggerLib` documentation.

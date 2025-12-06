@@ -67,4 +67,39 @@ What / Why / How summary
 - Why: Hands-on examples help students learn idiomatic C# patterns.
 - How: Recreate small snippets in new projects or uncomment regions in the original solution to run them locally.
 
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- The docs present teaching examples and explain how to practice language features.
+
+Why (expanded):
+- Reinforce learning by suggesting hands-on exercises and test-driven tasks.
+
+How (expanded):
+- Include small, runnable snippets for students and explain expected behaviors, edge cases, and pitfalls.
+
+---
+
+## Detailed line-by-line expansions (selected snippets)
+
+- `Console.WriteLine(emp.No + " - " + emp.Name + " (" + emp.Address + ")");`
+  - What: prints concatenated string. Why: demo output. How: use string interpolation for clarity: `$"{emp.No} - {emp.Name} ({emp.Address})"`.
+
+- `stack.Pop()` and `queue.Dequeue()` behaviors:
+  - What: remove items from collection. Why: demonstrates LIFO/FIFO. How: guard with `Count` to avoid `InvalidOperationException`.
+
+- `public static bool Check(int i)` used with `Func<int,bool>`:
+  - What: an example method to assign to delegates. Why: teaches delegates and method group conversion. How: use lambdas for concise inline behavior.
+
+Teaching tips:
+- Encourage students to write unit tests for behaviors and explore LINQ to manipulate collections.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Students may accidentally remove `foreach` or `using`; these produce errors that the compiler surfaces. Use IDE features to find and restore keywords.
+
 End of `10DemoFeatures` documentation.

@@ -74,4 +74,50 @@ When to extend this library
 Layman example
 - The library is a tiny pocket calculator that always returns the sum or difference of two whole numbers. If you try to store a number bigger than the screen can show (overflow), the calculator may wrap or report an error if in checked mode.
 
+---
+
+## Detailed What / Why / How (summary)
+
+**What**: A minimal math utility library exposing `Add` and `Sub` operations for integers.
+
+**Why**: Keeps arithmetic logic in a reusable library so other projects can depend on it without duplicating code.
+
+**How**: Methods are straightforward; watch for overflow semantics on 32-bit integers and consider `checked` or `long` return types for critical use cases.
+
+---
+
+## Detailed line-by-line expansions (Maths.cs)
+
+- `public int Add(int x, int y)`:
+  - What: Adds two integers. Why: Provide basic arithmetic operation for demos. How: Remember to consider overflow and possibly change to `long` for safety when inputs might exceed 32-bit ranges.
+
+- `public int Sub(int x, int y)`:
+  - What: Subtracts two integers. Why: Provide basic subtract operation. How: Consider input validation and overflow semantics where necessary.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- A minimal arithmetic library exposing integer operations used by demo apps.
+
+Why (expanded):
+- Provides a simple, testable API separate from user interaction logic; good for teaching separation of concerns.
+
+How (expanded):
+- Consider overflow handling and document behavior; optionally provide overloads for `long` and `decimal` for larger ranges or fractional math.
+- Add unit tests for boundary conditions and common inputs.
+
+---
+
+Testing guidance:
+- Add unit tests for typical and edge inputs (zero, negative values, large values, overflow scenarios).
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Removing `public` from the `Maths` class makes it internal by default, which may lead to `CS0122` if external assemblies try to access it.
+- Removing `return` in `Add` or `Sub` triggers `CS0161` or similar errors about missing return values.
+
 End of `MathLib` documentation.

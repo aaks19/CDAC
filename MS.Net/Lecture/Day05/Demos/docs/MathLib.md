@@ -15,12 +15,12 @@ namespace MathLib
 {
     public class Maths
     {
-        public int Add(int x, int y)
+        public int Add(int x, int y) // What: returns sum of x and y. Why: reusable arithmetic. How: uses 32-bit addition.
         {
             return x + y;
         }
 
-        public int Sub(int x, int y)
+        public int Sub(int x, int y) // What: returns difference x - y. Why: reusable subtraction. How: uses 32-bit subtraction.
         {
             return x - y;
         }
@@ -57,4 +57,34 @@ Flow of execution
   2. The method executes the arithmetic operation and returns the result.
   3. The caller receives the integer and continues execution.
 
-End of `MathLib` documentation.
+---
+
+## Detailed line-by-line expansions (Maths.cs)
+
+- `public int Add(int x, int y)`:
+  - What: compute x + y. Why: core operation for examples. How: consider `checked` context to detect overflow if correctness is critical: `checked { return x + y; }`.
+
+- `public int Sub(int x, int y)`:
+  - What: compute x - y. Why: core subtraction. How: handle range considerations and tests.
+
+Testing guidance:
+- Write unit tests for boundary values (int.MinValue, int.MaxValue) and normal cases.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- The docs describe the `Maths` class and detail considerations for integer arithmetic and overflow.
+
+Why (expanded):
+- To highlight design choices, e.g., when to use `checked` and when to choose larger numeric types.
+
+How (expanded):
+- Suggest tests and mention `checked` semantics where appropriate.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Missing keywords produce compiler diagnostics; the IDE points to the exact offending line so you can restore the token from VCS or undo.

@@ -13,30 +13,30 @@ This document contains the full code and expanded, line-by-line explanations for
 ```csharp
 namespace _001DemoMyAttributes
 {
-    public class Table: Attribute
+    public class Table: Attribute // What: Declares Table attribute. Why: Used to mark classes with table metadata. How: Inherits Attribute.
     {
-		private string _Name;
+		private string _Name; // What: backing field for Name property. Why: stores value. How: standard field.
 
-		public string Name
+		public string Name // What: exposes table name. Why: attribute payload for mapping. How: get/set property.
 		{
-			get { return _Name; }
-			set { _Name = value; }
+			get { return _Name; } // What: getter. Why: returns stored name. How: returns field.
+			set { _Name = value; } // What: setter. Why: allows assignment in attribute usage. How: sets field.
 		}
 
 	}
 
-	public class Column: Attribute
+	public class Column: Attribute // What: Declares Column attribute. Why: used to mark properties. How: inherits Attribute.
 	{
-		private string _ColumnName;
-		private string _ColumnType;
+		private string _ColumnName; // What: backing field for ColumnName. How: stores column name.
+		private string _ColumnType; // What: backing field for ColumnType. How: stores SQL type.
 
-		public string ColumnType
+		public string ColumnType // What: exposes SQL type. Why: used by generator. How: get/set.
 		{
 			get { return _ColumnType; }
 			set { _ColumnType = value; }
 		}
 
-		public string ColumnName
+		public string ColumnName // What: exposes column name. Why: used by generator. How: get/set.
 		{
 			get { return _ColumnName; }
 			set { _ColumnName = value; }
@@ -151,3 +151,41 @@ Flow of execution
   4. The reflection consumer (ORM or generator) reads attribute properties (`Name`, `ColumnName`, `ColumnType`) and uses them to produce SQL or mapping configuration.
 
 End of `001DemoMyAttributes` documentation.
+
+---
+
+## Detailed line-by-line expansions (MyAttributes.cs)
+
+- `public class Table: Attribute`:
+  - What: Declares an attribute type for classes. Why: Encapsulates table mapping metadata. How: Add `AttributeUsage` to restrict targets and set `Inherited`/`AllowMultiple`.
+
+- `public string Name { get; set; }`:
+  - What: Table name payload. Why: Mapper needs the target database table name. How: Consider using constructor parameter to make attribute immutable at compile time.
+
+- `public class Column: Attribute`:
+  - What: Attribute to annotate properties with column metadata. Why: Maps to SQL schema. How: Provide optional flags for `IsNullable`, `IsPrimaryKey`.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- `Table` and `Column` attributes are declarative metadata carriers placed on types and properties to describe persistence mappings.
+
+Why (expanded):
+- They document mapping decisions at the source and enable decoupled tooling that reads these annotations without changing domain logic.
+
+How (expanded):
+- Consumption: prefer `type.GetCustomAttribute<Table>()` and `prop.GetCustomAttribute<Column>()` for clarity.
+- Validation: consumers should validate attribute contents, and generators should provide warnings for missing metadata.
+
+Best practices:
+- Use `AttributeUsage` and prefer immutable attribute payloads.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Missing keywords cause compiler errors like `CS1002` (semicolon expected), `CS1513` (right curly brace expected), or `CS0116` (a namespace cannot directly contain members such as fields or methods).
+- Missing `using` results in `CS0246` or `CS0103` (type/namespace not found). Resolve by adding the using or fully qualify the type.
+- Missing `class` or `namespace` typically yields syntax errors and prevents the file from compiling until corrected.

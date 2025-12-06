@@ -13,20 +13,20 @@ This document contains the full code and expanded explanations for the `DBOpsLib
 ```csharp
 namespace DBOpsLib
 {
-    public delegate void MyDBDelegate(string message);
+    public delegate void MyDBDelegate(string message); // What: delegate type signature for DB events. Why: defines handler contract. How: methods matching this signature can subscribe.
     public class SQLServer
     {
-        public event MyDBDelegate OnInsert;
-        public event MyDBDelegate OnUpdate;
+        public event MyDBDelegate OnInsert; // What: event fired after insert. Why: notify subscribers about inserts. How: subscribers use += to attach handlers.
+        public event MyDBDelegate OnUpdate; // What: event fired after update. Why: notify subscribers about updates. How: subscribers use += to attach handlers.
         public void Insert()
         {
-            Console.WriteLine("SQL Server Insert Done!");
-            OnInsert("Audited : Insert in SQLServer");
+            Console.WriteLine("SQL Server Insert Done!"); // What: writes a console message indicating insert completed. Why: demo/tracing. How: replace with structured logging in production.
+            OnInsert("Audited : Insert in SQLServer"); // What: raise OnInsert event with audit message. Why: notify observers. How: must ensure event is non-null or use safe invocation.
         }
         public void Update()
         {
-            Console.WriteLine("SQL Server Update Done!");
-            OnUpdate("Audited : Update in SQLServer");
+            Console.WriteLine("SQL Server Update Done!"); // What: writes a console message indicating update completed.
+            OnUpdate("Audited : Update in SQLServer"); // What: raise OnUpdate event. Why/How: same safety caveats as OnInsert.
         }
     }
 }
@@ -76,5 +76,38 @@ What / Why / How summary
 - What: This library demonstrates raising events for DB operations.
 - Why: Decouples auditing/logging from DB logic so multiple observers can react without modifying DB code.
 - How: Use safe invocation patterns and prefer modern delegates (`Action<T>`) for simple signatures.
+
+---
+
+## Detailed line-by-line expansions (Class1.cs)
+
+- `public event Action<string>? OnInsert;`
+  - What: event definition. Why: notify observers. How: invoke with `OnInsert?.Invoke(message)` for safety.
+
+- `OnInsert?.Invoke("Audited : Insert in SQLServer");`
+  - What: safe invocation. Why: prevents `NullReferenceException` when no subscribers exist. How: use try/catch around subscriber invocation if subscribers may throw.
+
+Threading note:
+- When event handlers perform IO or long work, run them asynchronously or dispatch to worker threads to avoid blocking the producer.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- The docs explain safe invocation patterns and how to structure event-driven DB operations for robustness.
+
+Why (expanded):
+- Prevent crashes due to null event handlers and avoid locking the producer on slow subscribers.
+
+How (expanded):
+- Use `?.Invoke` and consider background processing for heavy work.
+- Add documentation for subscribers about expected performance and exception handling.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- Missing `event` modifier or `Action<string>` replacement can cause compilation to fail. Use build errors to find and fix these issues.
 
 End of `DBOpsLib` documentation.

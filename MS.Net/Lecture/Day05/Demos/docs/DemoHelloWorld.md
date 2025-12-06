@@ -56,4 +56,25 @@ Flow of execution
 4. Program constructs `Maths` and calls `Add`.
 5. Program prints the result and waits for final Enter before exiting.
 
+---
+
+## Detailed line-by-line expansions (Program.cs)
+
+- `int x = ReadIntFromConsole("Enter value of X: ");`
+  - What: robust input. Why: avoid exceptions from invalid input. How: loop until `int.TryParse` succeeds.
+
+- `Maths obj = new Maths(); int result = obj.Add(x, y);`
+  - What: call library method. Why: demonstrates separation of responsibilities. How: write unit tests for `Maths` and for input parsing helper.
+
+Testing note:
+- Add unit tests asserting `ReadIntFromConsole` behavior using input injection in tests (e.g., using `TextReader` replacement).
+
 End of `DemoHelloWorld` documentation.
+
+The file contains descriptive explanations; no code blocks were modified in this batch.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- The typical resolution is to read the compiler error and restore the keyword or revert the change from source control.

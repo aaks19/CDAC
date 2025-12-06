@@ -11,32 +11,32 @@ This document contains the complete code and expanded explanations for `002DemoP
 
 ## `Class1.cs` (complete code)
 ```csharp
-using _001DemoMyAttributes;
+using _001DemoMyAttributes; // What: imports custom attributes. Why: uses Table/Column. How: allows attribute usage.
 
 namespace _002DemoPOCOLib
 {
-	[Table(Name = "Employee")]
+	[Table(Name = "Employee")] // What: marks class as mapping to Employee table. Why: used by generator. How: attribute usage with named property.
     public class Emp
     {
-		private int _No;
-		private string _Name;
-		private string _Address;
+		private int _No; // What: backing field for No property.
+		private string _Name; // What: backing field for Name property.
+		private string _Address; // What: backing field for Address property.
 
-		[Column(ColumnName = "Address", ColumnType ="varchar(50)")]
+		[Column(ColumnName = "Address", ColumnType ="varchar(50)")] // What: maps property to Address column. Why: provides SQL type and name. How: attribute with named properties.
 		public string Address
 		{
 			get { return _Address; }
 			set { _Address = value; }
 		}
 
-        [Column(ColumnName = "Name", ColumnType = "varchar(50)")]
+        [Column(ColumnName = "Name", ColumnType = "varchar(50)")] // What: maps Name property. How: attribute carries column metadata.
         public string Name
 		{
 			get { return _Name; }
 			set { _Name = value; }
 		}
 
-        [Column(ColumnName = "No", ColumnType = "int")]
+        [Column(ColumnName = "No", ColumnType = "int")] // What: maps No property to int column.
         public int No
 		{
 			get { return _No; }
@@ -45,21 +45,21 @@ namespace _002DemoPOCOLib
 
 	}
 
-	[Table(Name = "Dept")]
+	[Table(Name = "Dept")] // What: marks Dept class mapping.
 	public class Dept
 	{
 		private int _DNo;
 
 		private string _DName;
 
-		[Column(ColumnName = "Dname", ColumnType = "varchar(50)")]
+		[Column(ColumnName = "Dname", ColumnType = "varchar(50)")] // What: maps DName property.
 		public string DName
 		{
 			get { return _DName; }
 			set { _DName = value; }
 		}
 
-        [Column(ColumnName = "DNo", ColumnType = "int")]
+        [Column(ColumnName = "DNo", ColumnType = "int")] // What: maps DNo property.
         public int DNo
 		{
 			get { return _DNo; }
@@ -106,4 +106,40 @@ Pitfalls
 Layman example
 - Each class is a form template and every property has a sticky-note telling how to enter the value in a spreadsheet column.
 
+---
+
+## Detailed line-by-line expansions (Class1.cs)
+
+- `[Table(Name = "Employee")]`:
+  - What: Marks the type for mapping. Why: Identifies which classes represent tables. How: Use `[AttributeUsage]` to limit where it applies.
+
+- `[Column(ColumnName = "Name", ColumnType = "varchar(50)")]`:
+  - What: Map property to SQL column. Why: Ensures correct type and name in SQL. How: Validate types and lengths for the target RDBMS.
+
+---
+
+Generator notes:
+- Treat missing `Column` attributes as a documented fallback (e.g., use property name). Ensure meaningful defaults to avoid silent omissions.
+
+---
+
+## Expanded What / Why / How (detailed guidance)
+
+What (expanded):
+- The docs show sample classes annotated with `Table`/`Column` for schema generation.
+
+Why (expanded):
+- Attribute-driven mapping is clear for students and reduces boilerplate when generating schema.
+
+How (expanded):
+- Ensure `ColumnType` values map cleanly to your target DB and validate lengths and nullability.
+- Provide generator flags to choose quoting style and identifier case.
+
 End of `002DemoPOCOLib` documentation.
+
+---
+
+## If a C# keyword is accidentally removed (what happens)
+
+- The compiler will surface errors such as `CS1002` (semicolon expected), `CS1513` (right curly brace expected), or `CS0246` (type or namespace name could not be found) depending on the missing keyword and location.
+- Using an IDE with syntax highlighting quickly shows the region where keywords are missing; use undo or revert from VCS to recover.
