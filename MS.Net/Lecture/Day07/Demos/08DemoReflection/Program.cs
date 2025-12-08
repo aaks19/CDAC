@@ -7,7 +7,7 @@ namespace _08DemoReflection
     {
         static void Main(string[] args)
         {
-            //string path =
+            //string path = 
             //    "D:\\IACSD\\IACSDDemos\\MathLib\\bin\\Debug\\net8.0\\MathLib.dll";
 
             Console.WriteLine("Enter the assembly path: ");

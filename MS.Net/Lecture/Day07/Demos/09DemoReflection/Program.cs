@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using System.Reflection;
+﻿using System.Reflection;
 namespace _09DemoReflection
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            string path = "F:\\CDAC\\MS.Net\\Lecture\\Day05\\Demos\\MathLib\\bin\\Debug\\net8.0\\MathLib.dll";
+            string path = "D:\\IACSD\\IACSDDemos\\MathLib\\bin\\Debug\\net8.0\\MathLib.dll";
 
             Assembly assembly = Assembly.LoadFrom(path);
 
