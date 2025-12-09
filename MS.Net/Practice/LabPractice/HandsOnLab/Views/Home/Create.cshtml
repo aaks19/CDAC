@@ -1,0 +1,40 @@
+﻿<html>
+    <head>
+        <title>Create</title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body class="container">
+        <hr />
+        <a href="/Home/Index" class="btn btn-primary">Go Home...</a>
+        <hr />
+        <div class="table-responsive">
+            <form action="/Home/AfterCreate" method="post">
+                <table class="table table-bordered text-center">
+
+                    <tbody>
+                        <tr>
+                            <td>Enter Name</td>
+                            <td>
+                                <input type="text" name="Name" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Enter Address</td>
+                            <td>
+                                <input type="text" name="Address" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Submit" name="btnCreate" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>
