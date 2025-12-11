@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HandsOnLab.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         EmpDAL dbObj = new EmpDAL();
         public IActionResult Index()

@@ -1,0 +1,21 @@
+﻿@model List<HandsOnLab.Models.Product>
+<html>
+    <head>
+        <title>Products</title>
+    </head>
+    <body>
+        <table>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.id</td>
+                        <td>@product.title</td>
+                        <td>@product.description</td>
+                        <td>@product.cost</td>
+                    </tr>
+            }
+            </tbody>
+        </table>
+    </body>
+</html>

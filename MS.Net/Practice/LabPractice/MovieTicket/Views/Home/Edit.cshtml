@@ -1,0 +1,51 @@
+﻿@model MovieTicket.Models.Movie;
+
+<html>
+    <head>
+        <title>Movie Ticket</title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
+    <body class="container">
+        <hr />
+        <a href="/Home/Index" class="btn btn-primary">Home</a>
+        <hr />
+        <div class="table-responsive">
+           <form action="/Home/AfterEdit" method="post">
+               <input type="hidden" name="id" value="@Model.id" />
+            <table class="table table-bordered text-center">
+
+                <tbody>
+                    <tr>
+                        <td>Enter Movie Name</td>
+                        <td>
+                            <input type="text" name="name" value="@Model.name" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Number of Tickets</td>
+                        <td>
+                            <input type="number" name="qty" value="@Model.qty" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Enter Price</td>
+                        <td>
+                            <input type="number" name="price" value="@Model.price" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Update" name="btnEdit" class="btn btn-primary" />
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+        </div>
+    </body>
+</html>

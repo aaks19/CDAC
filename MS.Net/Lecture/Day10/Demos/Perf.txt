@@ -1,0 +1,11 @@
+Normal Call = 346   X 1000 
+Via MyDelegate = 338 X 1000
+Via Func Delegate = 348 X 1000
+Via Func + Lambda = 363 X 1000
+
+-----------------------------------
+Create + Compile = 358 X 1
+Execution = 5 X 1000
+
+Via Expression Tree = 5 means
+		    

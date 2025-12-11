@@ -1,0 +1,47 @@
+﻿@model List<MovieTicket.Models.Movie>
+
+<html>
+    <head>
+        <title>Movie Ticket</title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
+    <body class="container">
+        <hr />
+        <a href="/Home/Create" class="btn btn-primary">Add Movie Ticket</a>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var movie in Model)
+                    {
+                        <tr>
+                            <td>@movie.id</td>
+                            <td>@movie.name</td>
+                            <td>@movie.qty</td>
+                            <td>@movie.price</td>
+                            <td>
+                                <a href="/Home/Edit/@movie.id" class="btn btn-warning">Edit</a>
+                            </td>
+
+                            <td>
+                                <a href="/Home/Delete/@movie.id" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

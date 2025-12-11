@@ -1,0 +1,48 @@
+﻿<html>
+    <head>
+        <title>Movie Ticket</title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
+    <body class="container">
+        <hr />
+        <a href="/Home/Index" class="btn btn-primary">Home</a>
+        <hr />
+        <div class="table-responsive">
+           <form action="/Home/AfterCreate" method="post">
+            <table class="table table-bordered text-center">
+
+                <tbody>
+                    <tr>
+                        <td>Enter Movie Name</td>
+                        <td>
+                            <input type="text" name="name"
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Number of Tickets</td>
+                        <td>
+                            <input type="number" name="qty"
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Enter Price</td>
+                        <td>
+                            <input type="number" name="price"
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Submit" name="btnAdd" class="btn btn-primary" />
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+        </div>
+    </body>
+</html>
