@@ -1,0 +1,47 @@
+﻿@model List<HandsOnLab.Models.Emp> 
+<html>
+    <head>
+        <title>Home</title>
+        <link  href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+               rel="stylesheet"></link>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body class="container">
+        <hr />
+        <a href="/Home/Create" class="btn btn-primary">Create New Record</a>
+        <hr />
+        <div class="table-responsive" style="margin:80px">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Edit</th> 
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var emp in Model)
+                {
+                    <tr>
+                        <td> @emp.No </td>
+                        <td> @emp.Name </td>
+                        <td> @emp.Address </td>
+                        <td>
+                            <a href="/Home/Edit/@emp.No" class="btn btn-warning">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/Home/Delete/@emp.No" class="btn btn-danger">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>    
+                }
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

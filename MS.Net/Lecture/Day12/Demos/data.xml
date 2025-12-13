@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <Emp>
+    <No>1</No>
+    <Name>abc</Name>
+    <Address>pune</Address>
+  </Emp>
+  <Emp>
+    <No>2</No>
+    <Name>xyz</Name>
+    <Address>pune</Address>
+  </Emp>
+  <Emp>
+    <No>3</No>
+    <Name>pqr</Name>
+    <Address>pune</Address>
+  </Emp>
+</NewDataSet>

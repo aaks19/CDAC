@@ -1,0 +1,13 @@
+https://www.dotnetcurry.com/
+https://www.c-sharpcorner.com/
+https://www.hanselman.com/
+https://www.johnpapa.net/
+http://www.scottgu.com/
+https://blog.sqlauthority.com/
+https://learn.microsoft.com/en-us/training/browse/
+
+MS Certifications POSTER:
+https://arch-center.azureedge.net/Credentials/Certification-Poster_en-us.pdf
+
+Java Certifications POSTER:
+https://education.oracle.com/oracle-certified-professional-java-se-8-programmer/trackp_357

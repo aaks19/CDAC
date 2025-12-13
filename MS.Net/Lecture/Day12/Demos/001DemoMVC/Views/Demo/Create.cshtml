@@ -1,0 +1,24 @@
+﻿<html>
+    <head>
+        <title>Create Emp</title>
+    </head>
+    <body>
+        <form method="post" action="/Demo/Create">
+            <center>
+            Name:<br/>
+            @* <input type="text" name="Name" /> <br/> *@
+            @Html.TextBox("Name")<br />
+            @Html.ValidationMessage("Name")<br />
+            <hr />
+
+            Address:<br />
+            @* <input type="text" name="Address" /> <br /> *@
+            @Html.TextBox("Address")<br />
+            @Html.ValidationMessage("Address")<br />
+            <hr />
+            <hr />
+            <input type="submit" value="Click Me" name="btnSubmit" />
+            </center>    
+        </form>
+    </body>
+</html>
