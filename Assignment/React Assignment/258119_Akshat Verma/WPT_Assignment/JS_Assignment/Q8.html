@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compound Interest Calculator</title>
+</head>
+<body>
+    <h2>Compound Interest Calculator</h2>
+    <label>Principal (P): </label><input type="number" id="principal" value="1000"><br><br>
+    <label>Rate of Interest (r %): </label><input type="number" id="rate" value="10"><br><br>
+    <label>Number of Years (n): </label><input type="number" id="years" value="1"><br><br>
+    <button onclick="calculateCI()">Calculate</button>
+    <h3 id="result"></h3>
+
+    <script>
+        function calculateCI() {
+            let P = parseFloat(document.getElementById("principal").value);
+            let r = parseFloat(document.getElementById("rate").value) / 100;
+            let n = parseInt(document.getElementById("years").value);
+
+            let CI = P * Math.pow((1 + r), n);
+            document.getElementById("result").innerText = "Compound Interest = " + CI.toFixed(2);
+        }
+    </script>
+</body>
+</html>

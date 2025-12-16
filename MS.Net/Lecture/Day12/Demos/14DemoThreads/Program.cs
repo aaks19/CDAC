@@ -51,23 +51,23 @@ namespace _14DemoThreads
 
             //#region Explicit Parallel Programming :  (TPL) Code 
 
-            ////List<Task> tasks = new List<Task>();
+            List<Task> tasks = new List<Task>();
 
-            ////Stopwatch stopwatch = new Stopwatch();
-            ////stopwatch.Start();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
 
-            ////for (int i = 0; i < 10; i++)
-            ////{
-            ////    Task task = new Task(DoSomething);
-            ////    task.Start();
-            ////    tasks.Add(task);
-            ////}
+            for (int i = 0; i < 10; i++)
+            {
+                Task task = new Task(DoSomething);
+                task.Start();
+                tasks.Add(task);
+            }
 
-            ////Task.WaitAll(tasks.ToArray());
+            Task.WaitAll(tasks.ToArray());
 
-            ////stopwatch.Stop();
-            ////Console.WriteLine("Time Taken = {0}", stopwatch.ElapsedMilliseconds);
+            stopwatch.Stop();
+            Console.WriteLine("Time Taken = {0}", stopwatch.ElapsedMilliseconds);
 
 
             //#endregion

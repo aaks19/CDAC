@@ -1,0 +1,102 @@
+﻿1.	create home controller
+2.	create login controller
+3.	create a new folder in shared folder and inside it right click select "add item" and search "layout" and name it as Master.cshtml
+4.	inside master.cshtml
+	<!DOCTYPE html>
+
+    <html>
+    <head>
+        <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
+    <body class="container">
+        <div>
+            @RenderBody()
+        </div>
+    </body>
+    </html>
+5. add nav bar content
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
+    <body class="container">
+        <img src="~/lib/logo.jpg" style="height:100px; width:100px" />
+        <hr />
+        <div style="float:right; font-size:medium; font-weight:bolder;">
+            Welcome @ViewBag.UserName
+        </div>
+        <br />
+        <a href="/Home/Index">Home</a>
+        <a href="/Home/About">About</a>
+        <a href="/Home/Contact">Contact</a>
+        <hr />
+        <br />
+        <div>
+            @RenderBody()
+        </div>
+    </body>
+    </html>
+
+6. Create views index, contact, about
+
+Index.cshtml
+
+@{
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<h1>Welcome Home</h1>
+
+About.cshtml
+@{
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<h1>About Us...</h1>
+
+Contact.cshtml
+@{
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<h1>Contact Us...</h1>
+
+7. update homecontroller
+using Microsoft.AspNetCore.Mvc;
+
+namespace LabProject.Controllers
+{
+    public class HomeController : Controller
+    {
+        public IActionResult Index()
+        {
+            ViewBag.Title = "Home";
+            ViewBag.UserName = "Akshat";
+            return View();
+        }
+
+        public IActionResult About()
+        {
+            ViewBag.Title = "About";
+            ViewBag.UserName = "Akshat";
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewBag.Title = "Contacct";
+            ViewBag.UserName = "Akshat";
+            return View();
+        }
+    }
+}
+
+
+
+

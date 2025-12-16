@@ -1,0 +1,70 @@
+﻿@model LibraryManagement.Models.Book
+
+<html>
+<head>
+    <title>Create</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body class="container">
+    <hr />
+    <a href="/Home/Index" class="btn btn-primary">Back to Home</a>
+    <hr />
+    <br />
+    <div class="table-responsive">
+        <form action="/Home/AfterEdit" method="post">
+            <table class="table table-bordered text-center">
+                <tbody>
+                    <input type="hidden" name="id" value="@Model.id" />
+                    <tr>
+                        <td>Book Name</td>
+                        <td>
+                            <input type="text" name="bname" value="@Model.bname"/>
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("bname");
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Author</td>
+                        <td>
+                            <input type="text" name="author" value="@Model.author" />
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("author");
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Quantity</td>
+                        <td>
+                            <input type="number" name="qty" value="@Model.qty" />
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("qty");
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Price</td>
+                        <td>
+                            <input type="number" name="price" value="@Model.price" />
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("price");
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" name="btnEdit" class="btn btn-primary" value="Update" />
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

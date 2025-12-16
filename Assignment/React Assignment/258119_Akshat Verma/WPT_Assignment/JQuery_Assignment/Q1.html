@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sum of Digits</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Sum of Digits Calculator</h2>
+    <form id="digitForm">
+        Enter a positive number less than 1000: 
+        <input type="number" id="numberInput" min="1" max="999">
+        <button type="submit">Submit</button>
+    </form>
+    <p id="output"></p>
+
+    <script>
+        $(document).ready(function() {
+            $('#digitForm').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+                
+                let num = parseInt($('#numberInput').val());
+                
+                if (isNaN(num) || num <= 0 || num >= 1000) {
+                    $('#output').text("Entered number is out of range. Please enter a positive number less than 1000.");
+                    return;
+                }
+
+                let sum = 0;
+                let temp = num;
+                while (temp > 0) {
+                    sum += temp % 10;
+                    temp = Math.floor(temp / 10);
+                }
+
+                $('#output').text(`Sum of the digits of ${num} is ${sum}`);
+            });
+        });
+    </script>
+</body>
+</html>

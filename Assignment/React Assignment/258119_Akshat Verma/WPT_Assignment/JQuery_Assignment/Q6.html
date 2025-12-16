@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error {
+            color: red;
+        }
+        input {
+            display: block;
+            margin: 5px 0 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label>Username:</label>
+        <input type="text" id="username" placeholder="Enter username">
+
+        <label>Password:</label>
+        <input type="password" id="password" placeholder="Enter password">
+
+        <button type="submit">Login</button>
+        <p class="error" id="errorMsg"></p>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+                $('#errorMsg').text(""); // Clear previous errors
+
+                let username = $('#username').val().trim();
+                let password = $('#password').val();
+
+                // Validation: both fields mandatory
+                if (username === "" || password === "") {
+                    $('#errorMsg').text("Both username and password are mandatory.");
+                    return;
+                }
+
+                // Username validation: 6-10 chars, all alphabetic
+                let usernameRegex = /^[A-Za-z]{6,10}$/;
+                if (!usernameRegex.test(username)) {
+                    $('#errorMsg').text("Username must be 6-10 characters long and contain only letters.");
+                    return;
+                }
+
+                // Password validation: >8 chars, contains #, at least one digit
+                if (password.length <= 8) {
+                    $('#errorMsg').text("Password must be greater than 8 characters.");
+                    return;
+                }
+                if (!password.includes("#")) {
+                    $('#errorMsg').text("Password must contain a '#' symbol.");
+                    return;
+                }
+                let digitRegex = /[0-9]/;
+                if (!digitRegex.test(password)) {
+                    $('#errorMsg').text("Password must contain at least one digit.");
+                    return;
+                }
+
+                // If all validations pass
+                alert("Login successful!");
+            });
+        });
+    </script>
+</body>
+</html>

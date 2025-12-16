@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Member Names</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Member Names in Uppercase</h2>
+    <button id="showNames">Show Member Names</button>
+    <p id="output"></p>
+
+    <script>
+        $(document).ready(function() {
+            // Sample array of member names
+            let members = ["Alice", "Bob", "Charlie", "David", "Eva"];
+
+            $('#showNames').click(function() {
+                // Convert each name to uppercase
+                let upperNames = members.map(name => name.toUpperCase());
+
+                // Join with commas
+                let result = upperNames.join(", ");
+
+                // Display
+                $('#output').text(result);
+            });
+        });
+    </script>
+</body>
+</html>

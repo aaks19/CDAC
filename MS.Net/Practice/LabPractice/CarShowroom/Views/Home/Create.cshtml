@@ -1,0 +1,69 @@
+﻿@model List<CarShowroom.Models.Car>
+
+<html>
+<head>
+    <title>Home</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body class=" container">
+    <hr />
+    <a href="/Home/Index" class=" btn btn-primary">Back to Home</a>
+    <hr />
+    <br />
+    <div class="table-responsive">
+        <form method="post" action="/Home/AfterCreate">
+            <table class="table table-bordered">
+
+                <tbody>
+
+                    <tr>
+                        <td>Car Name</td>
+                        <td>
+                            <input type="text" name="name" />
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("name")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Car Color</td>
+                        <td>
+                            <input type="text" name="color" />
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("color")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>quantity</td>
+                        <td>
+                            <input type="number" name="qty" />
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("qty")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>price</td>
+                        <td>
+                            <input type="number" name="price" />
+                        </td>
+                        <td>
+                            @Html.ValidationMessage("price")
+                        </td>
+                    </tr>
+
+                    <tr>
+
+                        <td colspan="3">
+                            <input type="submit" name="btnAdd" value="Submit" />
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

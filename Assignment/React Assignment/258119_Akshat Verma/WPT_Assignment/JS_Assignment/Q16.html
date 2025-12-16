@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>String Manipulation</title>
+</head>
+<body>
+    <h2>String Manipulation</h2>
+    Main String: <input type="text" id="str1"><br><br>
+    Second String: <input type="text" id="str2"><br><br>
+
+    <input type="radio" name="action" value="search"> Search substring<br>
+    <input type="radio" name="action" value="toupper"> Convert first string to UPPER CASE<br>
+    <input type="radio" name="action" value="tolower"> Convert first string to lower case<br>
+    <input type="radio" name="action" value="trim"> Trim first string<br>
+    <input type="radio" name="action" value="concat"> Concatenate strings<br><br>
+
+    <button onclick="manipulate()">Submit</button>
+    <p id="output"></p>
+
+    <script>
+        function manipulate(){
+            let str1 = document.getElementById("str1").value;
+            let str2 = document.getElementById("str2").value;
+            let action = document.querySelector('input[name="action"]:checked').value;
+            let result = "";
+
+            switch(action){
+                case "search":
+                    result = str1.includes(str2) ? "Substring found" : "Substring not found";
+                    break;
+                case "toupper":
+                    result = str1.toUpperCase();
+                    break;
+                case "tolower":
+                    result = str1.toLowerCase();
+                    break;
+                case "trim":
+                    result = str1.trim();
+                    break;
+                case "concat":
+                    result = str1 + str2;
+                    break;
+            }
+
+            document.getElementById("output").innerText = result;
+        }
+    </script>
+</body>
+</html>

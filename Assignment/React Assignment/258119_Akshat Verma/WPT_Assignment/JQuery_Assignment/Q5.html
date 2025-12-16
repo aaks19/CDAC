@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Payment Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        input[readonly] {
+            background-color: #f0f0f0;
+        }
+        .error {
+            color: red;
+        }
+        table {
+            margin-top: 10px;
+        }
+        td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Loan Payment Calculator</h2>
+    <table>
+        <tr>
+            <td>Loan Amount (₹):</td>
+            <td><input type="number" id="loanAmount" min="1"></td>
+        </tr>
+        <tr>
+            <td>Repayment Period (Years):</td>
+            <td><input type="number" id="repaymentYears" min="7" max="15"></td>
+        </tr>
+        <tr>
+            <td>Interest Rate (%):</td>
+            <td><input type="number" id="interestRate" value="10"></td>
+        </tr>
+        <tr>
+            <td>Monthly Payment (₹):</td>
+            <td><input type="text" id="monthlyPayment" readonly></td>
+        </tr>
+        <tr>
+            <td>Total Payment (₹):</td>
+            <td><input type="text" id="totalPayment" readonly></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button id="calculateBtn">Calculate Payment</button>
+                <p class="error" id="errorMsg"></p>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#calculateBtn').click(function() {
+                $('#errorMsg').text(""); // Clear previous error
+
+                let loan = parseFloat($('#loanAmount').val());
+                let years = parseInt($('#repaymentYears').val());
+                let rate = parseFloat($('#interestRate').val());
+
+                // Validation
+                if (isNaN(loan) || loan <= 0) {
+                    $('#errorMsg').text("Please enter a valid Loan Amount.");
+                    return;
+                }
+                if (loan > 1500000) {
+                    $('#errorMsg').text("Loan amount should not exceed ₹15,00,000.");
+                    return;
+                }
+                if (isNaN(years) || years < 7 || years > 15) {
+                    $('#errorMsg').text("Repayment period must be between 7 and 15 years.");
+                    return;
+                }
+                if (isNaN(rate) || rate <= 0) {
+                    $('#errorMsg').text("Please enter a valid Interest Rate.");
+                    return;
+                }
+
+                // Calculate monthly payment using simple formula
+                // Formula: Monthly Payment = (Loan + Loan*Rate*Years/100)/(Years*12)
+                let totalPayment = loan + (loan * rate * years / 100);
+                let monthlyPayment = totalPayment / (years * 12);
+
+                // Update readonly fields
+                $('#monthlyPayment').val(monthlyPayment.toFixed(2));
+                $('#totalPayment').val(totalPayment.toFixed(2));
+            });
+        });
+    </script>
+</body>
+</html>

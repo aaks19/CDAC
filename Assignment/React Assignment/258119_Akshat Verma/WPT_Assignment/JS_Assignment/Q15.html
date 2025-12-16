@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Circle Calculator</title>
+</head>
+<body>
+    <h2>Circle Area & Circumference</h2>
+    <label>Radius: </label><input type="number" id="radius"><br><br>
+    <button onclick="calculateCircle()">Calculate</button>
+    <p id="circleResult"></p>
+
+    <script>
+        function calculateCircle(){
+            let r = parseFloat(document.getElementById("radius").value);
+            let area = Math.PI * r * r;
+            let circumference = 2 * Math.PI * r;
+            document.getElementById("circleResult").innerText = `Area: ${area.toFixed(2)}, Circumference: ${circumference.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

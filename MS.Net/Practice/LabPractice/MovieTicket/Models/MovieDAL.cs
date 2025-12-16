@@ -33,7 +33,6 @@ namespace MovieTicket.Models
 
         public int AddMovie(Movie movie)
         {
-            List<Movie> list = new List<Movie>();
             SqlConnection connection = new SqlConnection(connectionString);
 
             connection.Open();

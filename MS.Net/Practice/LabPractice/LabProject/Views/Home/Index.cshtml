@@ -1,0 +1,48 @@
+﻿
+@model List<LabProject.Models.Student>
+@{
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+
+<div style="float:right">
+    <a href="/Login/SignOut" class="btn btn-primary">Sign Out</a>
+</div>
+
+<h1>Welcome Home</h1>
+<hr />
+<div class="table-responsive text-center" style="margin: 30px">
+    <a href="/Home/Create" class="btn btn-primary">Add New Student</a>
+    <hr />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.No</td>
+                    <td>@student.Name</td>
+                    <td>@student.Age</td>
+                    <td>@student.Address</td>
+                    <td>@student.Email</td>
+                    <td>
+                        <a href="/Home/Edit/@student.No" class="btn btn-warning">Edit</a>
+                    </td>
+                    <td>
+                        <a href="/Home/Delete/@student.No" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

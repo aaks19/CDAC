@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"></link>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body class="container">
+    <img src="~/lib/logo.jpg" style="height:100px; width:100px" />
+    <hr />
+    <div style="float:right; font-size:medium; font-weight:bolder;">
+        Welcome @ViewBag.UserName
+    </div>
+    <br />
+    <a href="/Home/Index">Home</a>
+    <a href="/Home/About">About</a>
+    <a href="/Home/Contact">Contact</a>
+    <hr />
+    <br />
+    <div>
+        @RenderBody()
+    </div>
+    <br />
+    <hr />
+    <center>
+        <h6>
+            Developed By Aks. 2025.
+        </h6>
+    </center>
+</body>
+</html>

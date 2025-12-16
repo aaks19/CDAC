@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Divs</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div>Web Development Training</div>
+    <div>Company Policies</div>
+    <div>Training Schedule</div>
+    <div>Team Meeting Notes</div>
+    <div>Online Training Portal</div>
+
+    <button id="searchBtn">Search for "training"</button>
+
+    <script>
+        $(document).ready(function() {
+            $('#searchBtn').click(function() {
+                // Remove previous highlights
+                $('div').removeClass('highlight');
+
+                // Loop through each div and check if it contains "training" (case-insensitive)
+                $('div').each(function() {
+                    let text = $(this).text();
+                    if (text.toLowerCase().includes("training")) {
+                        $(this).addClass('highlight'); // Highlight matching div
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

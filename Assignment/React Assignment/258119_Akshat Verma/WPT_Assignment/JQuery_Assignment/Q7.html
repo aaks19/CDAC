@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        input, button {
+            display: block;
+            margin: 5px 0 15px 0;
+        }
+        .error {
+            color: red;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Order Form</h2>
+    <form id="orderForm">
+        <label>Customer Name:</label>
+        <input type="text" id="custName" placeholder="Enter customer name">
+
+        <label>Order ID:</label>
+        <input type="text" id="orderId" placeholder="Enter order ID">
+
+        <label>Billing Date:</label>
+        <input type="date" id="billingDate">
+
+        <label>Shipping Date:</label>
+        <input type="date" id="shippingDate">
+
+        <label>Product:</label>
+        <input type="text" id="product" placeholder="Enter product name">
+
+        <label>Quantity:</label>
+        <input type="number" id="quantity" min="1">
+
+        <button type="submit">Display Order</button>
+        <p class="error" id="errorMsg"></p>
+    </form>
+
+    <div id="orderDisplay"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#orderForm').submit(function(event) {
+                event.preventDefault();
+                $('#errorMsg').text("");
+                $('#orderDisplay').html("");
+
+                let custName = $('#custName').val().trim();
+                let orderId = $('#orderId').val().trim();
+                let billingDate = $('#billingDate').val();
+                let shippingDate = $('#shippingDate').val();
+                let product = $('#product').val().trim();
+                let quantity = $('#quantity').val().trim();
+
+                // Validation
+                if (!custName || !orderId || !billingDate || !shippingDate || !product || !quantity) {
+                    $('#errorMsg').text("All fields are mandatory.");
+                    return;
+                }
+
+                if (custName.length <= 5) {
+                    $('#errorMsg').text("Customer name must be greater than 5 characters.");
+                    return;
+                }
+
+                if (new Date(billingDate) >= new Date(shippingDate)) {
+                    $('#errorMsg').text("Billing date must be earlier than shipping date.");
+                    return;
+                }
+
+                // Create Order object
+                let Order = {
+                    CustomerName: custName,
+                    OrderID: orderId,
+                    BillingDate: billingDate,
+                    ShippingDate: shippingDate,
+                    Product: product,
+                    Quantity: quantity
+                };
+
+                // Display Order details in table
+                let tableHtml = "<h3>Order Details</h3><table>";
+                tableHtml += "<tr><th>Field</th><th>Value</th></tr>";
+                for (let key in Order) {
+                    tableHtml += `<tr><td>${key}</td><td>${Order[key]}</td></tr>`;
+                }
+                tableHtml += "</table>";
+
+                $('#orderDisplay').html(tableHtml);
+            });
+        });
+    </script>
+</body>
+</html>

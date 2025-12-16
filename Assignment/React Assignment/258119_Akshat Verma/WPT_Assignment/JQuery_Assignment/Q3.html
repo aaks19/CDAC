@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Populate Member List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h3>Members of my Group are</h3>
+    <ol id="list">
+        <!-- List items will be populated here -->
+    </ol>
+
+    <script>
+        $(document).ready(function() {
+            // Array of 5 member names
+            let members = ["Alice", "Bob", "Charlie", "David", "Eva"];
+
+            // Loop through the array and append each name as a list item
+            members.forEach(function(name) {
+                $('#list').append(`<li>${name}</li>`);
+            });
+        });
+    </script>
+</body>
+</html>

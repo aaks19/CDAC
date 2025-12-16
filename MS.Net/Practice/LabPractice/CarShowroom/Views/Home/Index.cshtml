@@ -1,0 +1,48 @@
+﻿@model List<CarShowroom.Models.Car>
+
+<html>
+    <head>
+        <title>Home</title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
+    <body class=" container">
+        <hr />
+        <a href="/Home/Create" class=" btn btn-primary">Add new Record</a>
+        <hr />
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Color</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var car in Model)
+                    {
+                        <tr>
+                            <td>@car.id</td>
+                            <td>@car.name</td>
+                            <td>@car.color</td>
+                            <td>@car.qty</td>
+                            <td>@car.price</td>
+                            <td>
+                                <a href="/Home/Edit/@car.id" class="btn btn-warning">Edit</a>
+                            </td>
+                            <td>
+                                <a href="/Home/Delete/@car.id" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

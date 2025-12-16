@@ -1,0 +1,49 @@
+﻿@model List<ProductManagement.Models.Product>
+
+<html>
+    <head>
+        <title>Product Management</title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css"  rel="stylesheet"/>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
+    <body class="container">
+        <hr/>
+        <a href="/Home/Create" class="btn btn-primary">Add Products</a>
+        <hr />
+
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.pid</td>
+                            <td>@product.pname</td>
+                            <td>@product.qty</td>
+                            <td>@product.price</td>
+
+                            <td>
+                                <a href="/Home/Edit/@product.pid" class="btn btn-warning">Edit</a>
+                            </td>
+
+                            <td>
+                                <a href="/Home/Delete/@product.pid" class="btn btn-danger">Delete</a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>    
+        </div>
+    </body>
+</html>
