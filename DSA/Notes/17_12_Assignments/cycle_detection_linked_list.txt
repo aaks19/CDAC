@@ -1,0 +1,28 @@
+Problem: Linked List Cycle Detection
+
+Given the head of a singly linked list, determine if the linked list has a cycle in it.
+A cycle exists in a linked list if there is some node in the list that can be reached again by continuously 
+following the next pointer.
+
+
+Return true if there is a cycle in the linked list. Otherwise, return false.
+
+public boolean hasCycle(ListNode head) {
+   
+}
+
+Example1:
+Input: head = [3,2,0,-4] with tail connecting back to node with value 2
+Output: true
+Explanation: There is a cycle in the linked list.
+
+Example2:
+Input: head = [1]
+Output: false
+Explanation: There is no cycle in the linked list.
+
+Example3:
+        // 10 → 20 → 30 → 40 → 50 → 60
+	    //            ↑              ↓
+	    //            ← ← ← ← ← ← ← ←
+Explanation: There is a cycle in the linked list.

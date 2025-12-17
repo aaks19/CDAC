@@ -1,0 +1,58 @@
+Doubly Linked List Operations - Problem Statement
+
+## Overview
+Implement a Doubly Linked List data structure in Java that supports all fundamental operations. 
+Each node in the list should contain an integer value, a reference to the next node, and a reference to the previous node.
+
+## Node Structure
+Create a `Node` class with the following attributes:
+- `int data` - stores the integer value
+- `Node next` - reference to the next node
+- `Node prev` - reference to the previous node
+
+## DoublyLinkedList Class
+Create a `DoublyLinkedList` class that maintains references to the head and tail of the list.
+
+## Required Operations
+
+### 1. Insert at Head
+Add a new node with the given data at the beginning of the list. Update the head pointer accordingly.
+
+### 2. Insert at Tail
+Add a new node with the given data at the end of the list. Update the tail pointer accordingly.
+
+### 3. Insert at Position
+Insert a new node with the given data at a specific position (0-indexed). Handle edge cases for invalid positions.
+
+### 4. Delete at Head
+Remove the first node from the list. Update the head pointer. Handle the case when the list is empty.
+
+### 5. Delete at Tail
+Remove the last node from the list. Update the tail pointer. Handle the case when the list is empty.
+
+### 6. Delete at Position
+Remove the node at a specific position (0-indexed). Handle edge cases for invalid positions and empty list.
+
+### 7. Delete by Value
+Search for the first occurrence of a given value and delete that node. Handle the case when the value is not found.
+
+### 8. Search
+Search for a given value in the list and return true if found, false otherwise.
+
+### 9. Forward Traversal
+Print all elements in the list from head to tail.
+
+### 10. Backward Traversal
+Print all elements in the list from tail to head.
+
+### 11. Get Size
+Return the number of nodes in the list.
+
+### 12. Is Empty
+Check if the list is empty and return a boolean value.
+
+
+Implementation Notes
+- Handle all edge cases such as empty list, single node, and invalid positions
+- Ensure proper updating of both next and prev pointers in all operations
+- Maintain head and tail references correctly after each operation
