@@ -1,0 +1,51 @@
+﻿@model List<_001DemoMVC.Models.Emp>
+<html>
+<head>
+    <title>Home</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" ></link>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body>
+      <div class="container">
+        <br />
+          <a href="/Home/Create" class="btn btn-primary">Create Record</a>
+      @*   <h3>Welcome @ViewData["username"]</h3> *@
+            <div style="float: right; margin-right: 50px">
+                <h3>Welcome @ViewBag.Username</h3>
+                <a href="/Login/SignOut">Log out</a>
+            </div>
+        <br/>
+          <hr />
+        <div class="table-responsive" style="margin: 80px">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in Model)
+                    {
+                        <tr>
+                            <td>@emp.no </td>
+                            <td>@emp.name </td>
+                            <td>@emp.address </td>
+                            <td>
+                                <a href="/Home/Edit/@emp.no" class="btn btn-warning">Edit</a>
+                            </td>
+
+                            <td>
+                                <a href="/Home/Delete/@emp.no" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+      </div>
+</body>
+</html>
