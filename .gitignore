@@ -1,1 +1,9 @@
 *.zip
+*.exe
+*.jar
+*.class
+*.log
+node_modules/
+bin/
+obj/
+target/
