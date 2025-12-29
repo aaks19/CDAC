@@ -94,7 +94,24 @@ public class LinkedList {
             temp = temp.next;
         }
 
-        temp.next = temp.next.next;
+        // temp.next = temp.next.next;
+        if (temp.next != null) {
+        temp.next = temp.next.next;  
+        } else {
+            System.out.println("Value not found in the LinkedList...");
+        }
+    }
+
+    public void reverse(){
+        Node prev = null;
+        Node current = head;
+        while(current != null){
+            Node next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        head = prev;
     }
 
     public void display(){
@@ -127,6 +144,9 @@ public class LinkedList {
         // list.display();
 
         list.removeSpecificVal(20);
+        list.display();
+
+        list.reverse();
         list.display();
 
     }
