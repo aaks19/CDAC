@@ -1,0 +1,43 @@
+Web development Steps
+
+For Mac Users 
+- refer to "day2_data\day2_help\Adding Web developer tools in STS 4 for Mac Users.txt"
+Perform these steps.
+Then continue with remaining steps .
+
+
+ Download & Extract Apache Tomcat Web server 
+- "web java prerequisites\Web Server n Jakarta EE docs\apache-tomcat-10.1.26.7z"
+- Save it under Study Materials | Software folder 
+- Add tomcat server to web java STS 4 workspace.
+
+
+How ? 
+
+Steps
+1. Change the perspective to Java EE
+ Window -> Perspective -> Change Perspective -> Other -> Java EE
+2. Choose Servers
+ - It will show you - NO servers
+3. Click on the link
+ - Choose Apache vendor & select Apache Tomcat 10.1
+4. Next -> Browse & Choose Tomcat Installation directory (Tomcat Home)
+5. Confirm JRE - JDK 21
+6. Finish
+7. Choose Apache Tomcat & start it. 
+8. Launch Server console & see if Tomcat is up & running.
+9. Create a dynamic web project ,to deploy monolithic web app (server side will render the view :HTTP  response content type : text/html)
+10. Configure web.xml , with welcome file list.
+11. Add index.html : welcome page (home page) with welcome message
+
+12. Start Server side application
+Right click on web project -> Run as -> Servler side app -> choose server -> finish
+You can check the server console.
+
+IDE will automatically a chrome (default web browser) & send a request to the web application.
+
+eg : 
+Request URL - http://localhost:8080/day2_web
+response  : index.html will be rendered.
+
+

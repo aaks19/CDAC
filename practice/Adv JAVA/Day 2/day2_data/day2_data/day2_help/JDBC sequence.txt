@@ -1,0 +1,155 @@
+1. Revise JDBC
+ - What is it 
+ - Why 
+
+2.  Types of JDBC Drivers 
+
+3. Generic development Steps in JDBC n implementation.
+
+1.Create a new workspace  for web java
+2. Create new  java project & add JDBC connector(mysql connector) in the build path.
+
+3.  Create DBUtils class , to open & close DB connection
+
+Note - 
+In earlier versions , it was mandatory to load JDBC driver first.
+Class.forName("com.mysql.cj.jdbc.Driver");
+At the class loading time , in the static init block , this JDBC Driver , gets registered.
+Not required in current version of JDBC 4.x
+
+4. Get DB Connection
+API - java.sql.DriverManager
+- class to manage JDBC drivers.
+Method
+public static Connection getConnection(String dbURL,String userName,String password) throws SQLException
+dbURL - JDBC URL
+jdbc:sub protocol: DB server details
+eg - jdbc:mysql://localhost:3306/iacsd_25
+
+5. Create Statement to execute SQL 
+Use case - static (no parameters) & non repeatative queries
+If you use this with parameters , it's prone to SQL injection security attack.
+API -  Connection i/f method
+public Statement createStatement() throws SQLException
+6. To Execute select query
+Method of Statement i/f
+public ResultSet executeQuery(String selectQuery) throws SQLException
+7. To Execute DDL/DML query
+Method of Statement i/f
+public int executeUpdate(String DDLOrDML) throws SQLException
+Returns no of rows updated|inserted|deleted
+Returns 0 : in case of DDL
+
+8. Process ResultSet object in case of select query
+ResultSet i/f – represents selected rows n columns.
+Internally maintains a curosor. Cursor is initially positioned before the 1st row.
+8.1 Methods of ResultSet
+public boolean next() throws SQLException
+Advances the cursor to the next row. Rets true if next row exists , otherwise false.
+8.2 To read column data
+public String getString(int columnIndex) throws SQLException
+public int getInt(int columnIndex) throws SQLException
+public double getDouble(int columnIndex) throws SQLException
+public java.sql.Date getDate(int columnIndex) throws SQLException
+….
+9.  Close DB resources
+
+10.Solve - Fetch id, name , speciality,dob  of all  doctors born after specified date.
+sql - select id,name, speciality,dob from doctors where dob > ?
+10.1 Get connection
+10.2 PreparedStatement - extends Statement
+
+Use case - In case of parameterized (IN ) & repetative queries.
+It is more efficient than Statement , since the sql is pre compiled & then stored in PST(PreparedStatement) object.
+It avoids SQL injection attack.
+
+API of Connection
+public PreparedStatement prepareStatement(String sql) throws SQLException
+10.3 Set the values of IN param/s
+API of PreparedStatement 
+public void setType(int paramIndex,Type value) throws SQLException
+Type - JDBC data type(generic SQL type)
+eg - setString , setDate,setInt,setTimeStamp....
+10.4 Execute select query
+public ResultSet executeQuery() throws SQLException
+10.5 Processing of resultset
+10.6 clean up db resources
+ 
+11. Identify need of Layers 
+In case of , larger n more complex applications , it's impossible to manage with mixed up functionalities.
+(eg - request processing + Business logic + resp generation+ page navigation, data access logic.......)
+
+Enter well defined layers (classes) for separation of concerns
+1 Tester (UI)
+2 DAO (Data Access object layer) - for DB access - CRUD operations
+2.1 DAO interface - recommended for specs
+(eg : DoctorDao - i/f)
+2.2 DAO implementation class
+3 DBUtils
+-openConnection ,closeConnection
+
+2.4 ORM (Object relational mapping)
+DB Table --> POJO (Plain Old Java Object) class
+Table columns --> POJO properties (fields)
+Tables rows --> POJOs
+
+2.5 RDBMS (tables,rows,cols,PK,FK......)
+
+
+12. Solve CRUD requirement with Layered architecture.
+- for doctors.
+Solve 
+Doctor sign up
+i/p -  name , speciality , email , password , dob 
+o/p - message (success | failure)
+
+solve 
+Update speciality
+i/p - doctor id , new speciality
+
+Delete all doctors under specified speciality
+i/p - speciality
+
+
+13. Execute stored procedure procedure / function
+Dev Steps
+1. Create CallableStatement from Connection i/f
+CallableStatement - extends PreparedStatement
+Method of  Connection i/f
+public CallableStatement prepareCall(String sql) throws SQLException
+sql for invoking stored procedure - "{call procName(?,?.....?)}"
+sql for invoking stored function - "{?=call funcName(?,?.....?)}"
+{} - Esc sequence meant for JDBC Driver , to translate this invocation in DB specific manner.
+? - IN , OUT or IN OUT
+
+2. Register OUT parameter
+- Specify JDBC data type of OUT paramters to JVM , before executing stored procedure | function.
+CallableStatement Method
+public void registerOutParamter(int parameterIndex, int type) throws SQLException
+Eg . cst1.registerOutParamter(4,Types.DOUBLE);
+ cst1.registerOutParamter(5,Types.DOUBLE);
+
+3. Set IN params
+- inherited from PreparedStatement.
+
+4. Execute Stored procedure | function
+Method of CallableStatement
+- public boolean execute() throws SQLException
+-ignore return value here.
+(It is used in case of unknow results).
+
+5. Get results from OUT parameter
+Method of CallableStatement
+public Type getType(int parameterIndex)  throws SQLException
+Type - JDBC data type (generic SQL type)
+
+14. SQL Injection
+- Refer to "day2_data\day2_help\SQL injection\Regarding SQL injection.txt"
+- "TestSQLInjectionAttack.java"
+- "TestSQLInjectionAttackPrevention.java"
+
+
+15. Add Tomcat Server to the IDE & test it.
+16. Create dynamic web application & test it with simple HTML content.
+
+

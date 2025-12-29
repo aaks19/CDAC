@@ -1,0 +1,177 @@
+Java Reflection
+ 
+What is Reflection?
+
+- A powerful Java API 
+- java.lang.Class<?>  & java.lang.reflect package 
+- Allows you to inspect and manipulate classes, interfaces, fields, methods, and constructors at runtime, even if you don’t know their names at compile time.
+
+Main Uses
+
+- Inspect class structure at runtime (get class name, methods, fields, constructors, annotations)
+
+- Access private fields and methods
+
+- Instantiate objects dynamically
+
+- Invoke methods at runtime
+
+- Implement frameworks/tools like Spring, Hibernate, JUnit, IDEs that use reflection for dependency injection, managing life cycles & annotations, etc.
+
+Core Classes 
+1. java.lang.Class<?>	
+ - Represents a loaded class or interface
+From  java.lang.reflect package
+2. Field
+- Represents a class field (variable)
+3. Method	
+- Represents a method
+4.Constructor
+- Represents a constructor
+5. Modifier	
+ - Used to check modifiers (public, private, static,abstract etc.)
+6. Parameter
+- Represents a parameter of a method/constructor
+
+The entry point of Reflection API
+ - java.lang.Class<?>
+
+What is it ?
+ 
+JVM creates an immutable instance of java.lang.Class , when it loads class metadata  information in method area (i.e at the class loading time)
+
+This Class reference 
+ - Provides methods to examine the runtime properties of the object and create new objects, invoke its method and get/set object fields.
+
+Step by step process(ultimate details)
+
+When a class is loaded by a class loader, the JVM performs several steps:
+
+ Step 1: Load
+
+Reads the .class bytecode into memory.
+
+ Step 2: Create InstanceKlass (i.e  native metadata) in method area.
+
+- Allocates and initializes the InstanceKlass structure in Metaspace
+- It holds methods, fields, constant pool, vtables, etc.
+
+ Step 3: Create mirror object in the heap
+
+Then the JVM automatically creates an immutable instance of java.lang.Class —
+this is the mirror object for that class.
+
+This mirror object:
+- memory allocated in the heap
+- It is linked to the InstanceKlass via a native pointer (called klass)
+- represents the class to your Java code (via reflection)
+
+
+To Obtain Class Object
+
+eg . package p1
+public class MyClass{....}
+
+Three main ways:
+
+Class<MyClass> cls1 = MyClass.class;
+OR
+Class<?> cls2 = obj.getClass();
+OR
+Class<?> cls3 = Class.forName("p1.MyClass");
+
+ Common Reflection Methods
+1. Get class information
+System.out.println(cls.getName());         // fully qualified class name
+System.out.println(cls.getSimpleName());   // simple name
+System.out.println(cls.getPackageName());  // package name
+
+2. List constructors, methods, fields
+Constructor<?>[] constructors = cls.getDeclaredConstructors();
+Method[] methods = cls.getDeclaredMethods();
+Field[] fields = cls.getDeclaredFields();
+
+3. Access private fields
+Field f = cls.getDeclaredField("userName");
+f.setAccessible(true);         // set it  accessible
+f.set(obj, "Rama");            // modify private field value 
+System.out.println(f.get(obj));//get private field value 
+
+4. Invoke methods dynamically
+Method m = cls.getDeclaredMethod("printMessage", String.class);
+m.setAccessible(true);
+m.invoke(obj, "Hi There !");
+
+5. Create new instances
+Object obj = cls.getDeclaredConstructor().newInstance();
+
+ Eg. 
+package p1;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+class Person {
+	private String name;
+
+	public Person(String name) {
+		this.name = name;
+	}
+
+	private void sayHello(String greeting) {
+		System.out.println(greeting + name);
+	}
+
+	@Override
+	public String toString() {
+		return "Person [name=" + name + "]";
+	}
+	
+}
+
+public class ReflectionDemo {
+	public static void main(String[] args) throws Exception {
+		Class<?> cls = Class.forName("p1.Person");
+		Object obj = cls.getDeclaredConstructor(String.class).newInstance("Rama");
+		System.out.println(obj);
+		Field f = cls.getDeclaredField("name");
+		f.setAccessible(true);
+		f.set(obj, "Riya");
+		System.out.println(obj);
+
+		Method m = cls.getDeclaredMethod("sayHello",String.class);
+		m.setAccessible(true);
+		m.invoke(obj,"Hi there ! , ");
+	}
+}
+
+
+ Output →
+Person [name=Rama]
+Person [name=Riya]
+Hi there , Riya
+
+ Advantages
+
+ Enables frameworks and tools (Spring, JUnit, ORM).
+ Supports dynamic behavior and plugin mechanisms.
+ Useful for debugging, testing, or serialization libraries.
+
+ Disadvantages
+
+ Performance overhead (uses metadata and type inspection).
+ Security risk (can bypass access modifiers).
+ Compile-time safety lost (errors occur at runtime).
+ Harder to maintain or refactor.
+
+Typical Real-World Uses
+
+Dependency Injection (Spring)
+
+Annotation Processing (JUnit, Hibernate,Spring Boot)
+
+JSON/XML serialization (Jackson, Gson)
+
+IDEs & Debuggers
+
+Object mapping frameworks - MapStruct , ModelMaper etc.

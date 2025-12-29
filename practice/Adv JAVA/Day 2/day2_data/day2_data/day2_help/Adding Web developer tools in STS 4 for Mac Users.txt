@@ -1,0 +1,40 @@
+STS 4 by default does not support Web Developer Tools.
+
+In the supplied STS 4.7z ,for windows,  I have already configured it.
+So thers is nothing additional required  for windows users.
+
+But if you are using it on Mac , follow these steps
+
+1.Go to Help → Install New Software
+
+In the "Work with" box, paste this URL:
+
+https://download.eclipse.org/releases/2023-12/
+Press Enter (wait a few seconds for it to load).
+
+2. Expand this section:
+
+Web, XML, Java EE and OSGi Enterprise Development
+
+Tick these 3 options inside it:
+
+ Eclipse Web Developer Tools
+
+ Eclipse Java Web Developer Tools
+
+ Eclipse Java EE Developer Tools 
+
+Click Next → Next → Accept License → Finish.
+
+3. Restart STS when prompted.
+
+
+4.  After restart, you will be able to:
+
+Create Dynamic Web Projects
+
+Create Servlets and JSPs
+
+Add Tomcat Runtime easily
+
+Deploy WAR files directly

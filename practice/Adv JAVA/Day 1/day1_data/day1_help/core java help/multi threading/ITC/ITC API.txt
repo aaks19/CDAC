@@ -1,0 +1,19 @@
+Methods of Object class (Use Case : Inter thread communication)
+
+1. public final void wait() throws InterruptedException,IllegalMonitorStateException
+Meaning --Blocking API
+ Forces  the invoker thread to release processor as well as monitor & wait outside the monitor(i.e releases the lock) till some other thread wakes it up.(notify)
+
+Trigger for InterruptedException
+Some other thread sends interrupt signal to the waiting thread.
+Trigger for IllegalMonitorStateException
+If the invoker thread is not an owner of the monitor
+(i.e if its invoking neither a synched method nor a block)
+
+2. public final void notify() throws IllegalMonitorStateException
+Meaning -- Un blocks (wakes up) exactly 1 thread , which has invoked wait on the same object's monitor.
+
+May raise IllegalMonitorStateException --if the current thread is not the owner of a lock.
+
+3. public final void notifyAll() throws IllegalMonitorStateException
+Un blocks ALL waiting threads , on the same object's monitor.

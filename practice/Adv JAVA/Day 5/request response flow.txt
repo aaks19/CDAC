@@ -1,0 +1,44 @@
+@web app startup
+WC - applies reflection -> starts life cycles of servlet - eager
+eg - PatientLoginServlet
+cls load , instance , servlet config , init -init sequence.
+URLs
+1. http://host:port/day5.1/
+-> WC web.xml -> welcome-file -> index.html
+Resp - HTML of index.html
+
+2. After clicking Patient Login link
+-> http://host:port/day5.1/login.html
+Resp -> login form .
+
+3. After clnt submits form
+-> http://host:port/day5.1/authenticate
+WC - refers request map
+key - /authenticate , value - F.Q PatientLoginServlet
+WC -> service -> doPost -> sendRedirect
+Resp - temp redirect resp
+
+4. clnt 
+-> http://host:port/day5.1/patient_dashboard, method=GET, 
+Cookie - JSESSIONID : ASDSFDFG13485748SDF
+WC -> chks req map -> service -> doGet : PatientDashboardServlet
+Resp - list of appointments , links
+
+
+5. After clicking on - Book Appointment Link
+http://host:port/day5.1/book_appointment.html
+-resp form
+6. After submitting booking form
+URL -http://host:port/day5.1/appointments
+payload - action , doc_id, ts
+WC -> service -> doPost -> 
+calls dao's method
+-> checks doc's availability 
+-> if yes -> books new appointment
+-> else rets error mesg.
+
+Resp - redirect - patient_dashboard
+
+7. After clicking on - Log out link
+URL -http://host:port/day5.1/logout 
+-> Resp : redirect resp 

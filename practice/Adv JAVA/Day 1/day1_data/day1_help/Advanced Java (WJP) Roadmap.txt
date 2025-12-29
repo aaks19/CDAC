@@ -1,0 +1,36 @@
+Advanced Java (WJP) Roadmap
+
+1. 1st Data access technology
+ - JDBC
+
+2. Enter Web Programming with Web Server , Web Container n Servlets
+
+3. Separation of concerns using JSP - a view layer technology
+ - Faded technology
+
+3.5 MVC (Model View Controller)
+
+4. 2nd  Data access technology
+ - Hibernate
+
+5. Spring Framework 
+ - Spring Core
+ - Spring MVC (Servlet)
+ - Spring ORM
+ - Spring Boot
+ - JPA 
+    - 3rd Data access technology
+ - Spring Data 
+  - JDBC
+  - JPA
+ -Full Stack app
+  - back end
+  - REST ful web service (REST API end points)
+ - Spring Security
+   - Basic Auth & JWT
+  
+ - Microservices
+  - Spring Cloud
+ 
+ 
+ 

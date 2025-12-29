@@ -1,0 +1,36 @@
+Objective
+
+Refer to class below - 
+
+class Person {
+	private String name;
+
+	public Person(String name) {
+		this.name = name;
+	}
+
+	private void sayHello(String greeting) {
+		System.out.println(greeting + name);
+	}
+
+	@Override
+	public String toString() {
+		return "Person [name=" + name + "]";
+	}
+	
+}
+
+Write a Reflection Tester Demo for
+
+1. Load Person class & acces it Class<?> reference
+
+2. Invoke the constructor dynamically
+
+3. Confirm via toString
+
+4. Access private field - name , set it accessible & change it's value
+
+5. Confirm via toString
+
+6. Access private method - sayHello , set it accessible , invoke it dynamically.
+

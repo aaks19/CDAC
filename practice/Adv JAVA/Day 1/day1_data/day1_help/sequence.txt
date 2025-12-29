@@ -1,0 +1,72 @@
+Today's Sequence
+
+Core Java Topics
+1. Multi Threading related
+- Revise Synchronization
+- Synchronized methods
+- Synchronized Blocks
+- Producer - Consumer problem , ITC
+
+2. Cloning 
+- shallow copy 
+- deep copy
+
+3. Java Reflection
+
+Web Java Topics
+JDBC
+ - What is it ?
+ - JDBC Drivers
+ - JDBC API & Implementation Steps
+
+
+0. Create a new workspace for web java
+- Window- preferences - Installed JRE - Choose JDK 21
+
+
+1. For Synchronization
+ - Refer to "web_java\day1_data\day1_help\core java help\multi threading\readme synchronization.txt"
+
+2. Inter Thread Communication
+ 
+ 
+3. Cloning 
+- to create clone of the original object.
+API 
+Object class method 
+protected Object clone() throws CloneNotSupportedException
+
+What will happen , if you directly use
+Emp e=new Emp(....);
+Obejct clonedEmp=e.clone();
+-JVM throws CloneNotSupportedException
+
+Rule - The class MUST implement a marker i/f - java.lang.Cloneable
+(empty i/f) , to allow cloning of the object.
+
+Typical steps
+-implement Cloneable i/f
+-override clone method , in your class
+- Apply co variance (narrowing from the super type) , to avoid later down casting.
+- widen the access specifier from protected to public , so that clone() method can be called from anywhere.
+
+eg - In Emp class implements Cloneable
+@Override
+public Emp clone() throws CloneNotSupportedException
+{
+ (Emp)super.clone();
+}
+By default - creates field by field copy (shallow copy)
+
+For deep copy , programmer has to clone the entire object graph.
+
+Refer to examples
+
+3. Java Reflection
+
+
+4. Discuss WJP (Web Java Programming) road map
+
+5. Enter JDBC
+- Refer JDBC sequence.
+

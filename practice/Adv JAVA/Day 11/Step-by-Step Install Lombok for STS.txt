@@ -1,0 +1,77 @@
+Step-by-Step: Install Lombok for STS 4 on macOS
+1️⃣ Download Lombok
+
+Go to the official site:
+👉 https://projectlombok.org/download
+
+Save the file lombok.jar (it will usually go to your ~/Downloads folder).
+
+2️⃣ Run Lombok Installer
+
+Open the Terminal and run:
+
+cd ~/Downloads
+java -jar lombok.jar
+
+
+If you get a “cannot open file” error, ensure Java is installed and executable permissions are fine:
+
+chmod +x lombok.jar
+java -jar lombok.jar
+
+3️⃣ Point the Installer to STS 4
+
+The Lombok installer window will open.
+
+It should automatically detect your STS installation:
+
+/Applications/SpringToolSuite4.app/Contents/Eclipse
+
+
+If not detected automatically:
+
+Click Specify Location.
+
+Navigate manually to:
+
+/Applications/SpringToolSuite4.app/Contents/Eclipse
+
+
+Select that folder and click Install / Update.
+
+4️⃣ Verify Installation
+
+After installation, open the file:
+
+/Applications/SpringToolSuite4.app/Contents/Eclipse/eclipse.ini
+
+
+Make sure you see a line like this near the end:
+
+-javaagent:/Applications/SpringToolSuite4.app/Contents/Eclipse/lombok.jar
+
+
+✅ If it’s there — you’re good.
+
+5️⃣ Restart STS
+
+Close and reopen Spring Tool Suite 4.
+To verify, go to:
+
+Help → About Spring Tool Suite → Installation Details → Configuration
+
+
+and search for “lombok”.
+
+You should see a line showing the Lombok agent path.
+
+6️⃣ Add Lombok Dependency in Your Spring Boot Project
+
+In your Maven pom.xml:
+
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.34</version> <!-- check latest -->
+    <scope>provided</scope>
+</dependency>
