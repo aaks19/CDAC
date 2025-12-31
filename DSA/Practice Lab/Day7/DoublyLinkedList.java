@@ -134,6 +134,7 @@ public class DoublyLinkedList {
         while(current.data != value && current!=null){
             current = current.next;
         }
+        
         Node prevNode = current.prev;
         Node nextNode = current.next;
         prevNode.next = nextNode;
